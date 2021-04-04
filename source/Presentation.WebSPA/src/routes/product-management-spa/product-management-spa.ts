@@ -7,14 +7,18 @@ export class ProductManagementSPAViewModel {
 
     public router: Router;
 
-    public configureRouter(pConfig: RouterConfiguration, pRouter: Router) {
-        pConfig.title = "Product Management";
+    public configureRouter(configParam: RouterConfiguration, routerParam: Router) {
+        this.router = routerParam;
+
+        configParam.title = "Product Management";
         //pConfig.options.pushState = true;
-        pConfig.map([
-            { route: "", moduleId: PLATFORM.moduleName("./no-selection"), title: "Select" },
-            { route: "products/:id", moduleId: PLATFORM.moduleName("./product-detail"), name: "Product" }
+        configParam.map([
+            { route: ["","catalog"], moduleId: PLATFORM.moduleName("./no-selection"), name: "catalog", title: "Catalog", nav: true },
+            { route: "sales", moduleId: PLATFORM.moduleName("./sales"), name: "sales", title: "Sales", nav: true },
+            { route: "fulfillment", moduleId: PLATFORM.moduleName("./fulfillment"), name: "fulfillment", title: "Fulfillment", nav: true },
+            { route: "warehouse", moduleId: PLATFORM.moduleName("./warehouse"), name: "warehouse", title: "Warehouse", nav: true },
+            { route: "products/:id", moduleId: PLATFORM.moduleName("./product-detail"), name: "product", title: "Product", nav: false }
         ]);
 
-        this.router = pRouter;
     }
 }
