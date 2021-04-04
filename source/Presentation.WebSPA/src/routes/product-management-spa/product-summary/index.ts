@@ -1,6 +1,6 @@
 ﻿import { autoinject, LogManager } from "aurelia-framework";
 import { Router, NavigationInstruction, RouteConfig } from "aurelia-router";
-import { ProductModel } from "../models/product-model";
+import { ProductModel } from "./models/product-model";
 
 @autoinject()
 export class ProductDetailViewModel {
