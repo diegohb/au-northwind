@@ -16,7 +16,8 @@
                         <label for="productDescriptionTextbox">Description</label>
                         <textarea id="productDescriptionTextbox" rows="4" class="form-control" placeholder="A detailed description of the product." value.bind="description"></textarea>
                     </div>
-                    <button class="btn btn-success">Save Details</button>
+
+                    <button class="btn btn-success" click.trigger="saveDetails()">Save Details</button>
                 </form>
             </div>
             <div class="col-3">
