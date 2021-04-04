@@ -1,0 +1,193 @@
+{
+    "name": "aurelia-vanilla.presentation-webspa",
+    "type": "project:application",
+    "packageManager": "yarn",
+    "platform": {
+        "id": "aspnetcore",
+        "displayName": "ASP.NET Core",
+        "port": 5100,
+        "output": "wwwroot/js",
+        "index": "pages/shared/_AureliaBundleInclude.cshtml",
+        "baseDir": "./wwwroot",
+        "baseUrl": "js"
+    },
+    "transpiler": {
+        "id": "typescript",
+        "displayName": "TypeScript",
+        "fileExtension": ".ts",
+        "dtsSource": [
+            "./custom_typings/**/*.d.ts",
+            "./types/**/*.d.ts"
+        ],
+        "source": "src/**/*.ts"
+    },
+    "markupProcessor": {
+        "id": "minimum",
+        "displayName": "Minimal Minification",
+        "fileExtension": ".html",
+        "source": ["src/**/*.html"]
+    },
+    "cssProcessor": {
+        "id": "sass",
+        "displayName": "Sass",
+        "fileExtension": ".scss",
+        "source": ["src/**/*.scss"]
+    },
+    "jsonProcessor": {
+        "id": "none",
+        "displayName": "None",
+        "fileExtension": ".json",
+        "source": ["src/**/*.json"]
+    },
+    "editor": {
+        "id": "visualstudio",
+        "displayName": "Visual Studio"
+    },
+    "unitTestRunners": [
+        {
+            "id": "karma",
+            "displayName": "Karma",
+            "source": "test/unit/**/*.ts"
+        }
+    ],
+    "integrationTestRunner": {
+        "id": "none",
+        "displayName": "None"
+    },
+    "paths": {
+        "root": "src",
+        "resources": "resources",
+        "common":  "common",
+        "elements": "resources/elements",
+        "attributes": "resources/attributes",
+        "valueConverters": "resources/value-converters",
+        "bindingBehaviors": "resources/binding-behaviors"
+    },
+    "testFramework": {
+        "id": "jasmine",
+        "displayName": "Jasmine"
+    },
+    "build": {
+        "targets": [
+            {
+                "id": "aspnetcore",
+                "displayName": "ASP.NET Core",
+                "port": 5100,
+                "output": "wwwroot/js",
+                "index": "pages/shared/_AureliaBundleInclude.cshtml",
+                "baseDir": "./wwwroot",
+                "baseUrl": "/js"
+            }
+        ],
+        "loader": {
+            "type": "system",
+            "configTarget": "vendor-bundle.js",
+            "includeBundleMetadataInConfig": "auto",
+            "plugins": [
+                {
+                    "name": "text",
+                    "extensions": [
+                        ".html",
+                        ".css"
+                    ],
+                    "stub": true
+                }
+            ]
+        },
+        "options": {
+            "minify": {
+                "prod": {
+                    "ie8": true,
+                    "output": {
+                        "max_line_len": 1000000
+                    }
+                },
+                "stage": {
+                    "ie8": true,
+                    "output": {
+                        "max_line_len": 1000000
+                    }
+                }
+            },
+            "sourcemaps": "dev & stage",
+            "rev": {
+                "dev": false,
+                "stage": false,
+                "prod": true
+            },
+            "cache": "dev & stage"
+        },
+        "bundles": [
+            {
+                "name": "app-bundle.js",
+                "source": {
+                    "include": [
+                        "[**/*.js]",
+                        "**/*.{json,css,html}"
+                    ],
+                    "exclude": [
+                        "**/rolodex-spa/**/*",
+                        "**/pokemon-spa/**/*"
+                    ]
+                },
+                "dependencies": [
+                    "jquery",
+                    {
+                        "name": "bootstrap",
+                        "path": "../node_modules/bootstrap",
+                        "deps": [ "jquery", "popper.js" ],
+                        "exports": "$",
+                        "resources": [
+
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": "rolodex-spa-bundle.js",
+                "source": [
+                    "[**/rolodex-spa/**/*.js]",
+                    "**/rolodex-spa/**/*.{json,css,html}"
+                ],
+                "dependencies": [
+                    "moment"
+                ]
+            },
+            {
+                "name": "pokemon-spa-bundle.js",
+                "source": [
+                    "[**/pokemon-spa/**/*.js]",
+                    "**/pokemon-spa/**/*.{json,css,html}"
+                ],
+                "dependencies": []
+            },
+            {
+                "name": "vendor-bundle.js",
+                "prepend": [
+                    "node_modules/whatwg-fetch/dist/fetch.umd.js",
+                    "node_modules/promise-polyfill/dist/polyfill.min.js",
+                    "node_modules/systemjs/dist/system.js"
+                ],
+                "dependencies": [
+                    "aurelia-bootstrapper",
+                    "aurelia-loader-default",
+                    "aurelia-pal-browser",
+                    {
+                        "name": "text",
+                        "path": "../node_modules/systemjs-plugin-text",
+                        "main": "text"
+                    },
+                    {
+                        "name": "aurelia-testing",
+                        "env": "dev"
+                    }
+                ]
+            }
+        ],
+        "copyFiles": {
+            "node_modules/bootstrap/dist/css/bootstrap.min.*": "wwwroot/css",
+            "node_modules/bootstrap/dist/js/bootstrap.min.*": "wwwroot/js",
+            "node_modules/jquery/dist/jquery.min.*": "wwwroot/js"
+        }
+    }
+}

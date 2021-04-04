@@ -1,0 +1,63 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "launch (console)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "au-build",
+            "program": "${workspaceFolder}/${config:app.spa-name}/bin/Debug/${config:app.target-runtime}/${config:app.spa-name}.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/${config:app.spa-name}/",
+            "stopAtEntry": false,
+            "console": "internalConsole",
+            "internalConsoleOptions": "openOnSessionStart",
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "^\\s*Now listening on:\\s+(https?://\\S+)"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development",
+                "ASPNETCORE_URLS": "http://localhost:5001"
+            }
+        },
+        {
+            "name": "launch (web)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "au-build-watch",
+            "program": "${workspaceFolder}/${config:app.spa-name}/bin/Debug/${config:app.target-runtime}/${config:app.spa-name}.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/${config:app.spa-name}/",
+            "stopAtEntry": false,
+            "internalConsoleOptions": "openOnSessionStart",
+            "launchBrowser": {
+                "enabled": true,
+                "args": "${auto-detect-url}",
+                "windows": {
+                    "command": "cmd.exe",
+                    "args": "/C start ${auto-detect-url}"
+                },
+                "osx": {
+                    "command": "open"
+                },
+                "linux": {
+                    "command": "xdg-open"
+                }
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development",
+                "ASPNETCORE_URLS": "http://localhost:5001"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/${config:app.spa-name}/Views"
+            }
+        },
+        {
+            "name": ".NET Core Attach",
+            "type": "coreclr",
+            "request": "attach",
+            "processId": "${command:pickProcess}"
+        }
+    ]
+}
