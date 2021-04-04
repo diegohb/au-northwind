@@ -1,26 +1,11 @@
 ﻿<template>
-    
+    <require from="./catalog-product"></require>
+
     <div class="container" with.bind="model">
         <div class="row">
             <div class="col-xl-9 col-md-8 col-sm-12">
-                <form>
-                    <div class="form-group">
-                        <label for="productIdTextbox">Product SKU:</label>
-                        <input type="text" readonly class="form-control-plaintext" id="productIdTextbox" value.bind="sku" />
-                    </div>
-                    <div class="form-group">
-                        <label for="productNameTextbox">Product Name</label>
-                        <input class="form-control form-control-lg" type="text" placeholder="Descriptive name of product." id="productNameTextbox" value.bind="name" />
-                    </div>
-                    <div class="form-group">
-                        <label for="productDescriptionTextbox">Description</label>
-                        <textarea id="productDescriptionTextbox" rows="4" class="form-control" placeholder="A detailed description of the product." value.bind="description"></textarea>
-                    </div>
-
-                    <div class="text-center">
-                        <button class="btn btn-success" click.trigger="saveDetails()">Save Details</button>
-                    </div>
-                </form>
+                <catalog-product product.bind="$parent.model">
+                </catalog-product>
             </div>
             <div class="col-xl-3 col-md-4 col-sm-12">
                 <form>
@@ -31,7 +16,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text">$</span>
                             </div>
-                            <input type="number" class="form-control form-control-lg" id="priceTextbox" readonly value.bind="price" />
+                            <input type="number" class="form-control form-control-lg" id="priceTextbox" readonly value.bind="price"/>
                             <div class="input-group-append">
                                 <span class="input-group-text">USD</span>
                                 <button class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="False">
@@ -52,7 +37,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text">$</span>
                             </div>
-                            <input type="number" class="form-control form-control-lg" id="costTextbox" readonly value.bind="cost" />
+                            <input type="number" class="form-control form-control-lg" id="costTextbox" readonly value.bind="cost"/>
                             <div class="input-group-append">
                                 <span class="input-group-text">USD</span>
                                 <button class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="False">
@@ -70,7 +55,7 @@
                     <div class="form-group">
                         <label for="costTextbox">Quantity</label>
                         <div class="input-group">
-                            <input type="number" class="form-control form-control-lg" id="quantityTextbox" readonly value.bind="quantity" />
+                            <input type="number" class="form-control form-control-lg" id="quantityTextbox" readonly value.bind="quantity"/>
                             <div class="input-group-append">
                                 <button class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="False">
                                     <span class="sr-only">Toggle Dropdown</span>

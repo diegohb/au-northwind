@@ -23,7 +23,4 @@ export class ProductDetailViewModel {
         this._logger.info("Loaded product details.");
     }
 
-    public async saveDetails(): Promise<void> {
-        alert(`Details for product '${this.model.name}' have been saved.`);
-    }
 }
