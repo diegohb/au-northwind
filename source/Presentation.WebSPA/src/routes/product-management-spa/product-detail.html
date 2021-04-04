@@ -2,7 +2,7 @@
     <h2>Product Details</h2>
     <div class="container" with.bind="model">
         <div class="row">
-            <div class="col-9">
+            <div class="col-md-9 col-sm-12">
                 <form>
                     <div class="form-group">
                         <label for="productIdTextbox">Product SKU:</label>
@@ -17,10 +17,12 @@
                         <textarea id="productDescriptionTextbox" rows="4" class="form-control" placeholder="A detailed description of the product." value.bind="description"></textarea>
                     </div>
 
-                    <button class="btn btn-success" click.trigger="saveDetails()">Save Details</button>
+                    <div class="text-center">
+                        <button class="btn btn-success" click.trigger="saveDetails()">Save Details</button>
+                    </div>
                 </form>
             </div>
-            <div class="col-3">
+            <div class="col-md-3 col-sm-12">
                 <form>
 
                     <div class="form-group">
