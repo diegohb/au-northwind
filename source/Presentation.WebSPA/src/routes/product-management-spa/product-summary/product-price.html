@@ -1,0 +1,23 @@
+﻿<template bindable="product">
+    <div class="form-group" with.bind="product">
+        <label for="priceTextbox">Price</label>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">$</span>
+            </div>
+            <input type="number" class="form-control form-control-lg" id="priceTextbox" readonly value.bind="price" />
+            <div class="input-group-append">
+                <span class="input-group-text">USD</span>
+                <button class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="False">
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <div class="dropdown-menu">
+                    <a href="#" class="dropdown-item">One</a>
+                    <a href="#" class="dropdown-item">Two</a>
+                    <a href="#" class="dropdown-item">Three</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</template>
