@@ -126,8 +126,8 @@
                         "**/*.{json,css,html}"
                     ],
                     "exclude": [
-                        "**/rolodex-spa/**/*",
-                        "**/pokemon-spa/**/*"
+                        "**/product-management-spa/**/*",
+                        "**/shopping-spa/**/*"
                     ]
                 },
                 "dependencies": [
@@ -144,20 +144,20 @@
                 ]
             },
             {
-                "name": "rolodex-spa-bundle.js",
+                "name": "product-management-spa-bundle.js",
                 "source": [
-                    "[**/rolodex-spa/**/*.js]",
-                    "**/rolodex-spa/**/*.{json,css,html}"
+                    "[**/product-management-spa/**/*.js]",
+                    "**/product-management-spa/**/*.{json,css,html}"
                 ],
                 "dependencies": [
                     "moment"
                 ]
             },
             {
-                "name": "pokemon-spa-bundle.js",
+                "name": "shopping-spa-bundle.js",
                 "source": [
-                    "[**/pokemon-spa/**/*.js]",
-                    "**/pokemon-spa/**/*.{json,css,html}"
+                    "[**/shopping-spa/**/*.js]",
+                    "**/shopping-spa/**/*.{json,css,html}"
                 ],
                 "dependencies": []
             },
