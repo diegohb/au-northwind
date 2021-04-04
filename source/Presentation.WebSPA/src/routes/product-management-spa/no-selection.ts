@@ -2,6 +2,6 @@
     public message: string;
 
     constructor() {
-        this.message = "<<< select a contact >>>";
+        this.message = "<<< select a product >>>";
     }
 }

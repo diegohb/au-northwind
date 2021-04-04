@@ -1,0 +1,20 @@
+﻿@page
+@{
+    ViewBag.Title = "Shopping";
+    Layout = "_Layout";
+}
+
+@section Styles
+{
+    <!--dont call from CDN because CSS is bundled-->
+}
+
+<div id="loader"></div>
+
+<section aurelia-app="main" start="routes/shopping-spa/shopping-spa">
+</section>
+
+@section Scripts
+{
+    <partial name="_AureliaBundleInclude" />
+}
