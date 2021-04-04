@@ -1,19 +1,21 @@
-﻿import { LogManager } from "aurelia-framework";
+﻿import { autoinject, LogManager } from "aurelia-framework";
 import { Router, NavigationInstruction, RouteConfig } from "aurelia-router";
 import { ProductModel } from "../models/product-model";
 
+@autoinject()
 export class ProductDetailViewModel {
+    private readonly _router: Router;
     private readonly _logger = LogManager.getLogger(this.constructor.name);
 
     constructor(routerParam: Router) {
-
+        this._router = routerParam;
     }
 
     public model: ProductModel;
 
     public async activate(params, routeConfig: RouteConfig, navigationInstruction: NavigationInstruction ): Promise<void> {
         if (!params || !params.id || !Number.isInteger(params.id)) {
-            //routeConfig.router.navigate("./no-selection");
+            //this._router.navigate("./no-selection");
         }
         //TODO: load from params.id
         //routeConfig.navModel.setTitle("Product XYZ");
