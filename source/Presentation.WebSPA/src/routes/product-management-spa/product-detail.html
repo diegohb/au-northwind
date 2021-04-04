@@ -1,8 +1,8 @@
 ﻿<template>
-    <h2>Product Details</h2>
+    
     <div class="container" with.bind="model">
         <div class="row">
-            <div class="col-xl-10 col-md-8 col-sm-12">
+            <div class="col-xl-9 col-md-8 col-sm-12">
                 <form>
                     <div class="form-group">
                         <label for="productIdTextbox">Product SKU:</label>
@@ -22,7 +22,7 @@
                     </div>
                 </form>
             </div>
-            <div class="col-xl-2 col-md-4 col-sm-12">
+            <div class="col-xl-3 col-md-4 col-sm-12">
                 <form>
 
                     <div class="form-group">
@@ -31,8 +31,9 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text">$</span>
                             </div>
-                            <input type="number" class="form-control" id="priceTextbox" readonly value.bind="price" />
+                            <input type="number" class="form-control form-control-lg" id="priceTextbox" readonly value.bind="price" />
                             <div class="input-group-append">
+                                <span class="input-group-text">USD</span>
                                 <button class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="False">
                                     <span class="sr-only">Toggle Dropdown</span>
                                 </button>
@@ -51,8 +52,9 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text">$</span>
                             </div>
-                            <input type="number" class="form-control" id="costTextbox" readonly value.bind="cost" />
+                            <input type="number" class="form-control form-control-lg" id="costTextbox" readonly value.bind="cost" />
                             <div class="input-group-append">
+                                <span class="input-group-text">USD</span>
                                 <button class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="False">
                                     <span class="sr-only">Toggle Dropdown</span>
                                 </button>
@@ -68,10 +70,7 @@
                     <div class="form-group">
                         <label for="costTextbox">Quantity</label>
                         <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">$</span>
-                            </div>
-                            <input type="number" class="form-control" id="quantityTextbox" readonly value.bind="quantity" />
+                            <input type="number" class="form-control form-control-lg" id="quantityTextbox" readonly value.bind="quantity" />
                             <div class="input-group-append">
                                 <button class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="False">
                                     <span class="sr-only">Toggle Dropdown</span>

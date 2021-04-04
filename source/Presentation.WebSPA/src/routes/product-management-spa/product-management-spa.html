@@ -1,18 +1,19 @@
 ﻿<template>
     <require from="./product-management-spa.css"></require>
 
-    <h1>Product Management</h1>
+    <ul class="nav justify-content-end nav-pills nav-fill" role="navigation">
+        <li class="nav-item" repeat.for="nav of router.navigation">
+            <a href.bind="nav.href" class="nav-link ${nav.isActive ? 'active' : ''}">${nav.title}</a>
+        </li>
+    </ul>
+    <router-view></router-view>
     <div class="container h-100">
         <div class="row">
             <div class="col-2">
-                <ul class="nav flex-column nav-pills nav-fill">
-                    <li class="nav-item" repeat.for="nav of router.navigation">
-                        <a href.bind="nav.href" class="nav-link ${nav.isActive ? 'active' : ''}">${nav.title}</a>
-                    </li>
-                </ul>
+
             </div>
             <div class="col-10">
-                <router-view></router-view>
+
             </div>
         </div>
     </div>
