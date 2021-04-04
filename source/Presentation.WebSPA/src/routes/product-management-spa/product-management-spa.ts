@@ -13,7 +13,7 @@ export class ProductManagementSPAViewModel {
         configParam.title = "Product Management";
         //pConfig.options.pushState = true;
         configParam.map([
-            { route: ["","catalog"], moduleId: PLATFORM.moduleName("./no-selection"), name: "catalog", title: "Catalog", nav: true },
+            { route: ["","catalog"], moduleId: PLATFORM.moduleName("./catalog"), name: "catalog", title: "Catalog", nav: true },
             { route: "sales", moduleId: PLATFORM.moduleName("./sales"), name: "sales", title: "Sales", nav: true },
             { route: "fulfillment", moduleId: PLATFORM.moduleName("./fulfillment"), name: "fulfillment", title: "Fulfillment", nav: true },
             { route: "warehouse", moduleId: PLATFORM.moduleName("./warehouse"), name: "warehouse", title: "Warehouse", nav: true },
