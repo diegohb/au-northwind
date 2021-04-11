@@ -14,7 +14,7 @@
                     <complex-input id="productPriceInput" input-type="number" input-css-class="form-control-lg"
                                    action-menu-css-class="btn-outline-secondary dropdown-toggle-split"
                                    prepend="$" append="USD" value.bind="price" action-menu.bind="true"
-                                   read-only.bind="true">
+                                   read-only.bind="true" label="Price">
                         <div slot="menuItems" class="dropdown-menu">
                             <a click.trigger="doClick()" class="dropdown-item">Four</a>
                             <a href="#" class="dropdown-item">Five</a>
@@ -22,43 +22,27 @@
                         </div>
                     </complex-input>
 
-                    <div class="form-group">
-                        <label for="costTextbox">Cost</label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">$</span>
-                            </div>
-                            <input type="number" class="form-control form-control-lg" id="costTextbox" readonly value.bind="cost"/>
-                            <div class="input-group-append">
-                                <span class="input-group-text">USD</span>
-                                <button class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="False">
-                                    <span class="sr-only">Toggle Dropdown</span>
-                                </button>
-                                <div class="dropdown-menu">
-                                    <a href="#" class="dropdown-item">One</a>
-                                    <a href="#" class="dropdown-item">Two</a>
-                                    <a href="#" class="dropdown-item">Three</a>
-                                </div>
-                            </div>
+                    <complex-input id="productCostInput" input-type="number" input-css-class="form-control-lg"
+                                   action-menu-css-class="btn-outline-secondary dropdown-toggle-split"
+                                   prepend="$" append="USD" value.bind="price" action-menu.bind="true"
+                                   read-only.bind="true" label="Cost">
+                        <div slot="menuItems" class="dropdown-menu">
+                            <a click.trigger="doClick()" class="dropdown-item">Four</a>
+                            <a href="#" class="dropdown-item">Five</a>
+                            <a href="#" class="dropdown-item">Six</a>
                         </div>
-                    </div>
+                    </complex-input>
 
-                    <div class="form-group">
-                        <label for="costTextbox">Quantity</label>
-                        <div class="input-group">
-                            <input type="number" class="form-control form-control-lg" id="quantityTextbox" readonly value.bind="quantity"/>
-                            <div class="input-group-append">
-                                <button class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="False">
-                                    <span class="sr-only">Toggle Dropdown</span>
-                                </button>
-                                <div class="dropdown-menu">
-                                    <a href="#" class="dropdown-item">One</a>
-                                    <a href="#" class="dropdown-item">Two</a>
-                                    <a href="#" class="dropdown-item">Three</a>
-                                </div>
-                            </div>
+                    <complex-input id="quantityInput" input-type="number" input-css-class="form-control-lg"
+                                   action-menu-css-class="btn-outline-secondary dropdown-toggle-split"
+                                   value.bind="price" action-menu.bind="true" read-only.bind="true"
+                                   label="Quantity">
+                        <div slot="menuItems" class="dropdown-menu">
+                            <a click.trigger="doClick()" class="dropdown-item">Four</a>
+                            <a href="#" class="dropdown-item">Five</a>
+                            <a href="#" class="dropdown-item">Six</a>
                         </div>
-                    </div>
+                    </complex-input>
 
                 </form>
             </div>
