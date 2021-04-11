@@ -51,7 +51,7 @@ export class ComplexInputCustomElement {
             throw new Error("[complex-input] InputId property cannot be null or empty string.");
         }
 
-        this._logger.debug(`Successfully created complex-input by ID '${this.inputId}'.`, { disabled: this.readOnly });
+        this._logger.debug(`Successfully created complex-input by ID '${this.inputId}'.`);
     }
 
     public async attached(): Promise<void> {
