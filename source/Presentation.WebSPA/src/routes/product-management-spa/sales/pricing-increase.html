@@ -1,0 +1,57 @@
+﻿<template>
+    <require from="./pricing.css"></require>
+
+    <div class="card mx-auto" style="width: 75%" with.bind="model">
+        <div class="card-header font-weight-bold text-center">
+            Price Increase
+        </div>
+        <div class="card-body">
+            <div class="container">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="productIdTextbox">Product SKU:</label>
+                            <input type="text" readonly class="form-control-plaintext" id="productIdTextbox" value.bind="sku"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="productNameTextbox">Product Name</label>
+                            <input readonly class="form-control-plaintext" type="text" id="productNameTextbox" value.bind="name"/>
+                        </div>
+                        <div class="form-group">
+                            <label>Pricing History</label>
+                            <ul class="list-unstyled">
+                                <li class="${change.type=='increase' ? 'text-success' : 'text-warning'}" repeat.for="change of history">
+                                    ${change.type=="increase" ? "+" : "-"}${change.amount}: ${change.comment}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="currentPriceTextbox">Current Price</label>
+                            <input readonly class="form-control-plaintext form-control-lg text-center" type="text" id="currentPriceTextbox" value.bind="currentPrice"/>
+                        </div>
+                        <complex-input id="newPriceInput" input-type="number" input-css-class="form-control-lg text-center"
+                                       prepend="$" append="USD" value.bind="newPrice" action-menu.bind="false"
+                                       read-only.bind="false" label="New Price">
+                            <div slot="menuItems" class="dropdown-menu">
+                            </div>
+                        </complex-input>
+                        <div class="form-group">
+                            <label for="commentTextbox">Comment</label>
+                            <textarea id="commentTextbox" rows="4" class="form-control" value.bind="comment"></textarea>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <button class="btn btn-primary btn-block" click.trigger="commit()">Commit Changes</button>
+                            </div>
+                            <div class="col-6">
+                                <button class="btn btn-danger btn-block" click.trigger="cancel()">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
