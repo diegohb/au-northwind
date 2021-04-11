@@ -1,0 +1,35 @@
+﻿<template>
+    <div class="form-group">
+        <label for.bind="inputId" if.bind="showLabel">${label}</label>
+        <div class="input-group">
+            <div class="input-group-prepend" if.bind="hasPrepend">
+                <span class="input-group-text">${prependText}</span>
+            </div>
+            <input type.bind="inputType" class="form-control ${inputCssClass}" id.bind="inputId" value.bind="value"/>
+            <div class="input-group-append">
+                <span class="input-group-text" if.bind="hasAppend">${appendText}</span>
+                <button if.bind="hasActionMenu" class="btn dropdown-toggle ${actionMenuCssClass}" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="False">
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <!--conditional doesn't work for this, will render-->
+                <slot name="menuItems" class="dropdown-menu">
+                    <a href="#" class="dropdown-item">One</a>
+                    <a href="#" class="dropdown-item">Two</a>
+                    <a href="#" class="dropdown-item">Three</a>
+                </slot>
+            </div>
+        </div>
+    </div>
+</template>
+<!--
+Usage:
+<complex-input id="ageInput" input-type="text" input-css-class="form-control-lg"
+               action-menu-css-class="btn-outline-secondary dropdown-toggle-split"
+               prepend="#" append="yrs" value.bind="message" action-menu="true">
+    <div slot="menuItems" class="dropdown-menu">
+        <a click.trigger="doClick()" class="dropdown-item">Four</a>
+        <a href="#" class="dropdown-item">Five</a>
+        <a href="#" class="dropdown-item">Six</a>
+    </div>
+</complex-input>
+-->
