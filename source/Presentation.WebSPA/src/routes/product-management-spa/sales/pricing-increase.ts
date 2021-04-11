@@ -1,11 +1,17 @@
 ﻿import { autoinject, LogManager, bindable } from "aurelia-framework";
+import { Router } from "aurelia-router";
 import { Logger } from "aurelia-logging";
 import { ProductPriceModel } from "./models/product-price-model";
 
 @autoinject
 export class PricingIncreaseViewModel {
     private readonly _logger: Logger = LogManager.getLogger(this.constructor.name);
+    private _router: Router;
     private _changeType: "increase" | "decrease" = null;
+
+    constructor(routerParam: Router) {
+        this._router = routerParam;
+    }
 
     public model: ProductPriceModel = new ProductPriceModel();
 
@@ -37,5 +43,6 @@ export class PricingIncreaseViewModel {
     public async cancel(): Promise<void> {
         this.newPrice = "";
         this.comment = "";
+        this._router.navigateBack();
     }
 }

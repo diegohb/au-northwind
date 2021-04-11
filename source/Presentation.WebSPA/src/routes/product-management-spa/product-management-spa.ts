@@ -26,9 +26,9 @@ export class ProductManagementSPAViewModel {
                 route: "sales/pricing/:productId/:changeType",
                 href: "#sales/pricing/:productId/:changeType",
                 moduleId: PLATFORM.moduleName("./sales/pricing-increase"),
-                name: "sales",
-                title: "Sales",
-                nav: true
+                name: "sales_pricing",
+                title: "Product Pricing",
+                nav: false
             },
             {
                 route: "fulfillment",
@@ -46,8 +46,9 @@ export class ProductManagementSPAViewModel {
             },
             {
                 route: "products/:id",
+                href: "#products/:id",
                 moduleId: PLATFORM.moduleName("./product-summary/index"),
-                name: "product",
+                name: "catalog",
                 title: "Product",
                 nav: false
             }
