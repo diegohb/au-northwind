@@ -1,9 +1,10 @@
 ﻿import { PLATFORM } from "aurelia-pal";
+import { Logger } from "aurelia-logging";
 import { Router, RouterConfiguration } from "aurelia-router";
 import { LogManager } from "aurelia-framework"
 
 export class ProductManagementSPAViewModel {
-    private readonly _logger: Object = LogManager.getLogger(this.constructor.name);
+    private readonly _logger: Logger = LogManager.getLogger(this.constructor.name);
 
     public router: Router;
 
@@ -53,6 +54,5 @@ export class ProductManagementSPAViewModel {
                 nav: false
             }
         ]);
-
     }
 }
