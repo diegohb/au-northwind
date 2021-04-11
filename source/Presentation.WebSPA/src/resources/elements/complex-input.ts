@@ -7,18 +7,28 @@ export class ComplexInputCustomElement {
 
     @bindable({ defaultBindingMode: bindingMode.oneTime, attribute: "id" })
     public inputId: string;
+
     @bindable({ defaultBindingMode: bindingMode.oneTime, attribute: "input-type" })
     public inputType: "number" | "email" | "datetime" | "date" | "text" = "text";
+
+    @bindable({ defaultBindingMode: bindingMode.twoWay, attribute: "read-only", default: false })
+    public readOnly: boolean = false;
+
     @bindable({ defaultBindingMode: bindingMode.oneTime })
     public inputCssClass: string = "";
+
     @bindable({ defaultBindingMode: bindingMode.oneTime })
     public actionMenuCssClass: string = "";
+
     @bindable({ defaultBindingMode: bindingMode.twoWay })
     public value: string = "";
+
     @bindable({ defaultBindingMode: bindingMode.toView, attribute: "prepend" })
     public prependText: string = "";
+
     @bindable({ defaultBindingMode: bindingMode.toView, attribute: "append" })
     public appendText: string = "";
+
     @bindable({ defaultBindingMode: bindingMode.oneTime, attribute: "action-menu", default: false })
     public hasActionMenu: boolean = false;
 
@@ -35,6 +45,6 @@ export class ComplexInputCustomElement {
             throw new Error("[complex-input] InputId property cannot be null or empty string.");
         }
 
-        this._logger.debug(`Successfully created complex-input by ID '${this.inputId}'.`);
+        this._logger.debug(`Successfully created complex-input by ID '${this.inputId}'.`, { disabled: this.readOnly });
     }
 }

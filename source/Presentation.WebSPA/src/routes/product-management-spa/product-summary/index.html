@@ -10,9 +10,17 @@
             </div>
             <div class="col-xl-3 col-md-4 col-sm-12">
                 <form>
-                    
-                    <product-price product.bind="$parent.model">
-                    </product-price>
+
+                    <complex-input id="productPriceInput" input-type="number" input-css-class="form-control-lg"
+                                   action-menu-css-class="btn-outline-secondary dropdown-toggle-split"
+                                   prepend="$" append="USD" value.bind="price" action-menu.bind="true"
+                                   read-only.bind="true">
+                        <div slot="menuItems" class="dropdown-menu">
+                            <a click.trigger="doClick()" class="dropdown-item">Four</a>
+                            <a href="#" class="dropdown-item">Five</a>
+                            <a href="#" class="dropdown-item">Six</a>
+                        </div>
+                    </complex-input>
 
                     <div class="form-group">
                         <label for="costTextbox">Cost</label>
