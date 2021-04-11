@@ -8,6 +8,12 @@ export class ComplexInputCustomElement {
     @bindable({ defaultBindingMode: bindingMode.oneTime, attribute: "id" })
     public inputId: string;
 
+    @bindable({ defaultBindingMode: bindingMode.oneTime, attribute: "label" })
+    public label: string = "";
+
+    @bindable({ defaultBindingMode: bindingMode.oneTime, attribute: "show-label", default: true })
+    public showLabel: boolean = true;
+
     @bindable({ defaultBindingMode: bindingMode.oneTime, attribute: "input-type" })
     public inputType: "number" | "email" | "datetime" | "date" | "text" = "text";
 
@@ -40,11 +46,18 @@ export class ComplexInputCustomElement {
         return this.appendText && this.appendText.length > 0;
     }
 
-    public created(owningView: View, thisView: View) {
+    public async created(owningView: View, thisView: View): Promise<void> {
         if (!this.inputId || this.inputId.length === 0) {
             throw new Error("[complex-input] InputId property cannot be null or empty string.");
         }
 
         this._logger.debug(`Successfully created complex-input by ID '${this.inputId}'.`, { disabled: this.readOnly });
+    }
+
+    public async attached(): Promise<void> {
+        if (!this.label || this.label.length === 0) {
+            this.showLabel = false;
+            this._logger.info("Automatically hid label element due to empty label value.");
+        }
     }
 }
