@@ -16,9 +16,11 @@
                                    prepend="$" append="USD" value.bind="price" action-menu.bind="true"
                                    read-only.bind="true" label="Price">
                         <div slot="menuItems" class="dropdown-menu">
-                            <a click.trigger="doClick()" class="dropdown-item">Four</a>
-                            <a href="#" class="dropdown-item">Five</a>
-                            <a href="#" class="dropdown-item">Six</a>
+                            <a href="#" class="dropdown-item">Increase Price</a>
+                            <a href="#" class="dropdown-item">Decrease Price</a>
+                            <a href="#" class="dropdown-item">Apply Promotion</a>
+                            <div role="separator" class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item text-danger">Unlist</a>
                         </div>
                     </complex-input>
 
@@ -27,9 +29,8 @@
                                    prepend="$" append="USD" value.bind="price" action-menu.bind="true"
                                    read-only.bind="true" label="Cost">
                         <div slot="menuItems" class="dropdown-menu">
-                            <a click.trigger="doClick()" class="dropdown-item">Four</a>
-                            <a href="#" class="dropdown-item">Five</a>
-                            <a href="#" class="dropdown-item">Six</a>
+                            <a href="#" class="dropdown-item">Increase Cost</a>
+                            <a href="#" class="dropdown-item">Decrease Cost</a>
                         </div>
                     </complex-input>
 
@@ -38,9 +39,10 @@
                                    value.bind="price" action-menu.bind="true" read-only.bind="true"
                                    label="Quantity">
                         <div slot="menuItems" class="dropdown-menu">
-                            <a click.trigger="doClick()" class="dropdown-item">Four</a>
-                            <a href="#" class="dropdown-item">Five</a>
-                            <a href="#" class="dropdown-item">Six</a>
+                            <a href="#" class="dropdown-item">Log Shipment</a>
+                            <a href="#" class="dropdown-item">Recieve</a>
+                            <div role="separator" class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item text-danger">Adjust</a>
                         </div>
                     </complex-input>
 
