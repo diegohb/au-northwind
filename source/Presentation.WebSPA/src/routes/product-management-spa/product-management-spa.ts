@@ -23,8 +23,8 @@ export class ProductManagementSPAViewModel {
             },
             { route: "sales", moduleId: PLATFORM.moduleName("./sales"), name: "sales", title: "Sales", nav: true },
             {
-                route: "sales/pricing/:productId/increase",
-                href: "#sales/pricing/:productId/increase",
+                route: "sales/pricing/:productId/:changeType",
+                href: "#sales/pricing/:productId/:changeType",
                 moduleId: PLATFORM.moduleName("./sales/pricing-increase"),
                 name: "sales",
                 title: "Sales",
