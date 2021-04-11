@@ -3,6 +3,6 @@
 export function configure(config: FrameworkConfiguration) {
     //config.globalResources([]);
 
-    const spaFeaturesPath: string = "routes/administration-spa/resources/features";
+    const spaFeaturesPath: string = "apps/administration-spa/resources/features";
     config.feature(PLATFORM.moduleName(`${spaFeaturesPath}/test-feature`));
 }
