@@ -17,7 +17,7 @@ export class ProductManagementSPAViewModel {
             { route: "", redirect: "catalog" },
             {
                 route: "catalog",
-                moduleId: PLATFORM.moduleName("./catalog"),
+                moduleId: PLATFORM.moduleName("./catalog/catalog"),
                 name: "catalog",
                 title: "Catalog",
                 nav: true
