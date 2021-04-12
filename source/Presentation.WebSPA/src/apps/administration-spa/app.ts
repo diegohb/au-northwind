@@ -9,8 +9,6 @@ export class ProductManagementSPAViewModel {
     public router: Router;
 
     public configureRouter(configParam: RouterConfiguration, routerParam: Router) {
-        this.router = routerParam;
-
         configParam.title = "Product Management";
         //pConfig.options.pushState = true;
         configParam.map([
@@ -54,5 +52,7 @@ export class ProductManagementSPAViewModel {
                 nav: false
             }
         ]);
+
+        this.router = routerParam;
     }
 }
