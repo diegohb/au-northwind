@@ -14,8 +14,8 @@
                                prepend="$" append="USD" value.bind="price" action-menu.bind="true"
                                read-only.bind="true" label="Price">
                     <div slot="menuItems" class="dropdown-menu">
-                        <a route-href="route:sales_pricing; params.bind: {productId: 1, changeType: 'increase'}" class="dropdown-item">Increase Price</a>
-                        <a route-href="route:sales_pricing; params.bind: {productId: 1, changeType: 'decrease'}" class="dropdown-item">Decrease Price</a>
+                        <a href="#sales/pricing/1/increase" class="dropdown-item">Increase Price</a>
+                        <a href="#sales/pricing/1/decrease" class="dropdown-item">Decrease Price</a>
                         <a href="#" class="dropdown-item">Apply Promotion</a>
                         <div role="separator" class="dropdown-divider"></div>
                         <a href="#" class="dropdown-item text-danger">Unlist</a>
