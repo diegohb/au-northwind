@@ -48,7 +48,7 @@ export class ProductManagementSPAViewModel {
             {
                 route: "products/:id",
                 href: "#products/:id",
-                moduleId: PLATFORM.moduleName("./product-summary/product-summary"),
+                moduleId: PLATFORM.moduleName("./catalog/product-summary"),
                 name: "product",
                 title: "Product",
                 nav: false
