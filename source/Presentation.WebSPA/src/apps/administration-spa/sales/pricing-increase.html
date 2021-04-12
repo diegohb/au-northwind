@@ -1,13 +1,13 @@
 ﻿<template>
     <require from="./pricing.css"></require>
 
-    <div class="card mx-auto" style="width: 75%" with.bind="model">
+    <div class="card mx-auto" with.bind="model">
         <div class="card-header font-weight-bold text-center">
             ${title}
         </div>
         <div class="card-body">
             <div class="row">
-                <div class="col-6">
+                <div class="col-md-5 col-sm-12">
                     <div class="form-group">
                         <label for="productIdTextbox">Product SKU:</label>
                         <input type="text" readonly class="form-control-plaintext" id="productIdTextbox" value.bind="sku"/>
@@ -25,7 +25,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="col-6">
+                <div class="col-md-7 col-sm-12">
                     <div class="form-group">
                         <label for="currentPriceTextbox">Current Price</label>
                         <input readonly class="form-control-plaintext form-control-lg text-center" type="text" id="currentPriceTextbox" value.bind="currentPrice"/>
