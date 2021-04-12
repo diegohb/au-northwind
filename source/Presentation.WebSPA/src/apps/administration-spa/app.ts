@@ -15,7 +15,7 @@ export class ProductManagementSPAViewModel {
             { route: "", redirect: "catalog" },
             {
                 route: "catalog",
-                moduleId: PLATFORM.moduleName("./catalog/catalog"),
+                moduleId: PLATFORM.moduleName("./catalog/index"),
                 name: "catalog",
                 title: "Catalog",
                 nav: true
@@ -42,14 +42,6 @@ export class ProductManagementSPAViewModel {
                 name: "warehouse",
                 title: "Warehouse",
                 nav: true
-            },
-            {
-                route: "products/:id",
-                href: "#products/:id",
-                moduleId: PLATFORM.moduleName("./catalog/product-summary"),
-                name: "product",
-                title: "Product",
-                nav: false
             }
         ]);
 
