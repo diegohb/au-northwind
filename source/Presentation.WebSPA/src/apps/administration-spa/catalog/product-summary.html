@@ -1,52 +1,50 @@
 ﻿<template>
     <require from="./elements/catalog-product"></require>
 
-    <div class="container" with.bind="model">
-        <div class="row">
-            <div class="col-xl-9 col-md-8 col-sm-12">
-                <catalog-product product.bind="$parent.model">
-                </catalog-product>
-            </div>
-            <div class="col-xl-3 col-md-4 col-sm-12">
-                <form>
+    <div class="row" with.bind="model">
+        <div class="col-xl-9 col-md-8 col-sm-12">
+            <catalog-product product.bind="$parent.model">
+            </catalog-product>
+        </div>
+        <div class="col-xl-3 col-md-4 col-sm-12">
+            <form>
 
-                    <complex-input id="productPriceInput" input-type="number" input-css-class="form-control-lg"
-                                   action-menu-css-class="btn-outline-secondary dropdown-toggle-split"
-                                   prepend="$" append="USD" value.bind="price" action-menu.bind="true"
-                                   read-only.bind="true" label="Price">
-                        <div slot="menuItems" class="dropdown-menu">
-                            <a route-href="route:sales_pricing; params.bind: {productId: 1, changeType: 'increase'}" class="dropdown-item">Increase Price</a>
-                            <a route-href="route:sales_pricing; params.bind: {productId: 1, changeType: 'decrease'}" class="dropdown-item">Decrease Price</a>
-                            <a href="#" class="dropdown-item">Apply Promotion</a>
-                            <div role="separator" class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item text-danger">Unlist</a>
-                        </div>
-                    </complex-input>
+                <complex-input id="productPriceInput" input-type="number" input-css-class="form-control-lg"
+                               action-menu-css-class="btn-outline-secondary dropdown-toggle-split"
+                               prepend="$" append="USD" value.bind="price" action-menu.bind="true"
+                               read-only.bind="true" label="Price">
+                    <div slot="menuItems" class="dropdown-menu">
+                        <a route-href="route:sales_pricing; params.bind: {productId: 1, changeType: 'increase'}" class="dropdown-item">Increase Price</a>
+                        <a route-href="route:sales_pricing; params.bind: {productId: 1, changeType: 'decrease'}" class="dropdown-item">Decrease Price</a>
+                        <a href="#" class="dropdown-item">Apply Promotion</a>
+                        <div role="separator" class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item text-danger">Unlist</a>
+                    </div>
+                </complex-input>
 
-                    <complex-input id="productCostInput" input-type="number" input-css-class="form-control-lg"
-                                   action-menu-css-class="btn-outline-secondary dropdown-toggle-split"
-                                   prepend="$" append="USD" value.bind="price" action-menu.bind="true"
-                                   read-only.bind="true" label="Cost">
-                        <div slot="menuItems" class="dropdown-menu">
-                            <a href="#" class="dropdown-item">Increase Cost</a>
-                            <a href="#" class="dropdown-item">Decrease Cost</a>
-                        </div>
-                    </complex-input>
+                <complex-input id="productCostInput" input-type="number" input-css-class="form-control-lg"
+                               action-menu-css-class="btn-outline-secondary dropdown-toggle-split"
+                               prepend="$" append="USD" value.bind="price" action-menu.bind="true"
+                               read-only.bind="true" label="Cost">
+                    <div slot="menuItems" class="dropdown-menu">
+                        <a href="#" class="dropdown-item">Increase Cost</a>
+                        <a href="#" class="dropdown-item">Decrease Cost</a>
+                    </div>
+                </complex-input>
 
-                    <complex-input id="quantityInput" input-type="number" input-css-class="form-control-lg"
-                                   action-menu-css-class="btn-outline-secondary dropdown-toggle-split"
-                                   value.bind="price" action-menu.bind="true" read-only.bind="true"
-                                   label="Quantity">
-                        <div slot="menuItems" class="dropdown-menu">
-                            <a href="#" class="dropdown-item">Log Shipment</a>
-                            <a href="#" class="dropdown-item">Recieve Shipment</a>
-                            <div role="separator" class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item text-danger">Adjust</a>
-                        </div>
-                    </complex-input>
+                <complex-input id="quantityInput" input-type="number" input-css-class="form-control-lg"
+                               action-menu-css-class="btn-outline-secondary dropdown-toggle-split"
+                               value.bind="price" action-menu.bind="true" read-only.bind="true"
+                               label="Quantity">
+                    <div slot="menuItems" class="dropdown-menu">
+                        <a href="#" class="dropdown-item">Log Shipment</a>
+                        <a href="#" class="dropdown-item">Recieve Shipment</a>
+                        <div role="separator" class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item text-danger">Adjust</a>
+                    </div>
+                </complex-input>
 
-                </form>
-            </div>
+            </form>
         </div>
     </div>
 </template>
