@@ -1,5 +1,5 @@
 ﻿import { customElement, bindable } from "aurelia-framework";
-import { ProductModel } from "./models/product-model";
+import { ProductModel } from "../models/product-model";
 
 @customElement("catalog-product")
 export class CatalogProductViewModel {
