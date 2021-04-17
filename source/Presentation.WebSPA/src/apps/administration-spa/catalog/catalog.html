@@ -1,27 +1,21 @@
 ﻿<template>
     <div class="row">
-        <div class="col-6">
-            Categories:
-            <ol>
-                <li>Books</li>
-                <li>Food</li>
-                <li>Medical</li>
-                <li>Music</li>
+        <div class="col-3">
+            <h3 class="text-center">Category Filtering</h3>
+            <ol class="list-group flex-column">
+                <li class="list-group-item">Books</li>
+                <li class="list-group-item">Food</li>
+                <li class="list-group-item">Medical</li>
+                <li class="list-group-item">Music</li>
             </ol>
         </div>
-        <div class="col-6">
-            Products:
-            <ol>
-                <li>
-                    <a route-href="route:product; params.bind: {id: 1}" class="btn btn-default">Product 1</a>
-                </li>
-                <li>
-                    <a route-href="route:product; params.bind: {id: 2}" class="btn btn-default">Product 2</a>
-                </li>
-                <li>
-                    <a route-href="route:product; params.bind: {id: 3}" class="btn btn-default">Product 3</a>
-                </li>
-            </ol>
+        <div class="col-9">
+            <h3 class="text-center">Products</h3>
+
+            <!--route:product; params.bind: {id: 1}-->
+            <product-listing products.bind="products">
+            </product-listing>
+
         </div>
     </div>
 </template>
