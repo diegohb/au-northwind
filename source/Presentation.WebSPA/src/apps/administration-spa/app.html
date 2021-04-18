@@ -1,7 +1,7 @@
 ﻿<template>
     <require from="./app.css"></require>
 
-    <ul class="nav justify-content-end nav-pills nav-fill" role="navigation">
+    <ul class="nav justify-content-end nav-pills nav-fill mb-3" role="navigation">
         <li class="nav-item bg-light" repeat.for="nav of router.navigation">
             <a href.bind="nav.href" class="nav-link ${nav.isActive ? 'active' : ''}">${nav.title}</a>
         </li>
