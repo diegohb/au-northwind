@@ -1,21 +1,32 @@
 ﻿<template>
     <div class="row">
         <div class="col-3">
-            <h3 class="text-center">Category Filtering</h3>
-            <ol class="list-group flex-column">
-                <li class="list-group-item">Books</li>
-                <li class="list-group-item">Food</li>
-                <li class="list-group-item">Medical</li>
-                <li class="list-group-item">Music</li>
-            </ol>
+            <h3 class="text-center">Menu</h3>
+            <div class="list-group">
+                <button type="button" class="list-group-item list-group-item-action active">
+                    View Items
+                </button>
+                <button type="button" class="list-group-item list-group-item-action">
+                    Manage Categories
+                </button>
+            </div>
         </div>
         <div class="col-9">
-            <h3 class="text-center">Products</h3>
-
-            <!--route:product; params.bind: {id: 1}-->
-            <product-listing products.bind="products">
-            </product-listing>
-
+            <div class="row">
+                <div class="col-3">
+                    <ol class="list-group flex-column">
+                        <li class="list-group-item">Books</li>
+                        <li class="list-group-item">Food</li>
+                        <li class="list-group-item">Medical</li>
+                        <li class="list-group-item">Music</li>
+                    </ol>
+                </div>
+                <div class="col-9">
+                    <!--route:product; params.bind: {id: 1}-->
+                    <product-listing products.bind="products">
+                    </product-listing>
+                </div>
+            </div>
         </div>
     </div>
 </template>
