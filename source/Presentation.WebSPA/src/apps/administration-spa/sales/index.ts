@@ -9,7 +9,7 @@ export class CatalogIndexViewModel {
             { route: "", redirect: "pricing" },
             {
                 route: "pricing",
-                moduleId: PLATFORM.moduleName("./sales"),
+                moduleId: PLATFORM.moduleName("./prices"),
                 name: "pricing",
                 title: "Manage Pricing",
                 nav: true
