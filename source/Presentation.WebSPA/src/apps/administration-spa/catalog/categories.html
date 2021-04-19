@@ -25,13 +25,13 @@
                 <div class="text-center">
                     <button class="btn btn-info" click.delegate="assign()">Assign</button>
                     <button class="btn btn-warning" click.delegate="merge()">Merge</button>
-                    <button class="btn btn-danger" click.delegate="delete()">Delete</button>
+                    <button class="btn btn-danger" disabled.bind="categories[activeIndex].productCount !== 0" click.delegate="delete()">Delete</button>
                 </div>
             </form>
             <form id="createCategoryForm" if.bind="activeIndex === null">
                 <div class="form-group">
                     <label for="newCategoryNameTextbox">Name:</label>
-                    <input ref="newCategoryName" id="newCategoryNameTextbox" class="form-control" type="text"/>
+                    <input ref="newCategoryName" id="newCategoryNameTextbox" class="form-control" type="text" autocomplete="off"/>
                 </div>
                 <div class="form-group">
                     <label for="newCategoryDescriptionTextbox">Description:</label>

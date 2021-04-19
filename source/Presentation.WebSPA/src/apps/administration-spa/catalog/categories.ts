@@ -21,6 +21,16 @@ export class CategoriesVM {
         }
     }
 
+    public async delete(): Promise<void> {
+        if (this.activeIndex === null)
+            return;
+
+        if (this.categories[this.activeIndex].productCount !== 0)
+            return;
+
+        this.categories.splice(this.activeIndex, 1);
+    }
+
     public async createCategory(nameInputParam: HTMLInputElement, descInputParam: HTMLInputElement) {
         if (this.categories.filter(cat => cat.name === nameInputParam.value).length > 0) {
             return;
