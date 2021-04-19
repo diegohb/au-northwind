@@ -6,7 +6,7 @@
                    repeat.for="category of categories" click.delegate="selectItem($index)">
                     <div class="d-flex w-100 justify-content-between">
                         <h6 class="mb-1">${category.name}</h6>
-                        <span class="badge badge-secondary badge-pill">${category.productCount}</span>
+                        <span class="badge badge-pill ${category.productCount === 0 ? 'badge-warning' : 'badge-info'}">${category.productCount}</span>
                     </div>
                     <p class="mb-1">${category.description}</p>
                 </a>
@@ -23,6 +23,7 @@
                     <textarea rows="2" id="categoryDescriptionTextbox" class="form-control" value.bind="categories[activeIndex].description"></textarea>
                 </div>
                 <div class="text-center">
+                    <button class="btn btn-info" click.delegate="assign()">Assign</button>
                     <button class="btn btn-warning" click.delegate="merge()">Merge</button>
                     <button class="btn btn-danger" click.delegate="delete()">Delete</button>
                 </div>

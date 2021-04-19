@@ -29,6 +29,7 @@ export class CategoriesVM {
         const model: CategoryModel = new CategoryModel();
         model.name = nameInputParam.value;
         model.description = descInputParam.value;
+        model.productCount = 0;
         this.categories.push(model);
 
         nameInputParam.value = "";
