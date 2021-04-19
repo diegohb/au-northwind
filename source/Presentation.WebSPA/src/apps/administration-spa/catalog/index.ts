@@ -11,7 +11,14 @@ export class CatalogIndexViewModel {
                 route: "products",
                 moduleId: PLATFORM.moduleName("./catalog"),
                 name: "catalog",
-                title: "Catalog",
+                title: "View Items",
+                nav: true
+            },
+            {
+                route: "categories",
+                moduleId: PLATFORM.moduleName("./categories"),
+                name: "categories",
+                title: "Manage Categories",
                 nav: true
             },
             {
