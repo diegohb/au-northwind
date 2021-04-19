@@ -22,8 +22,11 @@
                 </div>
                 <div class="col-9">
                     <!--route:product; params.bind: {id: 1}-->
-                    <product-listing products.bind="products">
-                    </product-listing>
+                    <div class="w-50">
+                        <product-listing products.bind="products" on-click.call="navigateToProduct(itemParam)">
+                        </product-listing>
+
+                    </div>
                 </div>
             </div>
         </div>
