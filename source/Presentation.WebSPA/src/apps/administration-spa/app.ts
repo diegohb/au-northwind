@@ -28,10 +28,10 @@ export class ProductManagementSPAViewModel {
                 nav: true
             },
             {
-                route: "fulfillment",
-                moduleId: PLATFORM.moduleName("./fulfillment"),
-                name: "fulfillment",
-                title: "Fulfillment",
+                route: "purchasing",
+                moduleId: PLATFORM.moduleName("./purchasing"),
+                name: "purchasing",
+                title: "Purchasing",
                 nav: true
             },
             {
