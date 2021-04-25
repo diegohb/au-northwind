@@ -3,7 +3,7 @@ import { Logger } from "aurelia-logging";
 import { Router, RouterConfiguration } from "aurelia-router";
 import { LogManager } from "aurelia-framework"
 
-export class ProductManagementSPAViewModel {
+export class AdminSPAViewModel {
     private readonly _logger: Logger = LogManager.getLogger(this.constructor.name);
 
     public router: Router;
