@@ -1,14 +1,18 @@
-import { SpaOneApp } from "../../src/spa-one";
-import { SpaTwoApp } from "../../src/spa-two";
+import { AdminSPAViewModel } from "../../src/apps/administration-spa/app";
+import { ShoppingSPAViewModel } from "../../src/apps/shopping-spa/app";
 
-describe('the app one', () => {
-  it('says hello', () => {
-    expect(new SpaOneApp().message).toBe('Hello World from SPA One!');
-  });
-});
+describe("admin spa",
+    () => {
+        it("says hello",
+            () => {
+                expect(new AdminSPAViewModel().router).toBeDefined();
+            });
+    });
 
-describe('the app two', () => {
-  it('says hello', () => {
-    expect(new SpaTwoApp().message).toContain("SPA Two");
-  });
-});
+describe("the app two",
+    () => {
+        it("says hello",
+            () => {
+                expect(new ShoppingSPAViewModel().router).toBeDefined();
+            });
+    });
