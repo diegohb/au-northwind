@@ -24,9 +24,9 @@ export class PricingIncreaseViewModel {
         return this._changeType === "increase" ? "Price Increase" : "Price Decrease";
     }
 
-    public async activate(routeParams: any): Promise<void> {
-        this._logger.debug(`Loaded product id ${routeParams.productId}.`);
-        this._changeType = routeParams.changeType;
+    public async activate(routeOptionsParam: any): Promise<void> {
+        this._logger.debug(`Loaded product id ${routeOptionsParam.productId}.`);
+        this._changeType = routeOptionsParam.changeType;
     }
 
     public async commit(): Promise<void> {
