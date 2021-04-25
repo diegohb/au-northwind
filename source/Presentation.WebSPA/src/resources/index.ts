@@ -5,6 +5,7 @@ export function configure(config: FrameworkConfiguration) {
         "./elements/lr-single-selector",
         "./elements/complex-input",
         "./value-converters/date-format-value-converter",
-        "./value-converters/currency-format-value-converter"
+        "./value-converters/currency-format-value-converter",
+        "./value-converters/decimal-format-value-converter"
     ]);
 }

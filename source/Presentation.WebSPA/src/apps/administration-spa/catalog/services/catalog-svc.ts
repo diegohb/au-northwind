@@ -16,7 +16,7 @@ export class CatalogSvc implements ICatalogService {
         prod2.name = "Product 2";
         prod2.description = "A description for product 2.";
         prod2.cost = 4.66;
-        prod2.price = 9.99;
+        prod2.price = 9;
         prod2.quantity = 453;
 
         const prod3: ProductModel = new ProductModel(createGuid());
