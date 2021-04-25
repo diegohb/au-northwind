@@ -24,7 +24,7 @@
 
                 <complex-input id="productCostInput" input-type="number" input-css-class="form-control-lg"
                                action-menu-css-class="btn-outline-secondary dropdown-toggle-split"
-                               prepend="$" append="USD" value.bind="price" action-menu.bind="true"
+                               prepend="$" append="USD" value.bind="cost" action-menu.bind="true"
                                read-only.bind="true" label="Cost">
                     <div slot="menuItems" class="dropdown-menu">
                         <a href="#" class="dropdown-item">Increase Cost</a>
@@ -34,7 +34,7 @@
 
                 <complex-input id="quantityInput" input-type="number" input-css-class="form-control-lg"
                                action-menu-css-class="btn-outline-secondary dropdown-toggle-split"
-                               value.bind="price" action-menu.bind="true" read-only.bind="true"
+                               value.bind="quantity" action-menu.bind="true" read-only.bind="true"
                                label="Quantity">
                     <div slot="menuItems" class="dropdown-menu">
                         <a href="#" class="dropdown-item">Log Shipment</a>

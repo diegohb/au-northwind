@@ -1,21 +1,32 @@
-﻿import { autoinject, bindable } from "aurelia-framework";
+﻿import { inject, bindable } from "aurelia-framework";
 import { Router } from "aurelia-router";
 import { ProductListItem } from "../models/product-list-item";
+import { ICatalogService, CatalogSvc } from "./services/catalog-svc";
+import { ProductModel } from "./models/product-model";
 
-@autoinject()
+@inject(Router, CatalogSvc)
 export class CatalogVM {
-    private _router: Router;
+    private readonly _router: Router;
+    private readonly _service: ICatalogService;
 
-    constructor(routerParam: Router) {
+    constructor(routerParam: Router, svcParam: ICatalogService) {
         this._router = routerParam;
+        this._service = svcParam;
     }
 
     @bindable
-    public products: Array<ProductListItem> = [
-        { sku: "GHI789", name: "Box of Chocolates", lastUpdate: "1 day ago" },
-        { sku: "ABC123", name: "A Valuable Book", lastUpdate: "2 days ago" },
-        { sku: "DEF456", name: "Stethoscope", lastUpdate: "10 days ago" }
-    ];
+    public products: Array<ProductListItem> = [];
+
+    public async attached(): Promise<void> {
+        const productModels: Object[] = await this._service.getProducts();
+        this.products = productModels.map((model: ProductModel): ProductListItem => {
+            const item: ProductListItem = new ProductListItem();
+            item.sku = model.sku;
+            item.name = model.name;
+            item.lastUpdate = "A few minutes ago.";
+            return item;
+        });
+    }
 
     public async navigateToProduct(itemParam: ProductListItem): Promise<boolean> {
         return this._router.navigateToRoute("product", { sku: itemParam.sku });

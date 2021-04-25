@@ -2,13 +2,9 @@
 import { createGuid } from "../../../../common/utils";
 
 export class CatalogSvc implements ICatalogService {
-    public async getProductBySku(skuParam: string): Promise<ProductModel> {
-        const data: ProductModel[] = (await this.getProducts()).filter(model => model.sku === skuParam);
-        const productModel: ProductModel = data[0];
-        return Promise.resolve(productModel);
-    }
+    private readonly _products: Array<ProductModel>;
 
-    public async getProducts(): Promise<ProductModel[]> {
+    constructor() {
         const prod1: ProductModel = new ProductModel(createGuid());
         prod1.name = "Product 1";
         prod1.description = "A description for product 1.";
@@ -30,7 +26,17 @@ export class CatalogSvc implements ICatalogService {
         prod3.price = 75.00;
         prod3.quantity = 59;
 
-        return [prod1, prod2, prod3];
+        this._products = [prod1, prod2, prod3];
+    }
+
+    public async getProductBySku(skuParam: string): Promise<ProductModel> {
+        const data: ProductModel[] = (await this.getProducts()).filter(model => model.sku === skuParam);
+        const productModel: ProductModel = data[0];
+        return Promise.resolve(productModel);
+    }
+
+    public async getProducts(): Promise<ProductModel[]> {
+        return Promise.resolve(this._products);
     }
 }
 
