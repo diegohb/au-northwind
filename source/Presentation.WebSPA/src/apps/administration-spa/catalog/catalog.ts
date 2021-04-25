@@ -23,6 +23,7 @@ export class CatalogVM {
             const item: ProductListItem = new ProductListItem();
             item.sku = model.sku;
             item.name = model.name;
+            item.description = model.description;
             item.lastUpdate = "A few minutes ago.";
             return item;
         });

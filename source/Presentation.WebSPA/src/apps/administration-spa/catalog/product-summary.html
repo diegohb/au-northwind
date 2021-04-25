@@ -2,14 +2,14 @@
     <require from="./elements/catalog-product"></require>
 
     <div class="row" with.bind="model">
-        <div class="col-xl-9 col-md-8 col-sm-12">
+        <div class="col-xl-8 col-md-8 col-sm-12">
             <catalog-product product.bind="$parent.model">
             </catalog-product>
         </div>
-        <div class="col-xl-3 col-md-4 col-sm-12">
+        <div class="col-xl-4 col-md-4 col-sm-12">
             <form>
 
-                <complex-input id="productPriceInput" input-type="number" input-css-class="form-control-lg"
+                <complex-input id="productPriceInput" input-type="number" input-css-class="form-control-lg text-center"
                                action-menu-css-class="btn-outline-secondary dropdown-toggle-split"
                                prepend="$" append="USD" value.bind="price" action-menu.bind="true"
                                read-only.bind="true" label="Price">
@@ -22,7 +22,7 @@
                     </div>
                 </complex-input>
 
-                <complex-input id="productCostInput" input-type="number" input-css-class="form-control-lg"
+                <complex-input id="productCostInput" input-type="number" input-css-class="form-control-lg text-center"
                                action-menu-css-class="btn-outline-secondary dropdown-toggle-split"
                                prepend="$" append="USD" value.bind="cost" action-menu.bind="true"
                                read-only.bind="true" label="Cost">
@@ -32,7 +32,7 @@
                     </div>
                 </complex-input>
 
-                <complex-input id="quantityInput" input-type="number" input-css-class="form-control-lg"
+                <complex-input id="quantityInput" input-type="number" input-css-class="form-control-lg text-center"
                                action-menu-css-class="btn-outline-secondary dropdown-toggle-split"
                                value.bind="quantity" action-menu.bind="true" read-only.bind="true"
                                label="Quantity">
