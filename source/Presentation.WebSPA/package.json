@@ -53,6 +53,7 @@
         "promise-polyfill": "^8.1.3",
         "systemjs": "^0.21.6",
         "systemjs-plugin-text": "0.0.11",
+        "toastr": "^2.1.4",
         "whatwg-fetch": "^3.6.2"
     },
     "peerDependencies": {},

@@ -25,7 +25,7 @@ export class ProductDetailViewModel {
         }
         const model: ProductModel = await this._service.getProductBySku(params.sku);
         if (!model) {
-            this._logger.error(`Unable to load product by id ${params.sku}`);
+            this._logger.error(`Unable to load product by id '${params.sku}'.`);
             this._router.navigateToRoute("product-not-found");
             return Promise.resolve(false);
         }

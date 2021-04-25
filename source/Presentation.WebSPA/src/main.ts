@@ -1,9 +1,8 @@
 import { Aurelia } from "aurelia-framework"
-import fs from "fs"
 import * as auPathUtil from "aurelia-path";
 import environment from "./environment";
-import $ from "jquery";
 import "bootstrap";
+import * as toastr from "toastr";
 
 export function configure(aurelia: Aurelia) {
     aurelia.use
@@ -11,12 +10,16 @@ export function configure(aurelia: Aurelia) {
         .feature("resources");
 
     aurelia.use.globalResources("bootstrap.css");
+    aurelia.use.globalResources("toastr/build/toastr.css");
 
     aurelia.use.developmentLogging(environment.debug ? "debug" : "warn");
 
     if (environment.testing) {
         aurelia.use.plugin("aurelia-testing");
     }
+
+    toastr.options.progressBar = true;
+    toastr.options.positionClass = "toast-bottom-right";
 
     //Uncomment the line below to enable animation.
     // aurelia.use.plugin('aurelia-animator-css');
@@ -27,10 +30,10 @@ export function configure(aurelia: Aurelia) {
 
     //Following enables multi-spa support with each container 
     //specifying via html-attribute what spa module to load
-    const startModuleName = (<any>aurelia.host.attributes).start.value;
+    const startModuleName = (aurelia.host.attributes as any).start.value;
     const spaRootedResourcesPath: string = auPathUtil.relativeToFile("./resources", startModuleName);
     aurelia.use.feature(spaRootedResourcesPath); //TODO: if folder exists so we dont need blank default file.
-    
+
     aurelia.start().then((pAurelia: Aurelia) => {
         pAurelia.setRoot(startModuleName);
         $("#loader").fadeOut("slow");

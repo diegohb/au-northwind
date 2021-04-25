@@ -2,6 +2,7 @@
 import { Router } from "aurelia-router";
 import { Logger } from "aurelia-logging";
 import { ProductPriceModel } from "./models/product-price-model";
+import * as toastr from "toastr";
 
 @autoinject
 export class PricingIncreaseViewModel {
@@ -31,11 +32,36 @@ export class PricingIncreaseViewModel {
 
     public async commit(): Promise<void> {
         const price: number = parseFloat(this.newPrice);
-        if (this._changeType === "increase") {
-            this.model.increasePrice(price, this.comment);
-        } else if (this._changeType === "decrease") {
-            this.model.decreasePrice(price, this.comment);
+
+        if (!this.comment || this.comment.length === 0) {
+            toastr.warning("A comment is required to change the price.");
+            return;
         }
+
+        if (this._changeType === "increase") {
+            try {
+                this.model.increasePrice(price, this.comment);
+            } catch (errIncrease) {
+                if (errIncrease.message.startsWith("Price increase")) {
+                    toastr.warning(errIncrease.message);
+                    return;
+                }
+
+                throw errIncrease;
+            }
+        } else if (this._changeType === "decrease") {
+            try {
+                this.model.decreasePrice(price, this.comment);
+            } catch (errDecrease) {
+                if (errDecrease.message.startsWith("Price decrease")) {
+                    toastr.warning(errDecrease.message);
+                    return;
+                }
+            }
+        }
+
+        toastr.info(`Submitting change to ${this._changeType} price.`, "Action Queued");
+
         this.newPrice = "";
         this.comment = "";
     }
