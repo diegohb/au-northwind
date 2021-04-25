@@ -1,7 +1,7 @@
 ﻿import { PLATFORM } from "aurelia-pal";
 import { Router, RouterConfiguration } from "aurelia-router";
 
-export class CatalogIndexViewModel {
+export class SalesIndexViewModel {
     public router: Router;
 
     public configureRouter(configParam: RouterConfiguration, routerParam: Router) {

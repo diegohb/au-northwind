@@ -15,33 +15,35 @@ export class ProductManagementSPAViewModel {
             { route: "", redirect: "catalog" },
             {
                 route: "catalog",
-                moduleId: PLATFORM.moduleName("./catalog/index"),
+                moduleId: PLATFORM.moduleName("./routes/catalog/index"),
                 name: "catalog",
                 title: "Catalog",
                 nav: true
             },
             {
                 route: "sales",
-                moduleId: PLATFORM.moduleName("./sales/index"),
+                moduleId: PLATFORM.moduleName("./routes/sales/index"),
                 name: "sales",
                 title: "Sales",
                 nav: true
             },
             {
                 route: "purchasing",
-                moduleId: PLATFORM.moduleName("./purchasing"),
+                moduleId: PLATFORM.moduleName("./routes/purchasing/index"),
                 name: "purchasing",
                 title: "Purchasing",
                 nav: true
             },
             {
                 route: "warehouse",
-                moduleId: PLATFORM.moduleName("./warehouse"),
+                moduleId: PLATFORM.moduleName("./routes/warehouse/index"),
                 name: "warehouse",
                 title: "Warehouse",
                 nav: true
             }
         ]);
+
+        configParam.mapUnknownRoutes("./routes/not-found.html");
 
         this.router = routerParam;
     }

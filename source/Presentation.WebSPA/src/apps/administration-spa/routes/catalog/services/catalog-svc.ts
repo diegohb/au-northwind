@@ -1,5 +1,5 @@
 ﻿import { ProductModel } from "../models/product-model";
-import { createGuid } from "../../../../common/utils";
+import { createGuid } from "../../../../../common/utils";
 
 export class CatalogSvc implements ICatalogService {
     private readonly _products: Array<ProductModel>;

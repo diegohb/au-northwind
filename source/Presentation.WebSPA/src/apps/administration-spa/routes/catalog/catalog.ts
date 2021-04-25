@@ -1,8 +1,8 @@
 ﻿import { inject, bindable } from "aurelia-framework";
 import { Router } from "aurelia-router";
-import { ProductListItem } from "../models/product-list-item";
 import { ICatalogService, CatalogSvc } from "./services/catalog-svc";
 import { ProductModel } from "./models/product-model";
+import { ProductListItem } from "../../models/product-list-item";
 
 @inject(Router, CatalogSvc)
 export class CatalogVM {
