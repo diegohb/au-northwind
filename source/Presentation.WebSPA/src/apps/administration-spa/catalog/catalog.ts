@@ -18,6 +18,6 @@ export class CatalogVM {
     ];
 
     public async navigateToProduct(itemParam: ProductListItem): Promise<boolean> {
-        return this._router.navigateToRoute("product", { id: itemParam.sku });
+        return this._router.navigateToRoute("product", { sku: itemParam.sku });
     }
 }

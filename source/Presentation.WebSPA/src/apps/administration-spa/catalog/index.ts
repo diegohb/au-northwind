@@ -22,11 +22,18 @@ export class CatalogIndexViewModel {
                 nav: true
             },
             {
-                route: "products/:id",
-                href: "#products/:id",
+                route: "products/:sku",
+                href: "#products/:sku",
                 moduleId: PLATFORM.moduleName("./product-summary"),
                 name: "product",
                 title: "Product",
+                nav: false
+            },
+            {
+                route: "products/not-found",
+                name: "product-not-found",
+                moduleId: PLATFORM.moduleName("./no-selection"),
+                title: "Product Not Found",
                 nav: false
             }
         ]);

@@ -1,26 +1,37 @@
-﻿import { autoinject, LogManager } from "aurelia-framework";
+﻿import { inject, LogManager } from "aurelia-framework";
 import { Router, NavigationInstruction, RouteConfig } from "aurelia-router";
 import { ProductModel } from "./models/product-model";
+import { ICatalogService, CatalogSvc } from "./services/catalog-svc";
 
-@autoinject()
+//@autoinject()
+@inject(Router, CatalogSvc)
 export class ProductDetailViewModel {
     private readonly _router: Router;
-    private readonly _logger = LogManager.getLogger(this.constructor.name);
+    private readonly _service: ICatalogService;
+    private readonly _logger: Object = LogManager.getLogger(this.constructor.name);
 
-    constructor(routerParam: Router) {
+    constructor(routerParam: Router, svcParam: ICatalogService) {
         this._router = routerParam;
+        this._service = svcParam;
     }
 
     public model: ProductModel;
 
-    public async activate(params, routeConfig: RouteConfig, navigationInstruction: NavigationInstruction ): Promise<void> {
-        if (!params || !params.id || !Number.isInteger(params.id)) {
+    public async activate(params: any, routeConfig: RouteConfig, navigationInstruction: NavigationInstruction):
+        Promise<void> {
+        if (!params || !params.sku) {
             //this._router.navigate("./no-selection");
         }
-        //TODO: load from params.id
-        //routeConfig.navModel.setTitle("Product XYZ");
-        this.model = new ProductModel();
+        const model: ProductModel = await this._service.getProductBySku(params.sku);
+        if (!model) {
+            this._logger.error(`Unable to load product by id ${params.sku}`);
+            this._router.navigateToRoute("product-not-found");
+            return Promise.resolve(false);
+        }
+        this.model = model;
+        routeConfig.navModel.setTitle(this.model.name);
         this._logger.info("Loaded product details.");
+        return Promise.resolve(true);
     }
 
 }
