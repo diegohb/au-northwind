@@ -1,4 +1,4 @@
-﻿import { createGuid } from "../../../../common/utils";
+﻿import { createGuid } from "../../../../../common/utils";
 
 export class ProductModel {
     private _sku: string;
