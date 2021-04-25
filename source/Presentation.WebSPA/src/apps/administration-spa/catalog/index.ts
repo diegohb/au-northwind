@@ -32,7 +32,7 @@ export class CatalogIndexViewModel {
             {
                 route: "products/not-found",
                 name: "product-not-found",
-                moduleId: PLATFORM.moduleName("./no-selection"),
+                moduleId: PLATFORM.moduleName("./not-found"),
                 title: "Product Not Found",
                 nav: false
             }
