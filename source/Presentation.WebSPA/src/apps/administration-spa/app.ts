@@ -43,6 +43,8 @@ export class ProductManagementSPAViewModel {
             }
         ]);
 
+        configParam.mapUnknownRoutes("./routes/not-found.html");
+
         this.router = routerParam;
     }
 }
