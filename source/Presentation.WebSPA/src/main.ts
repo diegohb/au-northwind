@@ -2,6 +2,7 @@ import { Aurelia } from "aurelia-framework"
 import * as auPathUtil from "aurelia-path";
 import environment from "./environment";
 import "bootstrap";
+import * as toastr from "toastr";
 
 export function configure(aurelia: Aurelia) {
     aurelia.use
@@ -16,6 +17,9 @@ export function configure(aurelia: Aurelia) {
     if (environment.testing) {
         aurelia.use.plugin("aurelia-testing");
     }
+
+    toastr.options.progressBar = true;
+    toastr.options.positionClass = "toast-bottom-right";
 
     //Uncomment the line below to enable animation.
     // aurelia.use.plugin('aurelia-animator-css');
