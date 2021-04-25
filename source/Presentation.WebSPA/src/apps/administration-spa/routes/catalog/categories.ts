@@ -28,7 +28,7 @@ export class CategoriesVM {
 
         if (this.categories[this.activeIndex].productCount !== 0)
             return;
-        const categoryName: string = this.categories[this.activeIndex].name;
+        const categoryName = this.categories[this.activeIndex].name;
 
         this.categories.splice(this.activeIndex, 1);
         toastr.info(`Deleting category '${categoryName}'.`, "Action Queued");
@@ -39,7 +39,7 @@ export class CategoriesVM {
             return;
         }
 
-        const model: CategoryModel = new CategoryModel();
+        const model = new CategoryModel();
         model.name = nameInputParam.value;
         model.description = descInputParam.value;
         model.productCount = 0;

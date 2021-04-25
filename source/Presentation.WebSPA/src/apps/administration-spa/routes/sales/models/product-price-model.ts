@@ -7,10 +7,10 @@
         this.decreasePrice(83.42, "Prices go down.");
     }
 
-    public sku: string = "AB124CDE44FGH";
-    public name: string = "A Strawbery";
-    public description: string = "Some description here...";
-    public currentPrice: number = 0;
+    public sku = "AB124CDE44FGH";
+    public name = "A Strawbery";
+    public description = "Some description here...";
+    public currentPrice = 0;
 
     public get history(): Array<ChangeDTO> {
         return this._changes;
@@ -20,7 +20,7 @@
         if (newPriceParam <= this.currentPrice) {
             throw new Error("Price increase new price must be higher than existing price.");
         }
-        const delta: number = newPriceParam - this.currentPrice;
+        const delta = newPriceParam - this.currentPrice;
         this._changes.push({ type: "increase", amount: delta.toFixed(2), comment: commentParam });
         this.currentPrice = newPriceParam;
     }
@@ -29,7 +29,7 @@
         if (newPriceParam >= this.currentPrice) {
             throw new Error("Price decrease new price must be lower than existing price.");
         }
-        const delta: number = this.currentPrice - newPriceParam;
+        const delta = this.currentPrice - newPriceParam;
         this._changes.push({ type: "decrease", amount: delta.toFixed(2), comment: commentParam });
         this.currentPrice = newPriceParam;
     }

@@ -2,5 +2,5 @@
     public id: number;
     public name: string;
     public description: string;
-    public productCount: number = 0;
+    public productCount = 0;
 }

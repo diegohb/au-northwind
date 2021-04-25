@@ -20,7 +20,7 @@ export class CatalogVM {
     public async attached(): Promise<void> {
         const productModels: Object[] = await this._service.getProducts();
         this.products = productModels.map((model: ProductModel): ProductListItem => {
-            const item: ProductListItem = new ProductListItem();
+            const item = new ProductListItem();
             item.sku = model.sku;
             item.name = model.name;
             item.description = model.description;

@@ -1,12 +1,11 @@
 ﻿import { autoinject, LogManager, bindable } from "aurelia-framework";
 import { Router } from "aurelia-router";
-import { Logger } from "aurelia-logging";
 import { ProductPriceModel } from "./models/product-price-model";
 import * as toastr from "toastr";
 
 @autoinject
 export class PricingIncreaseViewModel {
-    private readonly _logger: Logger = LogManager.getLogger(this.constructor.name);
+    private readonly _logger = LogManager.getLogger(this.constructor.name);
     private _router: Router;
     private _changeType: "increase" | "decrease" = null;
 
@@ -14,12 +13,12 @@ export class PricingIncreaseViewModel {
         this._router = routerParam;
     }
 
-    public model: ProductPriceModel = new ProductPriceModel();
+    public model = new ProductPriceModel();
 
     @bindable
-    public newPrice: string = "";
+    public newPrice = "";
 
-    public comment: string = "";
+    public comment = "";
 
     public get title(): string {
         return this._changeType === "increase" ? "Price Increase" : "Price Decrease";
@@ -31,7 +30,7 @@ export class PricingIncreaseViewModel {
     }
 
     public async commit(): Promise<void> {
-        const price: number = parseFloat(this.newPrice);
+        const price = parseFloat(this.newPrice);
 
         if (!this.comment || this.comment.length === 0) {
             toastr.warning("A comment is required to change the price.");
