@@ -1,13 +1,14 @@
 import { LogManager } from "aurelia-framework";
+import { Logger } from "aurelia-logging";
 // ReSharper disable once UnusedLocalImport
 import moment from "moment";
 
 export class DateFormatValueConverter {
-    private readonly _logger = LogManager.getLogger(this.constructor.name);
+    private readonly _logger: Logger = LogManager.getLogger(this.constructor.name);
 
-    toView(value: string, format: string = "M/D/YYYY h:mm:ss a") {
+    public toView(value: string, format: string = "M/D/YYYY h:mm:ss a") {
         // ReSharper disable once TsResolvedFromInaccessibleModule
-        let formattedDate = moment(value).format(format);
+        const formattedDate = moment(value).format(format);
         this._logger.debug("date formatted", { original: value, formatted: formattedDate });
         return formattedDate;
     }
