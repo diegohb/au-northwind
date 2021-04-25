@@ -3,16 +3,19 @@ import { ShoppingSPAViewModel } from "../../src/apps/shopping-spa/app";
 
 describe("admin spa",
     () => {
-        it("says hello",
+        it("router configures",
             () => {
-                expect(new AdminSPAViewModel().router).toBeDefined();
+                const spa: AdminSPAViewModel = new AdminSPAViewModel();
+                expect(spa.router).toBeDefined();
             });
     });
 
-describe("the app two",
+describe("shopping spa",
     () => {
-        it("says hello",
-            () => {
-                expect(new ShoppingSPAViewModel().router).toBeDefined();
+        it("router configures",
+            async () => {
+                const spa: ShoppingSPAViewModel = new ShoppingSPAViewModel();
+                //await spa.configureRouter(null, new Router());
+                expect(spa.router).toBeDefined();
             });
     });
