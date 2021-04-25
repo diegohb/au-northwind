@@ -4,18 +4,18 @@ import environment from "./environment";
 import "bootstrap";
 import * as toastr from "toastr";
 
-export function configure(aurelia: Aurelia) {
-    aurelia.use
+export function configure(aureliaParam: Aurelia) {
+    aureliaParam.use
         .standardConfiguration()
         .feature("resources");
 
-    aurelia.use.globalResources("bootstrap.css");
-    aurelia.use.globalResources("toastr/build/toastr.css");
+    aureliaParam.use.globalResources("bootstrap.css");
+    aureliaParam.use.globalResources("toastr/build/toastr.css");
 
-    aurelia.use.developmentLogging(environment.debug ? "debug" : "warn");
+    aureliaParam.use.developmentLogging(environment.debug ? "debug" : "warn");
 
     if (environment.testing) {
-        aurelia.use.plugin("aurelia-testing");
+        aureliaParam.use.plugin("aurelia-testing");
     }
 
     toastr.options.progressBar = true;
@@ -30,11 +30,11 @@ export function configure(aurelia: Aurelia) {
 
     //Following enables multi-spa support with each container 
     //specifying via html-attribute what spa module to load
-    const startModuleName = (aurelia.host.attributes as any).start.value;
-    const spaRootedResourcesPath: string = auPathUtil.relativeToFile("./resources", startModuleName);
-    aurelia.use.feature(spaRootedResourcesPath); //TODO: if folder exists so we dont need blank default file.
+    const startModuleName = (aureliaParam.host.attributes as any).start.value;
+    const spaRootedResourcesPath = auPathUtil.relativeToFile("./resources", startModuleName);
+    aureliaParam.use.feature(spaRootedResourcesPath); //TODO: if folder exists so we dont need blank default file.
 
-    aurelia.start().then((pAurelia: Aurelia) => {
+    aureliaParam.start().then((pAurelia: Aurelia) => {
         pAurelia.setRoot(startModuleName);
         $("#loader").fadeOut("slow");
     });

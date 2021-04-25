@@ -1,13 +1,14 @@
 ﻿import { LogManager } from "aurelia-framework";
-import { Logger } from "aurelia-logging";
 
 export class CurrencyFormatValueConverter {
-    private readonly _logger: Logger = LogManager.getLogger(this.constructor.name);
+    private readonly _logger = LogManager.getLogger(this.constructor.name);
 
+// ReSharper disable InconsistentNaming
     public toView(value: string, locale: string = "en-US", currency: string = "USD") {
+// ReSharper restore InconsistentNaming
         try {
-            const number: number = Number.parseFloat(value);
-            const formatted: string =
+            const number = Number.parseFloat(value);
+            const formatted =
                 new Intl.NumberFormat(locale, { style: "currency", currency: currency }).format(number);
             this._logger.debug("currency formatted", { original: value, formatted: formatted });
             return formatted;
