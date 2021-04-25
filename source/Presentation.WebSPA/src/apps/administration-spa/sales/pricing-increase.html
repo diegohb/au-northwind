@@ -20,7 +20,7 @@
                         <label>Pricing History</label>
                         <ul class="list-unstyled">
                             <li class="${change.type=='increase' ? 'text-success' : 'text-warning'}" repeat.for="change of history">
-                                ${change.type=="increase" ? "+" : "-"}${change.amount}: ${change.comment}
+                                ${change.type=="increase" ? "+" : "-"}${change.amount | currencyFormat}: ${change.comment}
                             </li>
                         </ul>
                     </div>
