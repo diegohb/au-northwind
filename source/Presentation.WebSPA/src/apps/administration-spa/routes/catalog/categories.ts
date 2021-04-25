@@ -1,5 +1,6 @@
 ﻿import { observable } from "aurelia-framework";
 import { CategoryModel } from "./models/category-model";
+import * as toastr from "toastr";
 
 export class CategoriesVM {
 
@@ -27,8 +28,10 @@ export class CategoriesVM {
 
         if (this.categories[this.activeIndex].productCount !== 0)
             return;
+        const categoryName: string = this.categories[this.activeIndex].name;
 
         this.categories.splice(this.activeIndex, 1);
+        toastr.success(`Deleted category '${categoryName}' successfully.`);
     }
 
     public async createCategory(nameInputParam: HTMLInputElement, descInputParam: HTMLInputElement) {

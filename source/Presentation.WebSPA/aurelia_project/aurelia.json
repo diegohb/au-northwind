@@ -57,7 +57,7 @@
     "paths": {
         "root": "src",
         "resources": "resources",
-        "common":  "common",
+        "common": "common",
         "elements": "resources/elements",
         "attributes": "resources/attributes",
         "valueConverters": "resources/value-converters",
@@ -135,10 +135,9 @@
                     {
                         "name": "bootstrap",
                         "path": "../node_modules/bootstrap",
-                        "deps": [ "jquery", "popper.js" ],
+                        "deps": ["jquery", "popper.js"],
                         "exports": "$",
                         "resources": [
-
                         ]
                     }
                 ]
@@ -180,6 +179,12 @@
                     {
                         "name": "aurelia-testing",
                         "env": "dev"
+                    },
+                    {
+                        "name": "toastr",
+                        "resources": [
+                            "./build/toastr.css"
+                        ]
                     }
                 ]
             }
