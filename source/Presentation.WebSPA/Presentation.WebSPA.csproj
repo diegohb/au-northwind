@@ -22,6 +22,7 @@
 
     <ItemGroup>
         <Folder Include="custom_typings\" />
+        <Folder Include="src\apps\administration-spa\routes\warehouse\" />
         <Folder Include="wwwroot\js\" />
         <Folder Include="wwwroot\css\" />
     </ItemGroup>

@@ -29,14 +29,14 @@ export class ProductManagementSPAViewModel {
             },
             {
                 route: "purchasing",
-                moduleId: PLATFORM.moduleName("./routes/purchasing"),
+                moduleId: PLATFORM.moduleName("./routes/purchasing/index"),
                 name: "purchasing",
                 title: "Purchasing",
                 nav: true
             },
             {
                 route: "warehouse",
-                moduleId: PLATFORM.moduleName("./routes/warehouse"),
+                moduleId: PLATFORM.moduleName("./routes/warehouse/index"),
                 name: "warehouse",
                 title: "Warehouse",
                 nav: true
