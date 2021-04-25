@@ -2,13 +2,14 @@
 import { Router, NavigationInstruction, RouteConfig } from "aurelia-router";
 import { ProductModel } from "./models/product-model";
 import { ICatalogService, CatalogSvc } from "./services/catalog-svc";
+import { Logger } from "aurelia-logging";
 
 //@autoinject()
 @inject(Router, CatalogSvc)
 export class ProductDetailViewModel {
     private readonly _router: Router;
     private readonly _service: ICatalogService;
-    private readonly _logger: Object = LogManager.getLogger(this.constructor.name);
+    private readonly _logger: Logger = LogManager.getLogger(this.constructor.name);
 
     constructor(routerParam: Router, svcParam: ICatalogService) {
         this._router = routerParam;
@@ -18,7 +19,7 @@ export class ProductDetailViewModel {
     public model: ProductModel;
 
     public async activate(params: any, routeConfig: RouteConfig, navigationInstruction: NavigationInstruction):
-        Promise<void> {
+        Promise<boolean> {
         if (!params || !params.sku) {
             //this._router.navigate("./no-selection");
         }
