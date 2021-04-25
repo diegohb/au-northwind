@@ -2,7 +2,7 @@
 import { Router } from "aurelia-router";
 import { Logger } from "aurelia-logging";
 import { ProductPriceModel } from "./models/product-price-model";
-import * as toastr from"toastr";
+import * as toastr from "toastr";
 
 @autoinject
 export class PricingIncreaseViewModel {
@@ -59,6 +59,9 @@ export class PricingIncreaseViewModel {
                 }
             }
         }
+
+        toastr.info(`Submitting change to ${this._changeType} price.`, "Action Queued");
+
         this.newPrice = "";
         this.comment = "";
     }
