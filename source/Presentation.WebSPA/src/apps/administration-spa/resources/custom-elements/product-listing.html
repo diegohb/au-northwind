@@ -1,0 +1,15 @@
+﻿<template>
+    <div class="list-group">
+        <!--route: pricing; params.bind: { productId: 1, changeType: 'increase'}-->
+        <a href="#" click.delegate="performClick(item)" class="list-group-item flex-column list-group-item-action align-items-start" repeat.for="item of products">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">${item.name}</h5>
+                <small class="text-muted">${item.lastUpdate}</small>
+            </div>
+            <p class="mb-1">
+                ${item.description}
+            </p>
+            <!--<small>Donec id elit non mi porta.</small>-->
+        </a>
+    </div>
+</template>

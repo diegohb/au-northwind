@@ -1,0 +1,46 @@
+﻿<template>
+    <div class="row">
+        <div class="col-8">
+            <div class="list-group flex-column">
+                <a href="#" class="list-group-item list-group-item-action ${($index === activeIndex) ? 'active' : ''}"
+                   repeat.for="category of categories" click.delegate="selectItem($index)">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h6 class="mb-1">${category.name}</h6>
+                        <span class="badge badge-pill ${category.productCount === 0 ? 'badge-warning' : 'badge-info'}">${category.productCount}</span>
+                    </div>
+                    <p class="mb-1">${category.description}</p>
+                </a>
+            </div>
+        </div>
+        <div class="col-4">
+            <form id="updateCategoryForm" if.bind="activeIndex !== null">
+                <div class="form-group">
+                    <label for="categoryNameTextbox">Name:</label>
+                    <input id="categoryNameTextbox" value.bind="categories[activeIndex].name" class="form-control" type="text"/>
+                </div>
+                <div class="form-group">
+                    <label for="categoryDescriptionTextbox">Description:</label>
+                    <textarea rows="2" id="categoryDescriptionTextbox" class="form-control" value.bind="categories[activeIndex].description"></textarea>
+                </div>
+                <div class="text-center">
+                    <button class="btn btn-info" click.delegate="assign()">Assign</button>
+                    <button class="btn btn-warning" click.delegate="merge()">Merge</button>
+                    <button class="btn btn-danger" disabled.bind="categories[activeIndex].productCount !== 0" click.delegate="delete()">Delete</button>
+                </div>
+            </form>
+            <form id="createCategoryForm" if.bind="activeIndex === null">
+                <div class="form-group">
+                    <label for="newCategoryNameTextbox">Name:</label>
+                    <input ref="newCategoryName" id="newCategoryNameTextbox" class="form-control" type="text" autocomplete="off"/>
+                </div>
+                <div class="form-group">
+                    <label for="newCategoryDescriptionTextbox">Description:</label>
+                    <textarea ref="newCategoryDesc" rows="2" id="newCategoryDescriptionTextbox" class="form-control" type="text"></textarea>
+                </div>
+                <div class="text-center">
+                    <button class="btn btn-success" click.delegate="createCategory(newCategoryName, newCategoryDesc)">Create</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</template>

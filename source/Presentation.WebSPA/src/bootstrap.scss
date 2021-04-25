@@ -51,16 +51,16 @@ $border-radius: .4rem;
 @import "../node_modules/bootstrap/scss/forms";
 @import "../node_modules/bootstrap/scss/_buttons";
 @import "../node_modules/bootstrap/scss/_transitions";
-// @import "bootstrap/scss/dropdown";
-// @import "bootstrap/scss/button-group";
-// @import "bootstrap/scss/input-group"; // Requires forms
+@import "../node_modules/bootstrap/scss/dropdown";
+@import "../node_modules/bootstrap/scss/button-group";
+@import "../node_modules/bootstrap/scss/input-group"; // Requires forms
 // @import "bootstrap/scss/custom-forms";
 @import "../node_modules/bootstrap/scss/_nav";
 @import "../node_modules/bootstrap/scss/_navbar"; // Requires nav
 @import "../node_modules/bootstrap/scss/card";
 // @import "bootstrap/scss/breadcrumb";
 // @import "bootstrap/scss/pagination";
-// @import "bootstrap/scss/badge";
+@import "../node_modules/bootstrap/scss/badge";
 // @import "bootstrap/scss/jumbotron";
 // @import "bootstrap/scss/alert";
 // @import "bootstrap/scss/progress";

@@ -1,0 +1,10 @@
+﻿<template>
+    <require from="./app.css"></require>
+
+    <ul class="nav justify-content-end nav-pills nav-fill bg-dark mb-2" role="navigation">
+        <li class="nav-item" repeat.for="nav of router.navigation">
+            <a href.bind="nav.href" class="nav-link ${nav.isActive ? 'active' : ''}">${nav.title}</a>
+        </li>
+    </ul>
+    <router-view></router-view>
+</template>

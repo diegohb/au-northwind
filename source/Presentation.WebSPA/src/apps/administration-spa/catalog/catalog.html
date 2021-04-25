@@ -1,0 +1,15 @@
+﻿<template>
+    <div class="row">
+        <div class="col-3 text-center">
+            ...filtering...
+        </div>
+        <div class="col-9">
+            <!--route:product; params.bind: {id: 1}-->
+            <div class="w-50">
+                <product-listing products.bind="products" on-click.call="navigateToProduct(itemParam)">
+                </product-listing>
+
+            </div>
+        </div>
+    </div>
+</template>
