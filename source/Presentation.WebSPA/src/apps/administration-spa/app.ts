@@ -1,10 +1,9 @@
 ﻿import { PLATFORM } from "aurelia-pal";
-import { Logger } from "aurelia-logging";
 import { Router, RouterConfiguration } from "aurelia-router";
 import { LogManager } from "aurelia-framework"
 
 export class AdminSPAViewModel {
-    private readonly _logger: Logger = LogManager.getLogger(this.constructor.name);
+    private readonly _logger = LogManager.getLogger(this.constructor.name);
 
     public router: Router;
 

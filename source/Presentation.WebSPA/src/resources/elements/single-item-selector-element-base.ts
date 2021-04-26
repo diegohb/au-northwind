@@ -1,8 +1,9 @@
 ﻿import { bindable, bindingMode, observable, LogManager } from "aurelia-framework";
 
 export abstract class SingleItemSelectorElementBase {
-    protected readonly _logger = LogManager.getLogger(typeof SingleItemSelectorElementBase);
-    @observable protected _selectedItemIndex: number = -1;
+    protected readonly _logger = LogManager.getLogger(this.constructor.name);
+    @observable
+    protected _selectedItemIndex = -1;
 
     constructor() {
 
@@ -26,51 +27,55 @@ export abstract class SingleItemSelectorElementBase {
     @bindable({ defaultBindingMode: bindingMode.toView, changeHandler: "_itemsChanged" })
     public items: any[];
 
-    @bindable({ defaultBindingMode: bindingMode.twoWay, attribute: "selected-item", changeHandler: "_selectedItemChanged" })
+    @bindable({
+        defaultBindingMode: bindingMode.twoWay,
+        attribute: "selected-item",
+        changeHandler: "_selectedItemChanged"
+    })
     public selectedItem: any;
 
     @bindable()
     public onChange: Function;
 
-    public getDisplayValue(pItem: any): string {
-        if (!pItem)
+    public getDisplayValue(itemParam: any): string {
+        if (!itemParam)
             return this.emptyText;
 
         if (this.displayPropertyName)
-            return pItem[this.displayPropertyName];
+            return itemParam[this.displayPropertyName];
 
-        if (typeof pItem === "object" && this.valuePropertyName)
-            return pItem[this.valuePropertyName];
+        if (typeof itemParam === "object" && this.valuePropertyName)
+            return itemParam[this.valuePropertyName];
         else
-            return pItem.toString();
+            return itemParam.toString();
     }
 
 
-    protected _itemsChanged(pNewValue: any[], pOldValue: any[]): void {
+    protected _itemsChanged(newValueParam: any[], oldValueParam: any[]): void {
         this._validateProperties();
         this._selectedItemIndex = -1;
     }
 
-    protected _selectedItemChanged(pNewValue: any, pOldValue: any): void {
+    protected _selectedItemChanged(newValueParam: any, oldValueParam: any): void {
         if (!this.items || this.items.length < 1) {
             throw new Error("Unexpected error. Selected item changed but items is empty!");
         }
 
-        let selectedIndex = this.items.indexOf(pNewValue);
+        const selectedIndex = this.items.indexOf(newValueParam);
         if (selectedIndex === -1) {
-            this._logger.warn("Unable to find item within list.", pNewValue);
+            this._logger.warn("Unable to find item within list.", newValueParam);
             throw new Error("Item doesn't exist in array.");
         }
         this._selectedItemIndex = selectedIndex;
     }
 
-    protected async _selectedItemIndexChanged(pNewIndex: number, pOldIndex: number): Promise<void> {
+    protected async _selectedItemIndexChanged(newIndexParam: number, oldIndexParam: number): Promise<void> {
         if (!this.onChange)
             return;
 
         try {
-            const oldItem: any = this.items[pOldIndex];
-            const newItem: any = this.items[pNewIndex];
+            const oldItem: any = this.items[oldIndexParam];
+            const newItem: any = this.items[newIndexParam];
             await this.onChange({ pSender: this, pNewValue: newItem, pOldValue: oldItem });
         } catch (err) {
             this._logger.error("Error occurred trying to call supplied onChange method.", err);
@@ -88,16 +93,19 @@ export abstract class SingleItemSelectorElementBase {
             return;
         }
 
-        const allContainProperties: boolean = this.items.every(pItem => {
-            if (typeof pItem === "object" && this.valuePropertyName && pItem[this.valuePropertyName] === undefined)
+        const allContainProperties = this.items.every(itemParam => {
+            if (typeof itemParam === "object" &&
+                this.valuePropertyName &&
+                itemParam[this.valuePropertyName] === undefined)
                 return false;
 
             if (this.displayPropertyName) {
-                if (pItem[this.displayPropertyName] === undefined)
+                if (itemParam[this.displayPropertyName] === undefined)
                     return false;
 
                 //check is valid type to be rendered in html
-                if (typeof pItem[this.displayPropertyName] !== "string" && typeof pItem[this.displayPropertyName] !== "number") {
+                if (typeof itemParam[this.displayPropertyName] !== "string" &&
+                    typeof itemParam[this.displayPropertyName] !== "number") {
                     return false;
                 }
             }

@@ -1,42 +1,41 @@
 ﻿import { customElement, bindable, bindingMode, LogManager, View } from "aurelia-framework";
-import { Logger } from "aurelia-logging";
 
 @customElement("complex-input")
 export class ComplexInputCustomElement {
-    private readonly _logger: Logger = LogManager.getLogger(this.constructor.name);
+    private readonly _logger = LogManager.getLogger(this.constructor.name);
 
     @bindable({ defaultBindingMode: bindingMode.oneTime, attribute: "id" })
     public inputId: string;
 
     @bindable({ defaultBindingMode: bindingMode.oneTime, attribute: "label" })
-    public label: string = "";
+    public label = "";
 
     @bindable({ defaultBindingMode: bindingMode.oneTime, attribute: "show-label", default: true })
-    public showLabel: boolean = true;
+    public showLabel = true;
 
     @bindable({ defaultBindingMode: bindingMode.oneTime, attribute: "input-type" })
     public inputType: "number" | "email" | "datetime" | "date" | "text" = "text";
 
     @bindable({ defaultBindingMode: bindingMode.twoWay, attribute: "read-only", default: false })
-    public readOnly: boolean = false;
+    public readOnly = false;
 
     @bindable({ defaultBindingMode: bindingMode.oneTime })
-    public inputCssClass: string = "";
+    public inputCssClass = "";
 
     @bindable({ defaultBindingMode: bindingMode.oneTime })
-    public actionMenuCssClass: string = "";
+    public actionMenuCssClass = "";
 
     @bindable({ defaultBindingMode: bindingMode.twoWay })
-    public value: string = "";
+    public value = "";
 
     @bindable({ defaultBindingMode: bindingMode.toView, attribute: "prepend" })
-    public prependText: string = "";
+    public prependText = "";
 
     @bindable({ defaultBindingMode: bindingMode.toView, attribute: "append" })
-    public appendText: string = "";
+    public appendText = "";
 
     @bindable({ defaultBindingMode: bindingMode.oneTime, attribute: "action-menu", default: false })
-    public hasActionMenu: boolean = false;
+    public hasActionMenu = false;
 
     public get hasPrepend(): boolean {
         return this.prependText && this.prependText.length > 0;
@@ -46,7 +45,7 @@ export class ComplexInputCustomElement {
         return this.appendText && this.appendText.length > 0;
     }
 
-    public async created(owningView: View, thisView: View): Promise<void> {
+    public async created(owningViewParam: View, thisViewParam: View): Promise<void> {
         if (!this.inputId || this.inputId.length === 0) {
             throw new Error("[complex-input] InputId property cannot be null or empty string.");
         }

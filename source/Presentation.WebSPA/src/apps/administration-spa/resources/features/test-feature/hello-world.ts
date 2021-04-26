@@ -2,5 +2,5 @@
 
 @customElement("hello-world")
 export class HelloWorldViewModel {
-    public message: string = Date.now().toString();
+    public message = Date.now().toString();
 }
