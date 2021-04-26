@@ -16,12 +16,19 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <Compile Remove="custom_typings\**" />
+      <Content Remove="custom_typings\**" />
+      <EmbeddedResource Remove="custom_typings\**" />
+      <None Remove="custom_typings\**" />
+    </ItemGroup>
+
+    <ItemGroup>
         <None Remove=".yarnclean" />
         <None Remove="yarn.lock" />
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="custom_typings\" />
+        <Folder Include="ApiControllers\" />
         <Folder Include="wwwroot\js\" />
         <Folder Include="wwwroot\css\" />
     </ItemGroup>

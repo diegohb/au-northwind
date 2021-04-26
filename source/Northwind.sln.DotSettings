@@ -55,6 +55,8 @@
 	<s:String x:Key="/Default/CodeStyle/TypeScriptCodeStyle/ImportReferenceStyle/@EntryValue">ECMAScript6</s:String>
 	<s:Boolean x:Key="/Default/CodeStyle/TypeScriptCodeStyle/NoImplicitAny/@EntryValue">True</s:Boolean>
 	<s:String x:Key="/Default/CodeStyle/TypeScriptCodeStyle/TypeSpecification/@EntryValue">Explicit</s:String>
+	<s:Boolean x:Key="/Default/Environment/ExcludedFiles/FilesAndFoldersThirdParty/=234964C6_002D0AD0_002D4AB9_002DB661_002D6FC9A38D2EA2_002Fd_003Aaurelia_005Fproject/@EntryIndexedValue">False</s:Boolean>
+	<s:Boolean x:Key="/Default/Environment/ExcludedFiles/FilesAndFoldersToSkip/=234964C6_002D0AD0_002D4AB9_002DB661_002D6FC9A38D2EA2_002Fd_003Aaurelia_005Fproject/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/Environment/ExcludedFiles/FilesAndFoldersToSkip/=234964C6_002D0AD0_002D4AB9_002DB661_002D6FC9A38D2EA2_002Fd_003Atest_002Fd_003Acoverage_002Djest/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/Environment/SettingsMigration/IsMigratorApplied/=JetBrains_002EReSharper_002EPsi_002EJavaScript_002ECodeStyle_002ETypeScript_002ESettingsUpgrade_002ETsModuleAliasesSettingsUpgrader/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/Environment/UserInterface/HideVsMenus/@EntryValue">False</s:Boolean>
