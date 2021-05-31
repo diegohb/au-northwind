@@ -1,18 +1,24 @@
-﻿import { observable } from "aurelia-framework";
+﻿import { observable, inject } from "aurelia-framework";
 import { CategoryModel } from "./models/category-model";
 import * as toastr from "toastr";
+import { CatalogSvc, ICatalogService } from "./services/catalog-svc";
 
+@inject(CatalogSvc)
 export class CategoriesVM {
+    private readonly _svc: ICatalogService;
+
+    constructor(svcParam: ICatalogService) {
+        this._svc = svcParam;
+    }
 
     @observable()
     public activeIndex?: number = null;
 
-    public categories: Array<CategoryModel> = [
-        { id: 1, name: "Books", description: "Inventory of books.", productCount: 7 },
-        { id: 2, name: "Food", description: "Inventory of foods.", productCount: 5 },
-        { id: 3, name: "Medical", description: "Inventory of medical supplies.", productCount: 3 },
-        { id: 4, name: "Music", description: "Inventory of music.", productCount: 9 }
-    ];
+    public categories: Array<CategoryModel> = [];
+
+    public async activate(): Promise<void> {
+        this.categories = await this._svc.getCategories();
+    }
 
     public async selectItem(itemIndexParam: number): Promise<void> {
         if (this.activeIndex === itemIndexParam) {
