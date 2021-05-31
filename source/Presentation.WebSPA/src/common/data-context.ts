@@ -5,23 +5,14 @@ import * as environment from "../environment";
 import { createGuid } from "./utils";
 
 const logger = LogManager.getLogger("data-context");
-
-const getWorkerPath = () => {
-    if ((environment as any).debug === false) {
-        return require("/js/jsstore.worker.js");
-    } else {
-        return require("/js/jsstore.worker.min.js");
-    }
-};
-
-let isDebug = (environment as any).debug === false;
+const isDebug = (environment as any).debug === false;
 // This will ensure that we are using only one instance. 
 // Otherwise due to multiple instance multiple worker will be created.
 let worker = new Worker(`/js/jsstore.worker${isDebug ? "" : ".min"}.js`); //await getWorkerPath();
 export const catalogConn = new Connection(worker);
-export const catalogDbName = "NorthwindDB";
+const catalogDbName = "NorthwindDB";
 
-const getCatalogDb = () => {
+function getCatalogDb() {
     const tblProducts: ITable = {
         name: "Products",
         columns: {
@@ -63,6 +54,7 @@ export async function initDatabase(): Promise<void> {
 
     if (isDbCreated) {
         try {
+            logger.info("Empty database created.");
             let insertedCount = await catalogConn.insert({
                 into: "Categories",
                 values: getCategories()
