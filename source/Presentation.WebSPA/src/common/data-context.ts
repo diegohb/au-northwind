@@ -1,7 +1,10 @@
-﻿import { IDataBase, DATA_TYPE, ITable, Connection } from "jsstore";
+﻿import { LogManager } from "aurelia-framework";
+import { IDataBase, DATA_TYPE, ITable, Connection } from "jsstore";
 import { CatalogCategoryEntity, CatalogProductEntity } from "./db-model";
 import * as environment from "../environment";
 import { createGuid } from "./utils";
+
+const logger = LogManager.getLogger("data-context");
 
 const getWorkerPath = () => {
     if ((environment as any).debug === false) {
@@ -11,9 +14,10 @@ const getWorkerPath = () => {
     }
 };
 
+let isDebug = (environment as any).debug === false;
 // This will ensure that we are using only one instance. 
 // Otherwise due to multiple instance multiple worker will be created.
-let worker = new Worker("/js/jsstore.worker.js"); //await getWorkerPath();
+let worker = new Worker(`/js/jsstore.worker${isDebug ? "" : ".min"}.js`); //await getWorkerPath();
 export const catalogConn = new Connection(worker);
 export const catalogDbName = "NorthwindDB";
 
@@ -49,46 +53,59 @@ const getCatalogDb = () => {
 };
 
 export async function initDatabase(): Promise<void> {
+    let isDbCreated: boolean;
     const dataBase = getCatalogDb();
-    const isDbCreated = await catalogConn.initDb(dataBase);
+    try {
+        isDbCreated = await catalogConn.initDb(dataBase);
+    } catch (errInit) {
+        logger.error("Failed to create and initialize the local database instance.", errInit);
+    }
+
     if (isDbCreated) {
-        let insertedCount = await catalogConn.insert({
-            into: "Categories",
-            values: getCategories()
-        });
-        console.assert(insertedCount === getCategories().length);
-        insertedCount = await catalogConn.insert({
-            into: "Products",
-            values: getProducts()
-        });
-        console.assert(insertedCount === getProducts().length);
+        try {
+            let insertedCount = await catalogConn.insert({
+                into: "Categories",
+                values: getCategories()
+            });
+            console.assert(insertedCount === getCategories().length);
+            insertedCount = await catalogConn.insert({
+                into: "Products",
+                values: getProducts()
+            });
+            console.assert(insertedCount === getProducts().length);
+            logger.info("Seeded empty database.");
+        } catch (errSeeding) {
+            logger.error("Unable to seed initial data.", errSeeding);
+        }
+    } else {
+        logger.info("Database already exists.");
     }
+}
 
-    function getCategories(): Array<CatalogCategoryEntity> {
-        return [
-            { name: "Books", description: "Reading material" },
-            { name: "Food" },
-            { name: "Medical" },
-            { name: "Music" }
-        ] as Array<CatalogCategoryEntity>;
-    }
+function getCategories(): Array<CatalogCategoryEntity> {
+    return [
+        { name: "Books", description: "Reading material" },
+        { name: "Food" },
+        { name: "Medical" },
+        { name: "Music" }
+    ] as Array<CatalogCategoryEntity>;
+}
 
-    function getProducts(): Array<CatalogProductEntity> {
-        return [
-            {
-                sku: createGuid(),
-                productName: "Brave New World",
-                description: "A book by Aldous Huxley",
-                categoryId: 1
-            },
-            {
-                sku: createGuid(),
-                productName: "We Could Be Heroes",
-                description: "A book by Margaret Finnegan",
-                categoryId: 1
-            },
-            { sku: createGuid(), productName: "Coffret Maison Dark (40pc)", categoryId: 2 },
-            { sku: createGuid(), productName: "Ferrero Rocher Hazelnut Milk Chocolate Box (24pc)", categoryId: 2 }
-        ] as Array<CatalogProductEntity>;
-    }
+function getProducts(): Array<CatalogProductEntity> {
+    return [
+        {
+            sku: createGuid(),
+            productName: "Brave New World",
+            description: "A book by Aldous Huxley",
+            categoryId: 1
+        },
+        {
+            sku: createGuid(),
+            productName: "We Could Be Heroes",
+            description: "A book by Margaret Finnegan",
+            categoryId: 1
+        },
+        { sku: createGuid(), productName: "Coffret Maison Dark (40pc)", categoryId: 2 },
+        { sku: createGuid(), productName: "Ferrero Rocher Hazelnut Milk Chocolate Box (24pc)", categoryId: 2 }
+    ] as Array<CatalogProductEntity>;
 }
