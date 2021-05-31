@@ -5,22 +5,21 @@ import { createGuid } from "./utils";
 
 const getWorkerPath = () => {
     if ((environment as any).debug === false) {
-        return System.import("/js/jsstore.worker.js");
+        return require("/js/jsstore.worker.js");
     } else {
-        return System.import("/js/jsstore.worker.min.js");
+        return require("/js/jsstore.worker.min.js");
     }
 };
 
 // This will ensure that we are using only one instance. 
 // Otherwise due to multiple instance multiple worker will be created.
-let worker = new Worker((getWorkerPath()) as any); //await getWorkerPath();
-export const idbCon = new Connection(worker);
-export const dbname = "NorthwindDB";
+let worker = new Worker("/js/jsstore.worker.js"); //await getWorkerPath();
+export const catalogConn = new Connection(worker);
+export const catalogDbName = "NorthwindDB";
 
-
-const getDatabase = () => {
+const getCatalogDb = () => {
     const tblProducts: ITable = {
-        name: "Catalog.Products",
+        name: "Products",
         columns: {
             sku: { primaryKey: true, notNull: true, dataType: DATA_TYPE.String, unique: true },
             productName: { notNull: true, dataType: DATA_TYPE.String },
@@ -29,13 +28,12 @@ const getDatabase = () => {
         }
     };
     const tblCategories: ITable = {
-        name: "Catalog.Categories",
+        name: "Categories",
         columns: {
             id: {
                 primaryKey: true,
-                dataType: DATA_TYPE.String,
-                unique: true,
-                notNull: true
+                dataType: DATA_TYPE.Number,
+                autoIncrement: true
             },
             name: { notNull: true, dataType: DATA_TYPE.String, unique: true },
             description: { dataType: DATA_TYPE.String }
@@ -43,23 +41,24 @@ const getDatabase = () => {
     };
 
     const dataBase: IDataBase = {
-        name: dbname,
-        tables: [tblProducts, tblCategories]
+        name: catalogDbName,
+        tables: [tblProducts, tblCategories],
+        version: 1
     };
     return dataBase;
 };
 
 export async function initDatabase(): Promise<void> {
-    const dataBase = getDatabase();
-    const isDbCreated = await idbCon.initDb(dataBase);
+    const dataBase = getCatalogDb();
+    const isDbCreated = await catalogConn.initDb(dataBase);
     if (isDbCreated) {
-        let insertedCount = await idbCon.insert({
-            into: "Catalog.Categories",
+        let insertedCount = await catalogConn.insert({
+            into: "Categories",
             values: getCategories()
         });
         console.assert(insertedCount === getCategories().length);
-        insertedCount = await idbCon.insert({
-            into: "Catalog.Products",
+        insertedCount = await catalogConn.insert({
+            into: "Products",
             values: getProducts()
         });
         console.assert(insertedCount === getProducts().length);
@@ -67,7 +66,7 @@ export async function initDatabase(): Promise<void> {
 
     function getCategories(): Array<CatalogCategoryEntity> {
         return [
-            { name: "Books" },
+            { name: "Books", description: "Reading material" },
             { name: "Food" },
             { name: "Medical" },
             { name: "Music" }
@@ -76,8 +75,18 @@ export async function initDatabase(): Promise<void> {
 
     function getProducts(): Array<CatalogProductEntity> {
         return [
-            { sku: createGuid(), productName: "Brave New World", categoryId: 1 },
-            { sku: createGuid(), productName: "We Could Be Heroes", categoryId: 1 },
+            {
+                sku: createGuid(),
+                productName: "Brave New World",
+                description: "A book by Aldous Huxley",
+                categoryId: 1
+            },
+            {
+                sku: createGuid(),
+                productName: "We Could Be Heroes",
+                description: "A book by Margaret Finnegan",
+                categoryId: 1
+            },
             { sku: createGuid(), productName: "Coffret Maison Dark (40pc)", categoryId: 2 },
             { sku: createGuid(), productName: "Ferrero Rocher Hazelnut Milk Chocolate Box (24pc)", categoryId: 2 }
         ] as Array<CatalogProductEntity>;
