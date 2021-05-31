@@ -189,18 +189,16 @@
                 {
                   "name": "jsstore",
                   "path": "../node_modules/jsstore",
-                  "main": "dist/jsstore.worker.commonjs2.min",
-                  "resources": [
-                    "./dist/worker_injector/index.js"                    
-                  ]
+                  "main": "dist/jsstore.commonjs2"
                 }
               ]
             }
         ],
-        "copyFiles": {
-            "node_modules/bootstrap/dist/css/bootstrap.min.*": "wwwroot/css",
-            "node_modules/bootstrap/dist/js/bootstrap.min.*": "wwwroot/js",
-            "node_modules/jquery/dist/jquery.min.*": "wwwroot/js"
-        }
+      "copyFiles": {
+        "node_modules/bootstrap/dist/css/bootstrap.min.*": "wwwroot/css",
+        "node_modules/bootstrap/dist/js/bootstrap.min.*": "wwwroot/js",
+        "node_modules/jquery/dist/jquery.min.*": "wwwroot/js",
+        "node_modules/jsstore/dist/jsstore.worker.*": "wwwroot/js"
+      }
     }
 }

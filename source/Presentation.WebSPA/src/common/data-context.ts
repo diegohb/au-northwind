@@ -1,23 +1,20 @@
 ﻿import { IDataBase, DATA_TYPE, ITable, Connection } from "jsstore";
-import workerInjector from "jsstore/dist/worker_injector";
 import { CatalogCategoryEntity, CatalogProductEntity } from "./db-model";
 import * as environment from "../environment";
 import { createGuid } from "./utils";
 
-declare var require: any;
-
 const getWorkerPath = () => {
     if ((environment as any).debug === false) {
-        return require("/jsstore.worker.min.js");
+        return System.import("/js/jsstore.worker.js");
     } else {
-        return require("/jsstore.worker.min.js");
+        return System.import("/js/jsstore.worker.min.js");
     }
 };
 
 // This will ensure that we are using only one instance. 
 // Otherwise due to multiple instance multiple worker will be created.
-export const idbCon = new Connection();
-idbCon.addPlugin(workerInjector);
+let worker = new Worker((getWorkerPath()) as any); //await getWorkerPath();
+export const idbCon = new Connection(worker);
 export const dbname = "NorthwindDB";
 
 
