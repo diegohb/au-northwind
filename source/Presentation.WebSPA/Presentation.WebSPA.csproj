@@ -11,7 +11,7 @@
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
         <AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>
-        <TypeScriptToolsVersion>latest</TypeScriptToolsVersion>
+        <TypeScriptToolsVersion>4.2.3</TypeScriptToolsVersion>
         <TypeScriptCompileBlocked>True</TypeScriptCompileBlocked>
     </PropertyGroup>
 
