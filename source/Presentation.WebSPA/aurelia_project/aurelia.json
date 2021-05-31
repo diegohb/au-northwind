@@ -162,31 +162,39 @@
             },
             {
                 "name": "vendor-bundle.js",
-                "prepend": [
-                    "node_modules/whatwg-fetch/dist/fetch.umd.js",
-                    "node_modules/promise-polyfill/dist/polyfill.min.js",
-                    "node_modules/systemjs/dist/system.js"
-                ],
-                "dependencies": [
-                    "aurelia-bootstrapper",
-                    "aurelia-loader-default",
-                    "aurelia-pal-browser",
-                    {
-                        "name": "text",
-                        "path": "../node_modules/systemjs-plugin-text",
-                        "main": "text"
-                    },
-                    {
-                        "name": "aurelia-testing",
-                        "env": "dev"
-                    },
-                    {
-                        "name": "toastr",
-                        "resources": [
-                            "./build/toastr.css"
-                        ]
-                    }
-                ]
+              "prepend": [
+                "node_modules/whatwg-fetch/dist/fetch.umd.js",
+                "node_modules/promise-polyfill/dist/polyfill.min.js",
+                "node_modules/systemjs/dist/system.js"
+              ],
+              "dependencies": [
+                "aurelia-bootstrapper",
+                "aurelia-loader-default",
+                "aurelia-pal-browser",
+                {
+                  "name": "text",
+                  "path": "../node_modules/systemjs-plugin-text",
+                  "main": "text"
+                },
+                {
+                  "name": "aurelia-testing",
+                  "env": "dev"
+                },
+                {
+                  "name": "toastr",
+                  "resources": [
+                    "./build/toastr.css"
+                  ]
+                },
+                {
+                  "name": "jsstore",
+                  "path": "../node_modules/jsstore",
+                  "main": "dist/jsstore.worker.commonjs2.min",
+                  "resources": [
+                    "./dist/worker_injector/index.js"                    
+                  ]
+                }
+              ]
             }
         ],
         "copyFiles": {

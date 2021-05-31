@@ -3,6 +3,7 @@ import * as auPathUtil from "aurelia-path";
 import environment from "./environment";
 import "bootstrap";
 import * as toastr from "toastr";
+import { initDatabase } from "./common/data-context";
 
 export function configure(aureliaParam: Aurelia) {
     aureliaParam.use
@@ -37,5 +38,7 @@ export function configure(aureliaParam: Aurelia) {
     aureliaParam.start().then((pAurelia: Aurelia) => {
         pAurelia.setRoot(startModuleName);
         $("#loader").fadeOut("slow");
+
+        return initDatabase();
     });
 }
