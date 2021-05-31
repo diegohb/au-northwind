@@ -9,10 +9,10 @@ const isDebug = (environment as any).debug === false;
 // This will ensure that we are using only one instance. 
 // Otherwise due to multiple instance multiple worker will be created.
 let worker = new Worker(`/js/jsstore.worker${isDebug ? "" : ".min"}.js`); //await getWorkerPath();
-export const catalogConn = new Connection(worker);
-const catalogDbName = "NorthwindDB";
+export const dbConnection = new Connection(worker);
+const dbName = "NorthwindDB";
 
-function getCatalogDb() {
+function getDatabase() {
     const tblProducts: ITable = {
         name: "Products",
         columns: {
@@ -36,7 +36,7 @@ function getCatalogDb() {
     };
 
     const dataBase: IDataBase = {
-        name: catalogDbName,
+        name: dbName,
         tables: [tblProducts, tblCategories],
         version: 1
     };
@@ -45,9 +45,9 @@ function getCatalogDb() {
 
 export async function initDatabase(): Promise<void> {
     let isDbCreated: boolean;
-    const dataBase = getCatalogDb();
+    const dataBase = getDatabase();
     try {
-        isDbCreated = await catalogConn.initDb(dataBase);
+        isDbCreated = await dbConnection.initDb(dataBase);
     } catch (errInit) {
         logger.error("Failed to create and initialize the local database instance.", errInit);
     }
@@ -55,12 +55,12 @@ export async function initDatabase(): Promise<void> {
     if (isDbCreated) {
         try {
             logger.info("Empty database created.");
-            let insertedCount = await catalogConn.insert({
+            let insertedCount = await dbConnection.insert({
                 into: "Categories",
                 values: getCategories()
             });
             console.assert(insertedCount === getCategories().length);
-            insertedCount = await catalogConn.insert({
+            insertedCount = await dbConnection.insert({
                 into: "Products",
                 values: getProducts()
             });
