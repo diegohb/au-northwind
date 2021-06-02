@@ -14,9 +14,23 @@ export class CatalogSvc implements ICatalogService {
     }
 
     public async getProductBySku(skuParam: string): Promise<ProductModel> {
-        const data = (await this.getProducts()).filter(model => model.sku === skuParam);
-        const productModel: ProductModel = data[0];
-        return Promise.resolve(productModel);
+        const entities = (await dbConnection.select({
+            from: "Products",
+            where: {
+                sku: skuParam
+            }
+        })) as Array<CatalogProductEntity>;
+        if (entities.length === 0) {
+            return null;
+        } else if (entities.length > 1) {
+            throw new Error("Multiple products with same sku found!");
+        }
+
+        const entity = entities[0];
+        const model = new ProductModel(entity.sku);
+        model.name = entity.productName;
+        model.description = entity.description;
+        return model;
     }
 
     public async getProducts(): Promise<ProductModel[]> {
