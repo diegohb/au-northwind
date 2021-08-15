@@ -11,7 +11,7 @@ export class WarehouseIndexViewModel {
                 route: "inventory",
                 moduleId: PLATFORM.moduleName("./inventory"),
                 name: "inventory",
-                title: "Inventory Listing",
+                title: "Fulfillment",
                 nav: true
             },
             {

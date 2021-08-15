@@ -26,5 +26,6 @@ export class ProductModel {
     public cost: number;
     public quantity: number;
 
-
+    /*public offerFreeShipping: boolean;
+    public onSale: boolean;*/
 }
