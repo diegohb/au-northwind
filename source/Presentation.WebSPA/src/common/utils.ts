@@ -1,4 +1,4 @@
-﻿export function createGuid() {
+﻿export function createGuid(): string {
     const array = new Uint8Array(16);
     crypto.getRandomValues(array);
 
