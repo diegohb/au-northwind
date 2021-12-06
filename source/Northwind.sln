@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.31019.35
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Presentation.WebSPA", "Presentation.WebSPA\Presentation.WebSPA.csproj", "{234964C6-0AD0-4AB9-B661-6FC9A38D2EA2}"
 EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Northwind", "SSDT.Northwind\Northwind.sqlproj", "{B24CCCB5-EF56-40CF-9D6A-5F4333991AFF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,24 @@ Global
 		{234964C6-0AD0-4AB9-B661-6FC9A38D2EA2}.Release|x64.Build.0 = Release|Any CPU
 		{234964C6-0AD0-4AB9-B661-6FC9A38D2EA2}.Release|x86.ActiveCfg = Release|Any CPU
 		{234964C6-0AD0-4AB9-B661-6FC9A38D2EA2}.Release|x86.Build.0 = Release|Any CPU
+		{B24CCCB5-EF56-40CF-9D6A-5F4333991AFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B24CCCB5-EF56-40CF-9D6A-5F4333991AFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B24CCCB5-EF56-40CF-9D6A-5F4333991AFF}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{B24CCCB5-EF56-40CF-9D6A-5F4333991AFF}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{B24CCCB5-EF56-40CF-9D6A-5F4333991AFF}.Debug|x64.Build.0 = Debug|Any CPU
+		{B24CCCB5-EF56-40CF-9D6A-5F4333991AFF}.Debug|x64.Deploy.0 = Debug|Any CPU
+		{B24CCCB5-EF56-40CF-9D6A-5F4333991AFF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B24CCCB5-EF56-40CF-9D6A-5F4333991AFF}.Debug|x86.Build.0 = Debug|Any CPU
+		{B24CCCB5-EF56-40CF-9D6A-5F4333991AFF}.Debug|x86.Deploy.0 = Debug|Any CPU
+		{B24CCCB5-EF56-40CF-9D6A-5F4333991AFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B24CCCB5-EF56-40CF-9D6A-5F4333991AFF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B24CCCB5-EF56-40CF-9D6A-5F4333991AFF}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{B24CCCB5-EF56-40CF-9D6A-5F4333991AFF}.Release|x64.ActiveCfg = Release|Any CPU
+		{B24CCCB5-EF56-40CF-9D6A-5F4333991AFF}.Release|x64.Build.0 = Release|Any CPU
+		{B24CCCB5-EF56-40CF-9D6A-5F4333991AFF}.Release|x64.Deploy.0 = Release|Any CPU
+		{B24CCCB5-EF56-40CF-9D6A-5F4333991AFF}.Release|x86.ActiveCfg = Release|Any CPU
+		{B24CCCB5-EF56-40CF-9D6A-5F4333991AFF}.Release|x86.Build.0 = Release|Any CPU
+		{B24CCCB5-EF56-40CF-9D6A-5F4333991AFF}.Release|x86.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
