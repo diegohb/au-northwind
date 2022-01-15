@@ -2,6 +2,7 @@
 
 using System.Collections.Generic;
 using Entities;
+using Entities.QueryViews;
 using Microsoft.EntityFrameworkCore;
 
 public class NorthwindDbContext : DbContext
