@@ -1,6 +1,9 @@
 ﻿namespace Infra.Persistence.EF.Entities;
 
+using System;
 using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 public class Category
 {
@@ -15,4 +18,12 @@ public class Category
   public byte[] Picture { get; set; }
 
   public virtual ICollection<Product> Products { get; set; }
+}
+
+public class CategoryMapping : IEntityTypeConfiguration<Category>
+{
+  public void Configure(EntityTypeBuilder<Category> builder)
+  {
+    throw new NotImplementedException();
+  }
 }

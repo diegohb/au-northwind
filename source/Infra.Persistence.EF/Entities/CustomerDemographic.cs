@@ -1,6 +1,9 @@
 ﻿namespace Infra.Persistence.EF.Entities;
 
+using System;
 using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 public class CustomerDemographic
 {
@@ -14,4 +17,12 @@ public class CustomerDemographic
   public virtual ICollection<Customer> Customers { get; set; }
 
   public string CustomerTypeId { get; set; }
+}
+
+public class CustomerDemographicMapping : IEntityTypeConfiguration<CustomerDemographic>
+{
+  public void Configure(EntityTypeBuilder<CustomerDemographic> builder)
+  {
+    throw new NotImplementedException();
+  }
 }

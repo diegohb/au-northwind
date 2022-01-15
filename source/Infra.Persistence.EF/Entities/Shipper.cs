@@ -1,6 +1,9 @@
 ﻿namespace Infra.Persistence.EF.Entities;
 
+using System;
 using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 public class Shipper
 {
@@ -15,4 +18,12 @@ public class Shipper
   public string Phone { get; set; }
 
   public int ShipperId { get; set; }
+}
+
+public class ShipperMapping : IEntityTypeConfiguration<ShipperMapping>
+{
+  void IEntityTypeConfiguration<ShipperMapping>.Configure(EntityTypeBuilder<ShipperMapping> builder)
+  {
+    throw new NotImplementedException();
+  }
 }

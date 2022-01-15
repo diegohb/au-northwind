@@ -1,6 +1,9 @@
 ﻿namespace Infra.Persistence.EF.Entities;
 
+using System;
 using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 public class Product
 {
@@ -23,4 +26,12 @@ public class Product
   public decimal? UnitPrice { get; set; }
   public short? UnitsInStock { get; set; }
   public short? UnitsOnOrder { get; set; }
+}
+
+public class ProductMapping : IEntityTypeConfiguration<Product>
+{
+  public void Configure(EntityTypeBuilder<Product> builder)
+  {
+    throw new NotImplementedException();
+  }
 }

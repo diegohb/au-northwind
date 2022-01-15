@@ -1,6 +1,9 @@
 ﻿namespace Infra.Persistence.EF.Entities;
 
+using System;
 using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 public class Supplier
 {
@@ -24,4 +27,12 @@ public class Supplier
   public string Region { get; set; }
 
   public int SupplierId { get; set; }
+}
+
+public class SupplierMapping : IEntityTypeConfiguration<Supplier>
+{
+  void IEntityTypeConfiguration<Supplier>.Configure(EntityTypeBuilder<Supplier> builder)
+  {
+    throw new NotImplementedException();
+  }
 }

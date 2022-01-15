@@ -1,6 +1,9 @@
 ﻿namespace Infra.Persistence.EF.Entities;
 
+using System;
 using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 public class Territory
 {
@@ -16,4 +19,12 @@ public class Territory
   public string TerritoryDescription { get; set; }
 
   public string TerritoryId { get; set; }
+}
+
+public class TerritoryMapping : IEntityTypeConfiguration<Territory>
+{
+  public void Configure(EntityTypeBuilder<Territory> builder)
+  {
+    throw new NotImplementedException();
+  }
 }

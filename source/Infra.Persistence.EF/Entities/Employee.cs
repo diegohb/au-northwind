@@ -2,6 +2,8 @@
 
 using System;
 using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 public class Employee
 {
@@ -34,4 +36,12 @@ public class Employee
   public virtual ICollection<Territory> Territories { get; set; }
   public string Title { get; set; }
   public string TitleOfCourtesy { get; set; }
+}
+
+public class EmployeeMapping : IEntityTypeConfiguration<Employee>
+{
+  public void Configure(EntityTypeBuilder<Employee> builder)
+  {
+    throw new NotImplementedException();
+  }
 }

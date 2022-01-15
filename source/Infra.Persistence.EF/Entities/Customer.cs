@@ -1,6 +1,9 @@
 ﻿namespace Infra.Persistence.EF.Entities;
 
+using System;
 using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 public class Customer
 {
@@ -26,4 +29,12 @@ public class Customer
   public string Phone { get; set; }
   public string PostalCode { get; set; }
   public string Region { get; set; }
+}
+
+public class CustomerMapping : IEntityTypeConfiguration<Customer>
+{
+  void IEntityTypeConfiguration<Customer>.Configure(EntityTypeBuilder<Customer> builder)
+  {
+    throw new NotImplementedException();
+  }
 }

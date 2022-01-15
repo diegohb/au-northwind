@@ -2,6 +2,8 @@
 
 using System;
 using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 public class Order
 {
@@ -29,4 +31,12 @@ public class Order
   public string ShipPostalCode { get; set; }
   public string ShipRegion { get; set; }
   public int? ShipVia { get; set; }
+}
+
+public class OrderMapping : IEntityTypeConfiguration<Order>
+{
+  void IEntityTypeConfiguration<Order>.Configure(EntityTypeBuilder<Order> builder)
+  {
+    throw new NotImplementedException();
+  }
 }

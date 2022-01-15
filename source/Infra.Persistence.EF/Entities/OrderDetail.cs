@@ -1,5 +1,9 @@
 ﻿namespace Infra.Persistence.EF.Entities;
 
+using System;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
 public class OrderDetail
 {
   public float Discount { get; set; }
@@ -10,4 +14,12 @@ public class OrderDetail
   public int ProductId { get; set; }
   public short Quantity { get; set; }
   public decimal UnitPrice { get; set; }
+}
+
+public class OrderDetailMapping : IEntityTypeConfiguration<OrderDetail>
+{
+  public void Configure(EntityTypeBuilder<OrderDetail> builder)
+  {
+    throw new NotImplementedException();
+  }
 }
