@@ -1,6 +1,5 @@
 ﻿namespace Presentation.WebSPA.Scaffolded;
 
-using System;
 using System.Collections.Generic;
 using Entities;
 using Microsoft.EntityFrameworkCore;
@@ -48,9 +47,9 @@ public class AzureDbContext : DbContext
         }
     }
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    protected override void OnModelCreating(ModelBuilder modelBuilderParam)
     {
-        modelBuilder.Entity<AlphabeticalListOfProduct>
+        modelBuilderParam.Entity<AlphabeticalListOfProduct>
         (entity =>
         {
             entity.HasNoKey();
@@ -76,7 +75,7 @@ public class AzureDbContext : DbContext
             entity.Property(e => e.UnitPrice).HasColumnType("money");
         });
 
-        modelBuilder.Entity<Category>
+        modelBuilderParam.Entity<Category>
         (entity =>
         {
             entity.HasIndex(e => e.CategoryName, "CategoryName");
@@ -90,9 +89,14 @@ public class AzureDbContext : DbContext
             entity.Property(e => e.Description).HasColumnType("ntext");
 
             entity.Property(e => e.Picture).HasColumnType("image");
+
+            entity.HasMany(e => e.Products)
+                .WithOne(e => e.Category)
+                .HasForeignKey(e => e.CategoryId)
+                .HasConstraintName("FK_Products_Categories");
         });
 
-        modelBuilder.Entity<CategorySalesFor1997>
+        modelBuilderParam.Entity<CategorySalesFor1997>
         (entity =>
         {
             entity.HasNoKey();
@@ -106,7 +110,7 @@ public class AzureDbContext : DbContext
             entity.Property(e => e.CategorySales).HasColumnType("money");
         });
 
-        modelBuilder.Entity<CurrentProductList>
+        modelBuilderParam.Entity<CurrentProductList>
         (entity =>
         {
             entity.HasNoKey();
@@ -122,7 +126,7 @@ public class AzureDbContext : DbContext
                 .HasMaxLength(40);
         });
 
-        modelBuilder.Entity<Customer>
+        modelBuilderParam.Entity<Customer>
         (entity =>
         {
             entity.HasIndex(e => e.City, "City");
@@ -160,28 +164,13 @@ public class AzureDbContext : DbContext
 
             entity.Property(e => e.Region).HasMaxLength(15);
 
-            entity.HasMany(d => d.CustomerTypes)
-                .WithMany(p => p.Customers)
-                .UsingEntity<Dictionary<string, object>>
-                (
-                    "CustomerCustomerDemo",
-                    l => l.HasOne<CustomerDemographic>().WithMany().HasForeignKey("CustomerTypeId").OnDelete
-                        (DeleteBehavior.ClientSetNull).HasConstraintName("FK_CustomerCustomerDemo"),
-                    r => r.HasOne<Customer>().WithMany().HasForeignKey("CustomerId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName
-                        ("FK_CustomerCustomerDemo_Customers"),
-                    j =>
-                    {
-                        j.HasKey("CustomerId", "CustomerTypeId").IsClustered(false);
-
-                        j.ToTable("CustomerCustomerDemo");
-
-                        j.IndexerProperty<string>("CustomerId").HasMaxLength(5).HasColumnName("CustomerID").IsFixedLength();
-
-                        j.IndexerProperty<string>("CustomerTypeId").HasMaxLength(10).HasColumnName("CustomerTypeID").IsFixedLength();
-                    });
+            entity.HasMany(e => e.Orders)
+                .WithOne(e => e.Customer)
+                .HasForeignKey(e => e.CustomerId)
+                .HasConstraintName("FK_Orders_Customers");
         });
 
-        modelBuilder.Entity<CustomerAndSuppliersByCity>
+        modelBuilderParam.Entity<CustomerAndSuppliersByCity>
         (entity =>
         {
             entity.HasNoKey();
@@ -202,7 +191,7 @@ public class AzureDbContext : DbContext
                 .IsUnicode(false);
         });
 
-        modelBuilder.Entity<CustomerDemographic>
+        modelBuilderParam.Entity<CustomerDemographic>
         (entity =>
         {
             entity.HasKey(e => e.CustomerTypeId)
@@ -216,7 +205,7 @@ public class AzureDbContext : DbContext
             entity.Property(e => e.CustomerDesc).HasColumnType("ntext");
         });
 
-        modelBuilder.Entity<Employee>
+        modelBuilderParam.Entity<Employee>
         (entity =>
         {
             entity.HasIndex(e => e.LastName, "LastName");
@@ -266,10 +255,18 @@ public class AzureDbContext : DbContext
                 .UsingEntity<Dictionary<string, object>>
                 (
                     "EmployeeTerritory",
-                    l => l.HasOne<Territory>().WithMany().HasForeignKey("TerritoryId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName
-                        ("FK_EmployeeTerritories_Territories"),
-                    r => r.HasOne<Employee>().WithMany().HasForeignKey("EmployeeId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName
-                        ("FK_EmployeeTerritories_Employees"),
+                    l => l.HasOne<Territory>()
+                        .WithMany()
+                        .HasForeignKey("TerritoryId")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName
+                            ("FK_EmployeeTerritories_Territories"),
+                    r => r.HasOne<Employee>()
+                        .WithMany()
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName
+                            ("FK_EmployeeTerritories_Employees"),
                     j =>
                     {
                         j.HasKey("EmployeeId", "TerritoryId").IsClustered(false);
@@ -280,9 +277,14 @@ public class AzureDbContext : DbContext
 
                         j.IndexerProperty<string>("TerritoryId").HasMaxLength(20).HasColumnName("TerritoryID");
                     });
+
+            entity.HasMany(e => e.Orders)
+                .WithOne(e => e.Employee)
+                .HasForeignKey(e => e.EmployeeId)
+                .HasConstraintName("FK_Orders_Employees");
         });
 
-        modelBuilder.Entity<Invoice>
+        modelBuilderParam.Entity<Invoice>
         (entity =>
         {
             entity.HasNoKey();
@@ -349,7 +351,7 @@ public class AzureDbContext : DbContext
             entity.Property(e => e.UnitPrice).HasColumnType("money");
         });
 
-        modelBuilder.Entity<Order>
+        modelBuilderParam.Entity<Order>
         (entity =>
         {
             entity.HasIndex(e => e.CustomerId, "CustomerID");
@@ -409,13 +411,13 @@ public class AzureDbContext : DbContext
                 .HasForeignKey(d => d.EmployeeId)
                 .HasConstraintName("FK_Orders_Employees");
 
-            entity.HasOne(d => d.ShipViaNavigation)
+            entity.HasOne(d => d.Shipper)
                 .WithMany(p => p.Orders)
                 .HasForeignKey(d => d.ShipVia)
                 .HasConstraintName("FK_Orders_Shippers");
         });
 
-        modelBuilder.Entity<OrderDetail>
+        modelBuilderParam.Entity<OrderDetail>
         (entity =>
         {
             entity.HasKey(e => new { e.OrderId, e.ProductId })
@@ -452,7 +454,7 @@ public class AzureDbContext : DbContext
                 .HasConstraintName("FK_Order_Details_Products");
         });
 
-        modelBuilder.Entity<OrderDetailsExtended>
+        modelBuilderParam.Entity<OrderDetailsExtended>
         (entity =>
         {
             entity.HasNoKey();
@@ -472,7 +474,7 @@ public class AzureDbContext : DbContext
             entity.Property(e => e.UnitPrice).HasColumnType("money");
         });
 
-        modelBuilder.Entity<OrderSubtotal>
+        modelBuilderParam.Entity<OrderSubtotal>
         (entity =>
         {
             entity.HasNoKey();
@@ -484,7 +486,7 @@ public class AzureDbContext : DbContext
             entity.Property(e => e.Subtotal).HasColumnType("money");
         });
 
-        modelBuilder.Entity<OrdersQry>
+        modelBuilderParam.Entity<OrdersQry>
         (entity =>
         {
             entity.HasNoKey();
@@ -535,7 +537,7 @@ public class AzureDbContext : DbContext
             entity.Property(e => e.ShippedDate).HasColumnType("datetime");
         });
 
-        modelBuilder.Entity<Product>
+        modelBuilderParam.Entity<Product>
         (entity =>
         {
             entity.HasIndex(e => e.CategoryId, "CategoriesProducts");
@@ -579,9 +581,11 @@ public class AzureDbContext : DbContext
                 .WithMany(p => p.Products)
                 .HasForeignKey(d => d.SupplierId)
                 .HasConstraintName("FK_Products_Suppliers");
+
+            //entity.Navigation(e => e.OrderDetails).AutoInclude(false); //NOTE: to not automatically eager load related data
         });
 
-        modelBuilder.Entity<ProductSalesFor1997>
+        modelBuilderParam.Entity<ProductSalesFor1997>
         (entity =>
         {
             entity.HasNoKey();
@@ -599,7 +603,7 @@ public class AzureDbContext : DbContext
             entity.Property(e => e.ProductSales).HasColumnType("money");
         });
 
-        modelBuilder.Entity<ProductsAboveAveragePrice>
+        modelBuilderParam.Entity<ProductsAboveAveragePrice>
         (entity =>
         {
             entity.HasNoKey();
@@ -613,7 +617,7 @@ public class AzureDbContext : DbContext
             entity.Property(e => e.UnitPrice).HasColumnType("money");
         });
 
-        modelBuilder.Entity<ProductsByCategory>
+        modelBuilderParam.Entity<ProductsByCategory>
         (entity =>
         {
             entity.HasNoKey();
@@ -631,7 +635,7 @@ public class AzureDbContext : DbContext
             entity.Property(e => e.QuantityPerUnit).HasMaxLength(20);
         });
 
-        modelBuilder.Entity<QuarterlyOrder>
+        modelBuilderParam.Entity<QuarterlyOrder>
         (entity =>
         {
             entity.HasNoKey();
@@ -650,7 +654,7 @@ public class AzureDbContext : DbContext
                 .IsFixedLength();
         });
 
-        modelBuilder.Entity<Region>
+        modelBuilderParam.Entity<Region>
         (entity =>
         {
             entity.HasKey(e => e.RegionId)
@@ -668,7 +672,7 @@ public class AzureDbContext : DbContext
                 .IsFixedLength();
         });
 
-        modelBuilder.Entity<SalesByCategory>
+        modelBuilderParam.Entity<SalesByCategory>
         (entity =>
         {
             entity.HasNoKey();
@@ -688,7 +692,7 @@ public class AzureDbContext : DbContext
             entity.Property(e => e.ProductSales).HasColumnType("money");
         });
 
-        modelBuilder.Entity<SalesTotalsByAmount>
+        modelBuilderParam.Entity<SalesTotalsByAmount>
         (entity =>
         {
             entity.HasNoKey();
@@ -706,7 +710,7 @@ public class AzureDbContext : DbContext
             entity.Property(e => e.ShippedDate).HasColumnType("datetime");
         });
 
-        modelBuilder.Entity<Shipper>
+        modelBuilderParam.Entity<Shipper>
         (entity =>
         {
             entity.Property(e => e.ShipperId).HasColumnName("ShipperID");
@@ -718,7 +722,7 @@ public class AzureDbContext : DbContext
             entity.Property(e => e.Phone).HasMaxLength(24);
         });
 
-        modelBuilder.Entity<SummaryOfSalesByQuarter>
+        modelBuilderParam.Entity<SummaryOfSalesByQuarter>
         (entity =>
         {
             entity.HasNoKey();
@@ -732,7 +736,7 @@ public class AzureDbContext : DbContext
             entity.Property(e => e.Subtotal).HasColumnType("money");
         });
 
-        modelBuilder.Entity<SummaryOfSalesByYear>
+        modelBuilderParam.Entity<SummaryOfSalesByYear>
         (entity =>
         {
             entity.HasNoKey();
@@ -746,7 +750,7 @@ public class AzureDbContext : DbContext
             entity.Property(e => e.Subtotal).HasColumnType("money");
         });
 
-        modelBuilder.Entity<Supplier>
+        modelBuilderParam.Entity<Supplier>
         (entity =>
         {
             entity.HasIndex(e => e.CompanyName, "CompanyName");
@@ -780,7 +784,7 @@ public class AzureDbContext : DbContext
             entity.Property(e => e.Region).HasMaxLength(15);
         });
 
-        modelBuilder.Entity<Territory>
+        modelBuilderParam.Entity<Territory>
         (entity =>
         {
             entity.HasKey(e => e.TerritoryId)
@@ -803,16 +807,5 @@ public class AzureDbContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Territories_Region");
         });
-
-        OnModelCreatingPartial(modelBuilder);
     }
-
-    #region Support Methods
-
-    private void OnModelCreatingPartial(ModelBuilder modelBuilder)
-    {
-        throw new NotImplementedException();
-    }
-
-    #endregion
 }
