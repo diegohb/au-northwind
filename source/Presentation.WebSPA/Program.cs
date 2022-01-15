@@ -1,5 +1,5 @@
-﻿namespace Presentation.WebSPA
-{
+﻿namespace Presentation.WebSPA;
+
     #region
 
     using System.IO;
@@ -15,9 +15,9 @@
             return new WebHostBuilder()
                 .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
-                .UseIISIntegration()
-                .UseStartup<Startup>()
+                .UseIIS()
                 .CaptureStartupErrors(true)
+                .UseStartup<Startup>()
                 .ConfigureAppConfiguration
                 (builder =>
                 {
@@ -34,4 +34,3 @@
             host.Run();
         }
     }
-}

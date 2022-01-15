@@ -6,7 +6,8 @@
 	</PropertyGroup>
 	<ItemDefinitionGroup>
 		<PackageReference>
-			<PrivateAssets>all</PrivateAssets>
+			<!--NOTE: Must be removed for projects being published as nuget packages -->
+			<PrivateAssets>compile</PrivateAssets>
 		</PackageReference>
         <ProjectReference>
             <PrivateAssets>all</PrivateAssets>

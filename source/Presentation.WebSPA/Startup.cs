@@ -1,7 +1,7 @@
-﻿namespace Presentation.WebSPA
-{
+﻿namespace Presentation.WebSPA;
     using System;
     using System.IO;
+    using ApiConfig;
     using Infra.Persistence.EF;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -59,6 +59,8 @@
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection servicesParam)
         {
+            servicesParam.AddControllers(opt => opt.UseGeneralRoutePrefix("api"));
+
             // Add framework services.
             servicesParam.AddRazorPages
             (opts =>
@@ -89,4 +91,3 @@
             });
         }
     }
-}

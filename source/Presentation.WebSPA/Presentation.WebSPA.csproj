@@ -1,47 +1,41 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
-    <Import Project="./spa-build.targets" />
+  <Import Project="./spa-build.targets" />
 
-    <PropertyGroup Label="Globals">
-        <SccProjectName>Plastic SCM</SccProjectName>
-        <SccProvider>Plastic SCM Source Control Service:{774e58ba-f1b9-40a7-b676-834fa2c220fe}</SccProvider>
-        <SccAuxPath>Plastic SCM</SccAuxPath>
-        <SccLocalPath>Plastic SCM</SccLocalPath>
-    </PropertyGroup>
+  <PropertyGroup Label="Globals">
+    <SccProjectName>Plastic SCM</SccProjectName>
+    <SccProvider>Plastic SCM Source Control Service:{774e58ba-f1b9-40a7-b676-834fa2c220fe}</SccProvider>
+    <SccAuxPath>Plastic SCM</SccAuxPath>
+    <SccLocalPath>Plastic SCM</SccLocalPath>
+  </PropertyGroup>
 
-    <PropertyGroup>
-        <TargetFramework>net5.0</TargetFramework>
-        <AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>
-        <TypeScriptToolsVersion>latest</TypeScriptToolsVersion>
-        <TypeScriptCompileBlocked>True</TypeScriptCompileBlocked>
-        <StartupObject>Presentation.WebSPA.Program</StartupObject>
-    </PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+    <IsPublishable>true</IsPublishable>
+    <TypeScriptToolsVersion>latest</TypeScriptToolsVersion>
+    <TypeScriptCompileBlocked>True</TypeScriptCompileBlocked>
+    <StartupObject>Presentation.WebSPA.Program</StartupObject>
+  </PropertyGroup>
 
-    <ItemGroup>
-      <Compile Remove="custom_typings\**" />
-      <Content Remove="custom_typings\**" />
-      <EmbeddedResource Remove="custom_typings\**" />
-      <None Remove="custom_typings\**" />
-    </ItemGroup>
+  <ItemGroup>
+    <None Remove=".yarnclean" />
+    <None Remove="yarn.lock" />
+  </ItemGroup>
 
-    <ItemGroup>
-        <None Remove=".yarnclean" />
-        <None Remove="yarn.lock" />
-    </ItemGroup>
+  <ItemGroup>
+    <Folder Include="wwwroot\js\" />
+    <Folder Include="wwwroot\css\" />
+  </ItemGroup>
 
-    <ItemGroup>
-        <Folder Include="wwwroot\js\" />
-        <Folder Include="wwwroot\css\" />
-    </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="6.0.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.2.0" />
+  </ItemGroup>
 
-    <ItemGroup>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.12" />
-        <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="3.1.2" />
-        <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.1.2" />
-        <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.2.0" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <ProjectReference Include="..\Infra.Persistence.EF\Infra.Persistence.EF.csproj" />
-    </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Infra.Persistence.EF\Infra.Persistence.EF.csproj" />
+  </ItemGroup>
 
 </Project>

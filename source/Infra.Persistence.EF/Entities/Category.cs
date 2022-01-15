@@ -1,14 +1,13 @@
-﻿namespace Infra.Persistence.EF.Entities
+﻿namespace Infra.Persistence.EF.Entities;
+
+using System.Collections.Generic;
+
+public class Category
 {
-  using System.Collections.Generic;
+  public int CategoryID { get; set; }
+  public string CategoryName { get; set; }
+  public string Description { get; set; }
 
-  public class Category
-  {
-    public int CategoryID { get; set; }
-    public string CategoryName { get; set; }
-    public string Description { get; set; }
-
-    // related entities
-    public ICollection<Product> Products { get; set; }
-  }
+  // related entities
+  public ICollection<Product> Products { get; set; }
 }

@@ -18,7 +18,7 @@
   "include": [
     "./src/**/*.ts",
     "./test/**/*.ts",
-    "./custom_typings/**/*.d.ts"
+    "./src/custom_typings/**/*.d.ts"
   ],
   "atom": {
     "rewriteTsconfig": false

@@ -1,5 +1,5 @@
-﻿namespace Presentation.WebSPA.ApiControllers
-{
+﻿namespace Presentation.WebSPA.ApiControllers;
+
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Infra.Persistence.EF;
@@ -8,7 +8,7 @@
     using Microsoft.EntityFrameworkCore;
 
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class ProductsController : ControllerBase
     {
         private readonly NorthwindDbContext _northwindDb;
@@ -32,4 +32,3 @@
             return Ok(productEntities);
         }
     }
-}
