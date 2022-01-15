@@ -3,6 +3,7 @@
 using System;
 using System.IO;
 using ApiConfig;
+using Infra.Persistence.EF;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -90,7 +91,7 @@ public class Startup
             pLoggingBuilder.AddConfiguration(Configuration.GetSection("Logging"));
         });
 
-            servicesParam.AddDbContext<NorthwindDbContext>
+        servicesParam.AddDbContext<NorthwindDbContext>
         (opts =>
         {
             opts.UseSqlServer("name=ConnectionStrings:NorthwindDb", providerOptions => { providerOptions.EnableRetryOnFailure(); });
