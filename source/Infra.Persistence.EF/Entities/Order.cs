@@ -35,7 +35,7 @@ public class Order
 
 public class OrderMapping : IEntityTypeConfiguration<Order>
 {
-  void IEntityTypeConfiguration<Order>.Configure(EntityTypeBuilder<Order> builder)
+  void IEntityTypeConfiguration<Order>.Configure(EntityTypeBuilder<Order> builderParam)
   {
     throw new NotImplementedException();
   }

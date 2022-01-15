@@ -21,7 +21,7 @@ public class CustomerDemographic
 
 public class CustomerDemographicMapping : IEntityTypeConfiguration<CustomerDemographic>
 {
-  public void Configure(EntityTypeBuilder<CustomerDemographic> builder)
+  public void Configure(EntityTypeBuilder<CustomerDemographic> builderParam)
   {
     throw new NotImplementedException();
   }

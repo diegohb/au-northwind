@@ -40,7 +40,7 @@ public class Employee
 
 public class EmployeeMapping : IEntityTypeConfiguration<Employee>
 {
-  public void Configure(EntityTypeBuilder<Employee> builder)
+  public void Configure(EntityTypeBuilder<Employee> builderParam)
   {
     throw new NotImplementedException();
   }

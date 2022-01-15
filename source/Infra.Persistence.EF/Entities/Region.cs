@@ -21,7 +21,7 @@ public class Region
 
 public class regionMapping : IEntityTypeConfiguration<Region>
 {
-  public void Configure(EntityTypeBuilder<Region> builder)
+  public void Configure(EntityTypeBuilder<Region> builderParam)
   {
     throw new NotImplementedException();
   }

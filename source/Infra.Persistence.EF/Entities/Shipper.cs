@@ -22,7 +22,7 @@ public class Shipper
 
 public class ShipperMapping : IEntityTypeConfiguration<ShipperMapping>
 {
-  void IEntityTypeConfiguration<ShipperMapping>.Configure(EntityTypeBuilder<ShipperMapping> builder)
+  void IEntityTypeConfiguration<ShipperMapping>.Configure(EntityTypeBuilder<ShipperMapping> builderParam)
   {
     throw new NotImplementedException();
   }

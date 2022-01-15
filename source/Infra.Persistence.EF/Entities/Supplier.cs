@@ -31,7 +31,7 @@ public class Supplier
 
 public class SupplierMapping : IEntityTypeConfiguration<Supplier>
 {
-  void IEntityTypeConfiguration<Supplier>.Configure(EntityTypeBuilder<Supplier> builder)
+  void IEntityTypeConfiguration<Supplier>.Configure(EntityTypeBuilder<Supplier> builderParam)
   {
     throw new NotImplementedException();
   }

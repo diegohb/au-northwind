@@ -20,27 +20,6 @@ public class NorthwindDbContext : DbContext
 
     modelBuilderParam.ApplyConfigurationsFromAssembly(typeof(AlphabeticalListOfProductView).Assembly);
 
-    modelBuilderParam.Entity<Category>
-    (entity =>
-    {
-      entity.HasIndex(e => e.CategoryName, "CategoryName");
-
-      entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
-
-      entity.Property(e => e.CategoryName)
-        .IsRequired()
-        .HasMaxLength(15);
-
-      entity.Property(e => e.Description).HasColumnType("ntext");
-
-      entity.Property(e => e.Picture).HasColumnType("image");
-
-      entity.HasMany(e => e.Products)
-        .WithOne(e => e.Category)
-        .HasForeignKey(e => e.CategoryId)
-        .HasConstraintName("FK_Products_Categories");
-    });
-
     modelBuilderParam.Entity<Customer>
     (entity =>
     {

@@ -23,7 +23,7 @@ public class Territory
 
 public class TerritoryMapping : IEntityTypeConfiguration<Territory>
 {
-  public void Configure(EntityTypeBuilder<Territory> builder)
+  public void Configure(EntityTypeBuilder<Territory> builderParam)
   {
     throw new NotImplementedException();
   }

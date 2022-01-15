@@ -30,7 +30,7 @@ public class Product
 
 public class ProductMapping : IEntityTypeConfiguration<Product>
 {
-  public void Configure(EntityTypeBuilder<Product> builder)
+  public void Configure(EntityTypeBuilder<Product> builderParam)
   {
     throw new NotImplementedException();
   }

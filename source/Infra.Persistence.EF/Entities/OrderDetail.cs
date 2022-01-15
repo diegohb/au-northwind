@@ -18,7 +18,7 @@ public class OrderDetail
 
 public class OrderDetailMapping : IEntityTypeConfiguration<OrderDetail>
 {
-  public void Configure(EntityTypeBuilder<OrderDetail> builder)
+  public void Configure(EntityTypeBuilder<OrderDetail> builderParam)
   {
     throw new NotImplementedException();
   }

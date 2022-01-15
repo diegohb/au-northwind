@@ -33,7 +33,7 @@ public class Customer
 
 public class CustomerMapping : IEntityTypeConfiguration<Customer>
 {
-  void IEntityTypeConfiguration<Customer>.Configure(EntityTypeBuilder<Customer> builder)
+  void IEntityTypeConfiguration<Customer>.Configure(EntityTypeBuilder<Customer> builderParam)
   {
     throw new NotImplementedException();
   }
