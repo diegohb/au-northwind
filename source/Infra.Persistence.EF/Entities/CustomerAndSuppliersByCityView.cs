@@ -1,4 +1,4 @@
-﻿namespace Presentation.WebSPA.Scaffolded.Entities;
+﻿namespace Infra.Persistence.EF.Entities;
 
 public class CustomerAndSuppliersByCityView
 {

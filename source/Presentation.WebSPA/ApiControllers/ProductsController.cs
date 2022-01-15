@@ -3,9 +3,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Infra.Persistence.EF;
+using Infra.Persistence.EF.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Scaffolded.Entities;
 
 [ApiController]
 [Route("[controller]")]

@@ -1,21 +1,19 @@
-﻿using System;
+﻿namespace Infra.Persistence.EF.Entities;
+
 using System.Collections.Generic;
 
-namespace Presentation.WebSPA.Scaffolded.Entities
+public class Territory
 {
-    public partial class Territory
-    {
-        public Territory()
-        {
-            Employees = new HashSet<Employee>();
-        }
+  public Territory()
+  {
+    Employees = new HashSet<Employee>();
+  }
 
-        public string TerritoryId { get; set; }
-        public string TerritoryDescription { get; set; }
-        public int RegionId { get; set; }
+  public virtual ICollection<Employee> Employees { get; set; }
 
-        public virtual Region Region { get; set; }
+  public virtual Region Region { get; set; }
+  public int RegionId { get; set; }
+  public string TerritoryDescription { get; set; }
 
-        public virtual ICollection<Employee> Employees { get; set; }
-    }
+  public string TerritoryId { get; set; }
 }

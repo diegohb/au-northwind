@@ -1,8 +1,8 @@
 ﻿namespace Infra.Persistence.EF;
 
 using System.Collections.Generic;
+using Entities;
 using Microsoft.EntityFrameworkCore;
-using Presentation.WebSPA.Scaffolded.Entities;
 
 public class NorthwindDbContext : DbContext
 {

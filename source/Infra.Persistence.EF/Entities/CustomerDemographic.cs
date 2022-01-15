@@ -1,18 +1,17 @@
-﻿using System;
+﻿namespace Infra.Persistence.EF.Entities;
+
 using System.Collections.Generic;
 
-namespace Presentation.WebSPA.Scaffolded.Entities
+public class CustomerDemographic
 {
-    public partial class CustomerDemographic
-    {
-        public CustomerDemographic()
-        {
-            Customers = new HashSet<Customer>();
-        }
+  public CustomerDemographic()
+  {
+    Customers = new HashSet<Customer>();
+  }
 
-        public string CustomerTypeId { get; set; }
-        public string CustomerDesc { get; set; }
+  public string CustomerDesc { get; set; }
 
-        public virtual ICollection<Customer> Customers { get; set; }
-    }
+  public virtual ICollection<Customer> Customers { get; set; }
+
+  public string CustomerTypeId { get; set; }
 }
