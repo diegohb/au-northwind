@@ -16,10 +16,10 @@ public sealed class NorthwindDbContext : DbContext
   public DbSet<Shipper> Shippers { get; set; }
   public DbSet<Supplier> Suppliers { get; set; }
 
-  // protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-  // {
-  //     base.OnConfiguring(optionsBuilder);
-  // }
+  protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilderParam)
+  {
+    base.OnConfiguring(optionsBuilderParam);
+  }
 
   protected override void OnModelCreating(ModelBuilder modelBuilderParam)
   {
