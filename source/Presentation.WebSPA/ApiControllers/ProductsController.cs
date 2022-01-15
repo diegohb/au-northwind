@@ -1,35 +1,34 @@
-﻿namespace Presentation.WebSPA.ApiControllers
+﻿namespace Presentation.WebSPA.ApiControllers;
+
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Infra.Persistence.EF;
+using Infra.Persistence.EF.Entities;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+
+[ApiController]
+[Route("api/[controller]")]
+public class ProductsController : ControllerBase
 {
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-    using Infra.Persistence.EF;
-    using Infra.Persistence.EF.Entities;
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.EntityFrameworkCore;
+    private readonly NorthwindDbContext _northwindDb;
 
-    [ApiController]
-    [Route("api/[controller]")]
-    public class ProductsController : ControllerBase
+    public ProductsController(NorthwindDbContext dbContextParam)
     {
-        private readonly NorthwindDbContext _northwindDb;
+        _northwindDb = dbContextParam;
+    }
 
-        public ProductsController(NorthwindDbContext dbContextParam)
+    [HttpGet]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(204)]
+    public async Task<ActionResult<IEnumerable<Product>>> GetAll()
+    {
+        var productEntities = await _northwindDb.Products.AsNoTracking().ToListAsync();
+        if (productEntities.Count == 0)
         {
-            _northwindDb = dbContextParam;
+            return NoContent();
         }
 
-        [HttpGet]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(204)]
-        public async Task<ActionResult<IEnumerable<Product>>> GetAll()
-        {
-            var productEntities = await _northwindDb.Products.AsNoTracking().ToListAsync();
-            if (productEntities.Count == 0)
-            {
-                return NoContent();
-            }
-
-            return Ok(productEntities);
-        }
+        return Ok(productEntities);
     }
 }
