@@ -8,7 +8,7 @@
     using Microsoft.EntityFrameworkCore;
 
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class ProductsController : ControllerBase
     {
         private readonly NorthwindDbContext _northwindDb;
