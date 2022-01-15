@@ -1,12 +1,19 @@
-﻿namespace Infra.Persistence.EF.Entities;
-
+﻿using System;
 using System.Collections.Generic;
 
-public class Shipper
+namespace Presentation.WebSPA.Scaffolded.Entities
 {
-  // related entities
-  public ICollection<Order> Orders { get; set; }
-  public string Phone { get; set; }
-  public int ShipperID { get; set; }
-  public string ShipperName { get; set; }
+    public partial class Shipper
+    {
+        public Shipper()
+        {
+            Orders = new HashSet<Order>();
+        }
+
+        public int ShipperId { get; set; }
+        public string CompanyName { get; set; }
+        public string Phone { get; set; }
+
+        public virtual ICollection<Order> Orders { get; set; }
+    }
 }
