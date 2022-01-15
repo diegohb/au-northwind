@@ -15,9 +15,9 @@
             return new WebHostBuilder()
                 .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
-                .UseIISIntegration()
-                .UseStartup<Startup>()
+                .UseIIS()
                 .CaptureStartupErrors(true)
+                .UseStartup<Startup>()
                 .ConfigureAppConfiguration
                 (builder =>
                 {
