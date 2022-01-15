@@ -3,7 +3,7 @@
   using Entities;
   using Microsoft.EntityFrameworkCore;
 
-  public class NorthwindDbContext : DbContext
+  public sealed class NorthwindDbContext : DbContext
   {
     public NorthwindDbContext(DbContextOptions<NorthwindDbContext> optionsParam) : base(optionsParam) { }
 

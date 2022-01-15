@@ -1,9 +1,12 @@
 ﻿namespace Presentation.WebSPA
 {
+    using System;
     using System.IO;
+    using Infra.Persistence.EF;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
+    using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.FileProviders;
@@ -60,9 +63,10 @@
             servicesParam.AddRazorPages
             (opts =>
             {
-                opts.Conventions.AddPageRoute("/Rolodex", "Rolodex/{*route}");
-                opts.Conventions.AddPageRoute("/Pokemon", "Pokemon/{*route}");
+                opts.Conventions.AddPageRoute("/Administration", "Administration/{*route}");
+                opts.Conventions.AddPageRoute("/Shopping", "Shopping/{*route}");
             });
+
             servicesParam.AddLogging
             (pLoggingBuilder =>
             {
@@ -75,6 +79,13 @@
                     opts.TimestampFormat = "hh:mm:ss";
                 });
                 pLoggingBuilder.AddConfiguration(Configuration.GetSection("Logging"));
+            });
+
+            servicesParam.AddDbContext<NorthwindDbContext>
+            (opts =>
+            {
+                opts.UseSqlServer("name=ConnectionStrings:NorthwindDb", providerOptions => { providerOptions.EnableRetryOnFailure(); });
+                opts.LogTo(Console.WriteLine, LogLevel.Information).EnableDetailedErrors().EnableSensitiveDataLogging();
             });
         }
     }
