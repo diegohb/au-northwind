@@ -2,6 +2,7 @@
 
 using Entities;
 using Entities.QueryViews;
+using MapConfigs;
 using Microsoft.EntityFrameworkCore;
 
 public class NorthwindDbContext : DbContext
@@ -17,7 +18,7 @@ public class NorthwindDbContext : DbContext
   {
     base.OnModelCreating(modelBuilderParam);
 
-    modelBuilderParam.ApplyConfigurationsFromAssembly(typeof(AlphabeticalListOfProductView).Assembly);
+    modelBuilderParam.ApplyConfigurationsFromAssembly(typeof(ProductMapping).Assembly);
   }
 
   #region Query View Properties
