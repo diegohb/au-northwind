@@ -1,34 +1,36 @@
 ﻿namespace Presentation.WebSPA.ApiControllers;
 
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-    using Infra.Persistence.EF;
-    using Infra.Persistence.EF.Entities;
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Infra.Persistence.EF;
+using Infra.Persistence.EF.Entities;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
-    [ApiController]
-    [Route("[controller]")]
-    public class ProductsController : ControllerBase
+[ApiController]
+[Route("[controller]")]
+public class ProductsController : ControllerBase
+{
+    private readonly NorthwindDbContext _northwindDb;
+
+    public ProductsController(NorthwindDbContext dbContextParam)
     {
-        private readonly NorthwindDbContext _northwindDb;
-
-        public ProductsController(NorthwindDbContext dbContextParam)
-        {
-            _northwindDb = dbContextParam;
-        }
-
-        [HttpGet]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(204)]
-        public async Task<ActionResult<IEnumerable<Product>>> GetAll()
-        {
-            var productEntities = await _northwindDb.Products.AsNoTracking().ToListAsync();
-            if (productEntities.Count == 0)
-            {
-                return NoContent();
-            }
-
-            return Ok(productEntities);
-        }
+        _northwindDb = dbContextParam;
     }
+
+    [HttpGet]
+    [Consumes("application/json", IsOptional = true)]
+    [Produces("application/json")]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(204)]
+    public async Task<ActionResult<IEnumerable<Product>>> GetAll()
+    {
+        var productEntities = await _northwindDb.Products.AsNoTracking().ToListAsync();
+        if (productEntities.Count == 0)
+        {
+            return NoContent();
+        }
+
+        return Ok(productEntities);
+    }
+}
