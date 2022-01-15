@@ -1,4 +1,5 @@
 ﻿import { ProductModel } from "../models/product-model";
+import { CategoryModel } from "../models/category-model";
 import { createGuid } from "../../../../../common/utils";
 
 export class CatalogSvc implements ICatalogService {
@@ -38,10 +39,25 @@ export class CatalogSvc implements ICatalogService {
     public async getProducts(): Promise<ProductModel[]> {
         return Promise.resolve(this._products);
     }
+
+    public async getProductByCategory(categoryNameParam: string): Promise<ProductModel[]> {
+        throw new Error("Not implemented");
+    }
+
+    public async getCategories(): Promise<CategoryModel[]> {
+        return [
+            { id: 1, name: "Books", description: "Inventory of books.", productCount: 7 },
+            { id: 2, name: "Food", description: "Inventory of foods.", productCount: 5 },
+            { id: 3, name: "Medical", description: "Inventory of medical supplies.", productCount: 3 },
+            { id: 4, name: "Music", description: "Inventory of music.", productCount: 9 }
+        ];
+    }
 }
 
 export interface ICatalogService {
     getProductBySku(skuParam: string): Promise<ProductModel>;
     getProducts(): Promise<Array<ProductModel>>;
+    getProductByCategory(categoryNameParam: string): Promise<Array<ProductModel>>;
+    getCategories(): Promise<Array<CategoryModel>>;
 
 }
