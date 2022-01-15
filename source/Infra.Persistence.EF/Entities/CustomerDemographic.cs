@@ -1,6 +1,5 @@
 ﻿namespace Infra.Persistence.EF.Entities;
 
-using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -23,6 +22,14 @@ public class CustomerDemographicMapping : IEntityTypeConfiguration<CustomerDemog
 {
   public void Configure(EntityTypeBuilder<CustomerDemographic> builderParam)
   {
-    throw new NotImplementedException();
+    builderParam.HasKey(e => e.CustomerTypeId)
+      .IsClustered(false);
+
+    builderParam.Property(e => e.CustomerTypeId)
+      .HasMaxLength(10)
+      .HasColumnName("CustomerTypeID")
+      .IsFixedLength();
+
+    builderParam.Property(e => e.CustomerDesc).HasColumnType("ntext");
   }
 }

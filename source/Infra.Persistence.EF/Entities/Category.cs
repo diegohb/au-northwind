@@ -23,24 +23,21 @@ public class CategoryMapping : IEntityTypeConfiguration<Category>
 {
   public void Configure(EntityTypeBuilder<Category> builderParam)
   {
-    // entity =>
-    // {
-    //   entity.HasIndex(e => e.CategoryName, "CategoryName");
-    //
-    //   entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
-    //
-    //   entity.Property(e => e.CategoryName)
-    //     .IsRequired()
-    //     .HasMaxLength(15);
-    //
-    //   entity.Property(e => e.Description).HasColumnType("ntext");
-    //
-    //   entity.Property(e => e.Picture).HasColumnType("image");
-    //
-    //   entity.HasMany(e => e.Products)
-    //     .WithOne(e => e.Category)
-    //     .HasForeignKey(e => e.CategoryId)
-    //     .HasConstraintName("FK_Products_Categories");
-    // }
+    builderParam.HasIndex(e => e.CategoryName, "CategoryName");
+
+    builderParam.Property(e => e.CategoryId).HasColumnName("CategoryID");
+
+    builderParam.Property(e => e.CategoryName)
+      .IsRequired()
+      .HasMaxLength(15);
+
+    builderParam.Property(e => e.Description).HasColumnType("ntext");
+
+    builderParam.Property(e => e.Picture).HasColumnType("image");
+
+    builderParam.HasMany(e => e.Products)
+      .WithOne(e => e.Category)
+      .HasForeignKey(e => e.CategoryId)
+      .HasConstraintName("FK_Products_Categories");
   }
 }

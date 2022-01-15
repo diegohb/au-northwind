@@ -1,6 +1,5 @@
 ﻿namespace Infra.Persistence.EF.Entities;
 
-using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -20,10 +19,16 @@ public class Shipper
   public int ShipperId { get; set; }
 }
 
-public class ShipperMapping : IEntityTypeConfiguration<ShipperMapping>
+public class ShipperMapping : IEntityTypeConfiguration<Shipper>
 {
-  void IEntityTypeConfiguration<ShipperMapping>.Configure(EntityTypeBuilder<ShipperMapping> builderParam)
+  public void Configure(EntityTypeBuilder<Shipper> builderParam)
   {
-    throw new NotImplementedException();
+    builderParam.Property(e => e.ShipperId).HasColumnName("ShipperID");
+
+    builderParam.Property(e => e.CompanyName)
+      .IsRequired()
+      .HasMaxLength(40);
+
+    builderParam.Property(e => e.Phone).HasMaxLength(24);
   }
 }
