@@ -17,7 +17,7 @@ public class NorthwindDbContext : DbContext
   {
     base.OnModelCreating(modelBuilderParam);
 
-    modelBuilderParam.Entity<AlphabeticalListOfProduct>
+    modelBuilderParam.Entity<AlphabeticalListOfProductView>
     (entity =>
     {
       entity.HasNoKey();
@@ -64,7 +64,7 @@ public class NorthwindDbContext : DbContext
         .HasConstraintName("FK_Products_Categories");
     });
 
-    modelBuilderParam.Entity<CategorySalesFor1997>
+    modelBuilderParam.Entity<CategorySalesFor1997View>
     (entity =>
     {
       entity.HasNoKey();
@@ -78,7 +78,7 @@ public class NorthwindDbContext : DbContext
       entity.Property(e => e.CategorySales).HasColumnType("money");
     });
 
-    modelBuilderParam.Entity<CurrentProductList>
+    modelBuilderParam.Entity<CurrentProductListView>
     (entity =>
     {
       entity.HasNoKey();
@@ -138,7 +138,7 @@ public class NorthwindDbContext : DbContext
         .HasConstraintName("FK_Orders_Customers");
     });
 
-    modelBuilderParam.Entity<CustomerAndSuppliersByCity>
+    modelBuilderParam.Entity<CustomerAndSuppliersByCityView>
     (entity =>
     {
       entity.HasNoKey();
@@ -252,7 +252,7 @@ public class NorthwindDbContext : DbContext
         .HasConstraintName("FK_Orders_Employees");
     });
 
-    modelBuilderParam.Entity<Invoice>
+    modelBuilderParam.Entity<InvoiceView>
     (entity =>
     {
       entity.HasNoKey();
@@ -422,7 +422,7 @@ public class NorthwindDbContext : DbContext
         .HasConstraintName("FK_Order_Details_Products");
     });
 
-    modelBuilderParam.Entity<OrderDetailsExtended>
+    modelBuilderParam.Entity<OrderDetailsExtendedView>
     (entity =>
     {
       entity.HasNoKey();
@@ -442,7 +442,7 @@ public class NorthwindDbContext : DbContext
       entity.Property(e => e.UnitPrice).HasColumnType("money");
     });
 
-    modelBuilderParam.Entity<OrderSubtotal>
+    modelBuilderParam.Entity<OrderSubtotalView>
     (entity =>
     {
       entity.HasNoKey();
@@ -454,7 +454,7 @@ public class NorthwindDbContext : DbContext
       entity.Property(e => e.Subtotal).HasColumnType("money");
     });
 
-    modelBuilderParam.Entity<OrdersQry>
+    modelBuilderParam.Entity<OrdersQryView>
     (entity =>
     {
       entity.HasNoKey();
@@ -553,7 +553,7 @@ public class NorthwindDbContext : DbContext
       //entity.Navigation(e => e.OrderDetails).AutoInclude(false); //NOTE: to not automatically eager load related data
     });
 
-    modelBuilderParam.Entity<ProductSalesFor1997>
+    modelBuilderParam.Entity<ProductSalesFor1997View>
     (entity =>
     {
       entity.HasNoKey();
@@ -571,7 +571,7 @@ public class NorthwindDbContext : DbContext
       entity.Property(e => e.ProductSales).HasColumnType("money");
     });
 
-    modelBuilderParam.Entity<ProductsAboveAveragePrice>
+    modelBuilderParam.Entity<ProductsAboveAveragePriceView>
     (entity =>
     {
       entity.HasNoKey();
@@ -585,7 +585,7 @@ public class NorthwindDbContext : DbContext
       entity.Property(e => e.UnitPrice).HasColumnType("money");
     });
 
-    modelBuilderParam.Entity<ProductsByCategory>
+    modelBuilderParam.Entity<ProductsByCategoryView>
     (entity =>
     {
       entity.HasNoKey();
@@ -603,7 +603,7 @@ public class NorthwindDbContext : DbContext
       entity.Property(e => e.QuantityPerUnit).HasMaxLength(20);
     });
 
-    modelBuilderParam.Entity<QuarterlyOrder>
+    modelBuilderParam.Entity<QuarterlyOrderView>
     (entity =>
     {
       entity.HasNoKey();
@@ -640,7 +640,7 @@ public class NorthwindDbContext : DbContext
         .IsFixedLength();
     });
 
-    modelBuilderParam.Entity<SalesByCategory>
+    modelBuilderParam.Entity<SalesByCategoryView>
     (entity =>
     {
       entity.HasNoKey();
@@ -660,7 +660,7 @@ public class NorthwindDbContext : DbContext
       entity.Property(e => e.ProductSales).HasColumnType("money");
     });
 
-    modelBuilderParam.Entity<SalesTotalsByAmount>
+    modelBuilderParam.Entity<SalesTotalsByAmountView>
     (entity =>
     {
       entity.HasNoKey();
@@ -690,7 +690,7 @@ public class NorthwindDbContext : DbContext
       entity.Property(e => e.Phone).HasMaxLength(24);
     });
 
-    modelBuilderParam.Entity<SummaryOfSalesByQuarter>
+    modelBuilderParam.Entity<SummaryOfSalesByQuarterView>
     (entity =>
     {
       entity.HasNoKey();
@@ -704,7 +704,7 @@ public class NorthwindDbContext : DbContext
       entity.Property(e => e.Subtotal).HasColumnType("money");
     });
 
-    modelBuilderParam.Entity<SummaryOfSalesByYear>
+    modelBuilderParam.Entity<SummaryOfSalesByYearView>
     (entity =>
     {
       entity.HasNoKey();
@@ -779,31 +779,31 @@ public class NorthwindDbContext : DbContext
 
   #region Properties
 
-  public virtual DbSet<AlphabeticalListOfProduct> AlphabeticalListOfProducts { get; set; }
+  public virtual DbSet<AlphabeticalListOfProductView> AlphabeticalListOfProducts { get; set; }
   public virtual DbSet<Category> Categories { get; set; }
-  public virtual DbSet<CategorySalesFor1997> CategorySalesFor1997s { get; set; }
-  public virtual DbSet<CurrentProductList> CurrentProductLists { get; set; }
-  public virtual DbSet<CustomerAndSuppliersByCity> CustomerAndSuppliersByCities { get; set; }
+  public virtual DbSet<CategorySalesFor1997View> CategorySalesFor1997s { get; set; }
+  public virtual DbSet<CurrentProductListView> CurrentProductLists { get; set; }
+  public virtual DbSet<CustomerAndSuppliersByCityView> CustomerAndSuppliersByCities { get; set; }
   public virtual DbSet<CustomerDemographic> CustomerDemographics { get; set; }
   public virtual DbSet<Customer> Customers { get; set; }
   public virtual DbSet<Employee> Employees { get; set; }
-  public virtual DbSet<Invoice> Invoices { get; set; }
+  public virtual DbSet<InvoiceView> Invoices { get; set; }
   public virtual DbSet<OrderDetail> OrderDetails { get; set; }
-  public virtual DbSet<OrderDetailsExtended> OrderDetailsExtendeds { get; set; }
+  public virtual DbSet<OrderDetailsExtendedView> OrderDetailsExtendeds { get; set; }
   public virtual DbSet<Order> Orders { get; set; }
-  public virtual DbSet<OrdersQry> OrdersQries { get; set; }
-  public virtual DbSet<OrderSubtotal> OrderSubtotals { get; set; }
+  public virtual DbSet<OrdersQryView> OrdersQries { get; set; }
+  public virtual DbSet<OrderSubtotalView> OrderSubtotals { get; set; }
   public virtual DbSet<Product> Products { get; set; }
-  public virtual DbSet<ProductsAboveAveragePrice> ProductsAboveAveragePrices { get; set; }
-  public virtual DbSet<ProductSalesFor1997> ProductSalesFor1997s { get; set; }
-  public virtual DbSet<ProductsByCategory> ProductsByCategories { get; set; }
-  public virtual DbSet<QuarterlyOrder> QuarterlyOrders { get; set; }
+  public virtual DbSet<ProductsAboveAveragePriceView> ProductsAboveAveragePrices { get; set; }
+  public virtual DbSet<ProductSalesFor1997View> ProductSalesFor1997s { get; set; }
+  public virtual DbSet<ProductsByCategoryView> ProductsByCategories { get; set; }
+  public virtual DbSet<QuarterlyOrderView> QuarterlyOrders { get; set; }
   public virtual DbSet<Region> Regions { get; set; }
-  public virtual DbSet<SalesByCategory> SalesByCategories { get; set; }
-  public virtual DbSet<SalesTotalsByAmount> SalesTotalsByAmounts { get; set; }
+  public virtual DbSet<SalesByCategoryView> SalesByCategories { get; set; }
+  public virtual DbSet<SalesTotalsByAmountView> SalesTotalsByAmounts { get; set; }
   public virtual DbSet<Shipper> Shippers { get; set; }
-  public virtual DbSet<SummaryOfSalesByQuarter> SummaryOfSalesByQuarters { get; set; }
-  public virtual DbSet<SummaryOfSalesByYear> SummaryOfSalesByYears { get; set; }
+  public virtual DbSet<SummaryOfSalesByQuarterView> SummaryOfSalesByQuarters { get; set; }
+  public virtual DbSet<SummaryOfSalesByYearView> SummaryOfSalesByYears { get; set; }
   public virtual DbSet<Supplier> Suppliers { get; set; }
   public virtual DbSet<Territory> Territories { get; set; }
 
