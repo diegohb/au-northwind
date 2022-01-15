@@ -21,9 +21,25 @@ public class ProductsController : ControllerBase
     [HttpGet]
     [ProducesResponseType(200)]
     [ProducesResponseType(204)]
-    public async Task<ActionResult<IEnumerable<Product>>> GetAll()
+    public async Task<ActionResult<IList<Product>>> GetAll()
     {
         var productEntities = await _northwindDb.Products.AsNoTracking().ToListAsync();
+        if (productEntities.Count == 0)
+        {
+            return NoContent();
+        }
+
+        return Ok(productEntities);
+    }
+
+    [HttpGet("bycategory")]
+    [Consumes("application/json")]
+    [Produces("application/json")]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(204)]
+    public async Task<ActionResult<IList<ProductsByCategoryView>>> GetByCategory()
+    {
+        var productEntities = await _northwindDb.ProductsByCategories.AsNoTracking().ToListAsync();
         if (productEntities.Count == 0)
         {
             return NoContent();

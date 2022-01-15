@@ -17,31 +17,7 @@ public class NorthwindDbContext : DbContext
   {
     base.OnModelCreating(modelBuilderParam);
 
-    modelBuilderParam.Entity<AlphabeticalListOfProductView>
-    (entity =>
-    {
-      entity.HasNoKey();
-
-      entity.ToView("Alphabetical list of products");
-
-      entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
-
-      entity.Property(e => e.CategoryName)
-        .IsRequired()
-        .HasMaxLength(15);
-
-      entity.Property(e => e.ProductId).HasColumnName("ProductID");
-
-      entity.Property(e => e.ProductName)
-        .IsRequired()
-        .HasMaxLength(40);
-
-      entity.Property(e => e.QuantityPerUnit).HasMaxLength(20);
-
-      entity.Property(e => e.SupplierId).HasColumnName("SupplierID");
-
-      entity.Property(e => e.UnitPrice).HasColumnType("money");
-    });
+    modelBuilderParam.ApplyConfigurationsFromAssembly(typeof(AlphabeticalListOfProductView).Assembly);
 
     modelBuilderParam.Entity<Category>
     (entity =>
@@ -62,36 +38,6 @@ public class NorthwindDbContext : DbContext
         .WithOne(e => e.Category)
         .HasForeignKey(e => e.CategoryId)
         .HasConstraintName("FK_Products_Categories");
-    });
-
-    modelBuilderParam.Entity<CategorySalesFor1997View>
-    (entity =>
-    {
-      entity.HasNoKey();
-
-      entity.ToView("Category Sales for 1997");
-
-      entity.Property(e => e.CategoryName)
-        .IsRequired()
-        .HasMaxLength(15);
-
-      entity.Property(e => e.CategorySales).HasColumnType("money");
-    });
-
-    modelBuilderParam.Entity<CurrentProductListView>
-    (entity =>
-    {
-      entity.HasNoKey();
-
-      entity.ToView("Current Product List");
-
-      entity.Property(e => e.ProductId)
-        .ValueGeneratedOnAdd()
-        .HasColumnName("ProductID");
-
-      entity.Property(e => e.ProductName)
-        .IsRequired()
-        .HasMaxLength(40);
     });
 
     modelBuilderParam.Entity<Customer>
@@ -136,27 +82,6 @@ public class NorthwindDbContext : DbContext
         .WithOne(e => e.Customer)
         .HasForeignKey(e => e.CustomerId)
         .HasConstraintName("FK_Orders_Customers");
-    });
-
-    modelBuilderParam.Entity<CustomerAndSuppliersByCityView>
-    (entity =>
-    {
-      entity.HasNoKey();
-
-      entity.ToView("Customer and Suppliers by City");
-
-      entity.Property(e => e.City).HasMaxLength(15);
-
-      entity.Property(e => e.CompanyName)
-        .IsRequired()
-        .HasMaxLength(40);
-
-      entity.Property(e => e.ContactName).HasMaxLength(30);
-
-      entity.Property(e => e.Relationship)
-        .IsRequired()
-        .HasMaxLength(9)
-        .IsUnicode(false);
     });
 
     modelBuilderParam.Entity<CustomerDemographic>
@@ -250,73 +175,6 @@ public class NorthwindDbContext : DbContext
         .WithOne(e => e.Employee)
         .HasForeignKey(e => e.EmployeeId)
         .HasConstraintName("FK_Orders_Employees");
-    });
-
-    modelBuilderParam.Entity<InvoiceView>
-    (entity =>
-    {
-      entity.HasNoKey();
-
-      entity.ToView("Invoices");
-
-      entity.Property(e => e.Address).HasMaxLength(60);
-
-      entity.Property(e => e.City).HasMaxLength(15);
-
-      entity.Property(e => e.Country).HasMaxLength(15);
-
-      entity.Property(e => e.CustomerId)
-        .HasMaxLength(5)
-        .HasColumnName("CustomerID")
-        .IsFixedLength();
-
-      entity.Property(e => e.CustomerName)
-        .IsRequired()
-        .HasMaxLength(40);
-
-      entity.Property(e => e.ExtendedPrice).HasColumnType("money");
-
-      entity.Property(e => e.Freight).HasColumnType("money");
-
-      entity.Property(e => e.OrderDate).HasColumnType("datetime");
-
-      entity.Property(e => e.OrderId).HasColumnName("OrderID");
-
-      entity.Property(e => e.PostalCode).HasMaxLength(10);
-
-      entity.Property(e => e.ProductId).HasColumnName("ProductID");
-
-      entity.Property(e => e.ProductName)
-        .IsRequired()
-        .HasMaxLength(40);
-
-      entity.Property(e => e.Region).HasMaxLength(15);
-
-      entity.Property(e => e.RequiredDate).HasColumnType("datetime");
-
-      entity.Property(e => e.Salesperson)
-        .IsRequired()
-        .HasMaxLength(31);
-
-      entity.Property(e => e.ShipAddress).HasMaxLength(60);
-
-      entity.Property(e => e.ShipCity).HasMaxLength(15);
-
-      entity.Property(e => e.ShipCountry).HasMaxLength(15);
-
-      entity.Property(e => e.ShipName).HasMaxLength(40);
-
-      entity.Property(e => e.ShipPostalCode).HasMaxLength(10);
-
-      entity.Property(e => e.ShipRegion).HasMaxLength(15);
-
-      entity.Property(e => e.ShippedDate).HasColumnType("datetime");
-
-      entity.Property(e => e.ShipperName)
-        .IsRequired()
-        .HasMaxLength(40);
-
-      entity.Property(e => e.UnitPrice).HasColumnType("money");
     });
 
     modelBuilderParam.Entity<Order>
@@ -422,89 +280,6 @@ public class NorthwindDbContext : DbContext
         .HasConstraintName("FK_Order_Details_Products");
     });
 
-    modelBuilderParam.Entity<OrderDetailsExtendedView>
-    (entity =>
-    {
-      entity.HasNoKey();
-
-      entity.ToView("Order Details Extended");
-
-      entity.Property(e => e.ExtendedPrice).HasColumnType("money");
-
-      entity.Property(e => e.OrderId).HasColumnName("OrderID");
-
-      entity.Property(e => e.ProductId).HasColumnName("ProductID");
-
-      entity.Property(e => e.ProductName)
-        .IsRequired()
-        .HasMaxLength(40);
-
-      entity.Property(e => e.UnitPrice).HasColumnType("money");
-    });
-
-    modelBuilderParam.Entity<OrderSubtotalView>
-    (entity =>
-    {
-      entity.HasNoKey();
-
-      entity.ToView("Order Subtotals");
-
-      entity.Property(e => e.OrderId).HasColumnName("OrderID");
-
-      entity.Property(e => e.Subtotal).HasColumnType("money");
-    });
-
-    modelBuilderParam.Entity<OrdersQryView>
-    (entity =>
-    {
-      entity.HasNoKey();
-
-      entity.ToView("Orders Qry");
-
-      entity.Property(e => e.Address).HasMaxLength(60);
-
-      entity.Property(e => e.City).HasMaxLength(15);
-
-      entity.Property(e => e.CompanyName)
-        .IsRequired()
-        .HasMaxLength(40);
-
-      entity.Property(e => e.Country).HasMaxLength(15);
-
-      entity.Property(e => e.CustomerId)
-        .HasMaxLength(5)
-        .HasColumnName("CustomerID")
-        .IsFixedLength();
-
-      entity.Property(e => e.EmployeeId).HasColumnName("EmployeeID");
-
-      entity.Property(e => e.Freight).HasColumnType("money");
-
-      entity.Property(e => e.OrderDate).HasColumnType("datetime");
-
-      entity.Property(e => e.OrderId).HasColumnName("OrderID");
-
-      entity.Property(e => e.PostalCode).HasMaxLength(10);
-
-      entity.Property(e => e.Region).HasMaxLength(15);
-
-      entity.Property(e => e.RequiredDate).HasColumnType("datetime");
-
-      entity.Property(e => e.ShipAddress).HasMaxLength(60);
-
-      entity.Property(e => e.ShipCity).HasMaxLength(15);
-
-      entity.Property(e => e.ShipCountry).HasMaxLength(15);
-
-      entity.Property(e => e.ShipName).HasMaxLength(40);
-
-      entity.Property(e => e.ShipPostalCode).HasMaxLength(10);
-
-      entity.Property(e => e.ShipRegion).HasMaxLength(15);
-
-      entity.Property(e => e.ShippedDate).HasColumnType("datetime");
-    });
-
     modelBuilderParam.Entity<Product>
     (entity =>
     {
@@ -553,75 +328,6 @@ public class NorthwindDbContext : DbContext
       //entity.Navigation(e => e.OrderDetails).AutoInclude(false); //NOTE: to not automatically eager load related data
     });
 
-    modelBuilderParam.Entity<ProductSalesFor1997View>
-    (entity =>
-    {
-      entity.HasNoKey();
-
-      entity.ToView("Product Sales for 1997");
-
-      entity.Property(e => e.CategoryName)
-        .IsRequired()
-        .HasMaxLength(15);
-
-      entity.Property(e => e.ProductName)
-        .IsRequired()
-        .HasMaxLength(40);
-
-      entity.Property(e => e.ProductSales).HasColumnType("money");
-    });
-
-    modelBuilderParam.Entity<ProductsAboveAveragePriceView>
-    (entity =>
-    {
-      entity.HasNoKey();
-
-      entity.ToView("Products Above Average Price");
-
-      entity.Property(e => e.ProductName)
-        .IsRequired()
-        .HasMaxLength(40);
-
-      entity.Property(e => e.UnitPrice).HasColumnType("money");
-    });
-
-    modelBuilderParam.Entity<ProductsByCategoryView>
-    (entity =>
-    {
-      entity.HasNoKey();
-
-      entity.ToView("Products by Category");
-
-      entity.Property(e => e.CategoryName)
-        .IsRequired()
-        .HasMaxLength(15);
-
-      entity.Property(e => e.ProductName)
-        .IsRequired()
-        .HasMaxLength(40);
-
-      entity.Property(e => e.QuantityPerUnit).HasMaxLength(20);
-    });
-
-    modelBuilderParam.Entity<QuarterlyOrderView>
-    (entity =>
-    {
-      entity.HasNoKey();
-
-      entity.ToView("Quarterly Orders");
-
-      entity.Property(e => e.City).HasMaxLength(15);
-
-      entity.Property(e => e.CompanyName).HasMaxLength(40);
-
-      entity.Property(e => e.Country).HasMaxLength(15);
-
-      entity.Property(e => e.CustomerId)
-        .HasMaxLength(5)
-        .HasColumnName("CustomerID")
-        .IsFixedLength();
-    });
-
     modelBuilderParam.Entity<Region>
     (entity =>
     {
@@ -640,44 +346,6 @@ public class NorthwindDbContext : DbContext
         .IsFixedLength();
     });
 
-    modelBuilderParam.Entity<SalesByCategoryView>
-    (entity =>
-    {
-      entity.HasNoKey();
-
-      entity.ToView("Sales by Category");
-
-      entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
-
-      entity.Property(e => e.CategoryName)
-        .IsRequired()
-        .HasMaxLength(15);
-
-      entity.Property(e => e.ProductName)
-        .IsRequired()
-        .HasMaxLength(40);
-
-      entity.Property(e => e.ProductSales).HasColumnType("money");
-    });
-
-    modelBuilderParam.Entity<SalesTotalsByAmountView>
-    (entity =>
-    {
-      entity.HasNoKey();
-
-      entity.ToView("Sales Totals by Amount");
-
-      entity.Property(e => e.CompanyName)
-        .IsRequired()
-        .HasMaxLength(40);
-
-      entity.Property(e => e.OrderId).HasColumnName("OrderID");
-
-      entity.Property(e => e.SaleAmount).HasColumnType("money");
-
-      entity.Property(e => e.ShippedDate).HasColumnType("datetime");
-    });
-
     modelBuilderParam.Entity<Shipper>
     (entity =>
     {
@@ -688,34 +356,6 @@ public class NorthwindDbContext : DbContext
         .HasMaxLength(40);
 
       entity.Property(e => e.Phone).HasMaxLength(24);
-    });
-
-    modelBuilderParam.Entity<SummaryOfSalesByQuarterView>
-    (entity =>
-    {
-      entity.HasNoKey();
-
-      entity.ToView("Summary of Sales by Quarter");
-
-      entity.Property(e => e.OrderId).HasColumnName("OrderID");
-
-      entity.Property(e => e.ShippedDate).HasColumnType("datetime");
-
-      entity.Property(e => e.Subtotal).HasColumnType("money");
-    });
-
-    modelBuilderParam.Entity<SummaryOfSalesByYearView>
-    (entity =>
-    {
-      entity.HasNoKey();
-
-      entity.ToView("Summary of Sales by Year");
-
-      entity.Property(e => e.OrderId).HasColumnName("OrderID");
-
-      entity.Property(e => e.ShippedDate).HasColumnType("datetime");
-
-      entity.Property(e => e.Subtotal).HasColumnType("money");
     });
 
     modelBuilderParam.Entity<Supplier>
