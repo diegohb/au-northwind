@@ -1,42 +1,48 @@
-﻿import { ProductModel } from "../models/product-model";
+﻿import { autoinject, LogManager } from "aurelia-framework";
+import { HttpClient } from "aurelia-fetch-client";
+import { ProductModel } from "../models/product-model";
 import { CategoryModel } from "../models/category-model";
-import { createGuid } from "../../../../../common/utils";
+import { ApiLoggerInterceptor } from "../../../../../common/api-logger-interceptor";
 
+@autoinject()
 export class CatalogSvc implements ICatalogService {
-    private readonly _products: Array<ProductModel>;
+    private readonly _logger = LogManager.getLogger(this.constructor.name);
+    private _products = new Array<ProductModel>();
 
-    constructor() {
-        const prod1 = new ProductModel(createGuid());
-        prod1.name = "Product 1";
-        prod1.description = "A description for product 1.";
-        prod1.cost = 17.56;
-        prod1.price = 27.99;
-        prod1.quantity = 121;
-
-        const prod2 = new ProductModel(createGuid());
-        prod2.name = "Product 2";
-        prod2.description = "A description for product 2.";
-        prod2.cost = 4.66;
-        prod2.price = 9;
-        prod2.quantity = 453;
-
-        const prod3 = new ProductModel(createGuid());
-        prod3.name = "Product 3";
-        prod3.description = "A description for product 3.";
-        prod3.cost = 44.55;
-        prod3.price = 75.00;
-        prod3.quantity = 59;
-
-        this._products = [prod1, prod2, prod3];
+    constructor(private _http: HttpClient) {
+        _http.configure(config => {
+            config
+                .useStandardConfiguration()
+                .withBaseUrl("/api/")
+                .withInterceptor(new ApiLoggerInterceptor());
+        });
     }
 
     public async getProductBySku(skuParam: string): Promise<ProductModel> {
-        const data = (await this.getProducts()).filter(model => model.sku === skuParam);
+        const data = this._products.filter(model => model.sku == skuParam);
         const productModel: ProductModel = data[0];
         return Promise.resolve(productModel);
     }
 
     public async getProducts(): Promise<ProductModel[]> {
+        if (this._products.length === 0) {
+            const rawResponse = await this._http.fetch("products");
+            const objects: Array<any> = await rawResponse.json();
+            this._logger.debug(`Fetched ${objects.length} products.`, objects);
+
+            const productModels = objects.map(t => {
+                const model = new ProductModel(t.productId);
+                model.name = t.productName;
+                model.description = "";
+                model.cost = 0;
+                model.price = t.unitPrice;
+                model.quantity = t.unitsInStock; //TODO: account for units on order.
+                return model;
+            });
+
+            this._products = productModels;
+        }
+
         return Promise.resolve(this._products);
     }
 
