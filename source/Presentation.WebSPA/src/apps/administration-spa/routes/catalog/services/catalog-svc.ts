@@ -19,7 +19,7 @@ export class CatalogSvc implements ICatalogService {
     }
 
     public async getProductBySku(skuParam: string): Promise<ProductModel> {
-        const data = this._products.filter(model => model.sku == skuParam);
+        const data = this._products.filter(model => model.sku === skuParam);
         const productModel: ProductModel = data[0];
         return Promise.resolve(productModel);
     }
@@ -31,9 +31,9 @@ export class CatalogSvc implements ICatalogService {
             this._logger.debug(`Fetched ${objects.length} products.`, objects);
 
             const productModels = objects.map(t => {
-                const model = new ProductModel(t.productId);
+                const model = new ProductModel(t.sku);
                 model.name = t.productName;
-                model.description = "";
+                model.description = t.description;
                 model.cost = 0;
                 model.price = t.unitPrice;
                 model.quantity = t.unitsInStock; //TODO: account for units on order.

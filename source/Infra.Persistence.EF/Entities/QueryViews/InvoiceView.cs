@@ -29,5 +29,6 @@ public class InvoiceView
   public string ShipperName { get; set; }
   public string ShipPostalCode { get; set; }
   public string ShipRegion { get; set; }
+  public Guid Sku { get; set; }
   public decimal UnitPrice { get; set; }
 }

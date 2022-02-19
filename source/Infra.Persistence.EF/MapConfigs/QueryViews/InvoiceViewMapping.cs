@@ -39,6 +39,8 @@ public class InvoiceViewMapping : IEntityTypeConfiguration<InvoiceView>
 
     builderParam.Property(e => e.ProductId).HasColumnName("ProductID");
 
+    builderParam.Property(e => e.Sku).HasColumnName("Sku");
+
     builderParam.Property(e => e.ProductName)
       .IsRequired()
       .HasMaxLength(40);

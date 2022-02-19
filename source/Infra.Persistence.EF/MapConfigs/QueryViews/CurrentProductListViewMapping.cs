@@ -16,6 +16,8 @@ public class CurrentProductListViewMapping : IEntityTypeConfiguration<CurrentPro
       .ValueGeneratedOnAdd()
       .HasColumnName("ProductID");
 
+    builderParam.Property(e => e.Sku).IsRequired().HasColumnName("Sku");
+
     builderParam.Property(e => e.ProductName)
       .IsRequired()
       .HasMaxLength(40);

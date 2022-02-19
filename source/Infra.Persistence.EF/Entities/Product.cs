@@ -1,5 +1,6 @@
 ﻿namespace Infra.Persistence.EF.Entities;
 
+using System;
 using System.Collections.Generic;
 
 public class Product
@@ -11,6 +12,7 @@ public class Product
 
   public virtual Category Category { get; set; }
   public int? CategoryId { get; set; }
+  public string Description { get; set; }
   public bool Discontinued { get; set; }
   public virtual ICollection<OrderDetail> OrderDetails { get; set; }
 
@@ -18,6 +20,7 @@ public class Product
   public string ProductName { get; set; }
   public string QuantityPerUnit { get; set; }
   public short? ReorderLevel { get; set; }
+  public Guid Sku { get; set; }
   public virtual Supplier Supplier { get; set; }
   public int? SupplierId { get; set; }
   public decimal? UnitPrice { get; set; }

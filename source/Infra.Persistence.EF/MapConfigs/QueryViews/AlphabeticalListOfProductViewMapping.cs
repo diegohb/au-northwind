@@ -20,6 +20,8 @@ public class AlphabeticalListOfProductViewMapping : IEntityTypeConfiguration<Alp
 
     builderParam.Property(e => e.ProductId).HasColumnName("ProductID");
 
+    builderParam.Property(e => e.Sku).HasColumnName("SkU");
+
     builderParam.Property(e => e.ProductName)
       .IsRequired()
       .HasMaxLength(40);
