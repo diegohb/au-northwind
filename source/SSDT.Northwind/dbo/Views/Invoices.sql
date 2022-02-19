@@ -4,7 +4,7 @@ SELECT Orders.ShipName, Orders.ShipAddress, Orders.ShipCity, Orders.ShipRegion, 
 	Customers.Region, Customers.PostalCode, Customers.Country, 
 	(FirstName + ' ' + LastName) AS Salesperson, 
 	Orders.OrderID, Orders.OrderDate, Orders.RequiredDate, Orders.ShippedDate, Shippers.CompanyName As ShipperName, 
-	"Order Details".ProductID, Products.ProductName, "Order Details".UnitPrice, "Order Details".Quantity, 
+	"Order Details".ProductID, Products.Sku, Products.ProductName, "Order Details".UnitPrice, "Order Details".Quantity, 
 	"Order Details".Discount, 
 	(CONVERT(money,("Order Details".UnitPrice*Quantity*(1-Discount)/100))*100) AS ExtendedPrice, Orders.Freight
 FROM 	Shippers INNER JOIN 

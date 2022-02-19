@@ -4,6 +4,11 @@ using System.Collections.Generic;
 
 public class Supplier
 {
+  public Supplier()
+  {
+    Products = new HashSet<Product>();
+  }
+
   public string Address { get; set; }
   public string City { get; set; }
   public string CompanyName { get; set; }
@@ -15,8 +20,8 @@ public class Supplier
   public string Phone { get; set; }
   public string PostalCode { get; set; }
 
-  // related entities
-  public ICollection<Product> Products { get; set; }
+  public virtual ICollection<Product> Products { get; set; }
   public string Region { get; set; }
-  public int SupplierID { get; set; }
+
+  public int SupplierId { get; set; }
 }

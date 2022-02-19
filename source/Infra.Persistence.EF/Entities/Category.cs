@@ -4,10 +4,15 @@ using System.Collections.Generic;
 
 public class Category
 {
-  public int CategoryID { get; set; }
+  public Category()
+  {
+    Products = new HashSet<Product>();
+  }
+
+  public int CategoryId { get; set; }
   public string CategoryName { get; set; }
   public string Description { get; set; }
+  public byte[] Picture { get; set; }
 
-  // related entities
-  public ICollection<Product> Products { get; set; }
+  public virtual ICollection<Product> Products { get; set; }
 }

@@ -1,6 +1,8 @@
 ﻿CREATE TABLE "Products" (
 	"ProductID" "int" IDENTITY (1, 1) NOT NULL ,
+	"Sku" uniqueidentifier NOT NULL DEFAULT NEWID() ,
 	"ProductName" nvarchar (40) NOT NULL ,
+	"Description" nvarchar (300) NULL ,
 	"SupplierID" "int" NULL ,
 	"CategoryID" "int" NULL ,
 	"QuantityPerUnit" nvarchar (20) NULL ,
@@ -40,3 +42,6 @@ GO
 CREATE  INDEX "SupplierID" ON "dbo"."Products"("SupplierID")
 GO
 CREATE  INDEX "SuppliersProducts" ON "dbo"."Products"("SupplierID")
+GO
+CREATE INDEX [IX_Products_Sku] ON [dbo].[Products] ([Sku])
+GO

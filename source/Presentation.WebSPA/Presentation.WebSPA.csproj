@@ -2,10 +2,10 @@
   <Import Project="./spa-build.targets" />
 
   <PropertyGroup Label="Globals">
-    <SccProjectName>Plastic SCM</SccProjectName>
+    <SccProjectName>PlasticSCM</SccProjectName>
     <SccProvider>Plastic SCM Source Control Service:{774e58ba-f1b9-40a7-b676-834fa2c220fe}</SccProvider>
-    <SccAuxPath>Plastic SCM</SccAuxPath>
-    <SccLocalPath>Plastic SCM</SccLocalPath>
+    <SccAuxPath>PlasticSCM</SccAuxPath>
+    <SccLocalPath>PlasticSCM</SccLocalPath>
   </PropertyGroup>
 
   <PropertyGroup>
