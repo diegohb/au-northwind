@@ -1,8 +1,8 @@
 ﻿CREATE TABLE "Products" (
 	"ProductID" "int" IDENTITY (1, 1) NOT NULL ,
-	"Sku" uniqueidentifier NOT NULL ,
+	"Sku" uniqueidentifier NOT NULL DEFAULT NEWID() ,
 	"ProductName" nvarchar (40) NOT NULL ,
-	"Description" nvarchar (100) NULL ,
+	"Description" nvarchar (300) NULL ,
 	"SupplierID" "int" NULL ,
 	"CategoryID" "int" NULL ,
 	"QuantityPerUnit" nvarchar (20) NULL ,

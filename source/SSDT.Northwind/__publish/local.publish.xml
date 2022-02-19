@@ -2,7 +2,7 @@
 <Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <IncludeCompositeObjects>True</IncludeCompositeObjects>
-    <TargetDatabaseName>Northwind</TargetDatabaseName>
+    <TargetDatabaseName>SSDT.Northwind</TargetDatabaseName>
     <DeployScriptFileName>Northwind.sql</DeployScriptFileName>
     <TargetConnectionString>Data Source=(localdb)\mssqllocaldb;Integrated Security=True</TargetConnectionString>
     <ProfileVersionNumber>1</ProfileVersionNumber>
