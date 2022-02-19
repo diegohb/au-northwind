@@ -11,3 +11,4 @@ Post-Deployment Script Template
 */
 
 :r .\PopulateData.sql
+:r .\EnrichProductData.sql
