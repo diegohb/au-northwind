@@ -377,6 +377,7 @@
 	<s:String x:Key="/Default/CodeStyle/Naming/JavaScriptNaming/Abbreviations/=API/@EntryIndexedValue">API</s:String>
 	<s:String x:Key="/Default/CodeStyle/Naming/JavaScriptNaming/Abbreviations/=ID/@EntryIndexedValue">ID</s:String>
 	<s:String x:Key="/Default/CodeStyle/Naming/JavaScriptNaming/Abbreviations/=URL/@EntryIndexedValue">URL</s:String>
+	<s:String x:Key="/Default/CodeStyle/Naming/JavaScriptNaming/Abbreviations/=VM/@EntryIndexedValue">VM</s:String>
 	<s:String x:Key="/Default/CodeStyle/Naming/JavaScriptNaming/Abbreviations/=XHR/@EntryIndexedValue">XHR</s:String>
 	<s:String x:Key="/Default/CodeStyle/Naming/JavaScriptNaming/UserRules/=JS_005FBLOCK_005FSCOPE_005FCONSTANT/@EntryIndexedValue">&lt;Policy Inspect="True" Prefix="" Suffix="" Style="aaBb" /&gt;</s:String>
 	<s:String x:Key="/Default/CodeStyle/Naming/JavaScriptNaming/UserRules/=JS_005FBLOCK_005FSCOPE_005FFUNCTION/@EntryIndexedValue">&lt;Policy Inspect="True" Prefix="" Suffix="" Style="aaBb" /&gt;</s:String>
@@ -400,7 +401,7 @@
 	<s:String x:Key="/Default/CodeStyle/Naming/JavaScriptNaming/UserRules/=TS_005FMODULE_005FLOCAL/@EntryIndexedValue">&lt;Policy Inspect="True" Prefix="" Suffix="" Style="aaBb" /&gt;</s:String>
 	<s:String x:Key="/Default/CodeStyle/Naming/JavaScriptNaming/UserRules/=TS_005FPRIVATE_005FMEMBER_005FACCESSOR/@EntryIndexedValue">&lt;Policy Inspect="True" Prefix="" Suffix="" Style="aaBb" /&gt;</s:String>
 	<s:String x:Key="/Default/CodeStyle/Naming/JavaScriptNaming/UserRules/=TS_005FPRIVATE_005FSTATIC_005FTYPE_005FFIELD/@EntryIndexedValue">&lt;Policy Inspect="True" Prefix="" Suffix="" Style="aaBb" /&gt;</s:String>
-	<s:String x:Key="/Default/CodeStyle/Naming/JavaScriptNaming/UserRules/=TS_005FPRIVATE_005FTYPE_005FFIELD/@EntryIndexedValue">&lt;Policy Inspect="True" Prefix="" Suffix="" Style="aaBb" /&gt;</s:String>
+	<s:String x:Key="/Default/CodeStyle/Naming/JavaScriptNaming/UserRules/=TS_005FPRIVATE_005FTYPE_005FFIELD/@EntryIndexedValue">&lt;Policy Inspect="True" Prefix="_" Suffix="" Style="aaBb" /&gt;</s:String>
 	<s:String x:Key="/Default/CodeStyle/Naming/JavaScriptNaming/UserRules/=TS_005FPRIVATE_005FTYPE_005FMETHOD/@EntryIndexedValue">&lt;Policy Inspect="True" Prefix="" Suffix="" Style="aaBb" /&gt;</s:String>
 	<s:String x:Key="/Default/CodeStyle/Naming/JavaScriptNaming/UserRules/=TS_005FPROTECTED_005FMEMBER_005FACCESSOR/@EntryIndexedValue">&lt;Policy Inspect="True" Prefix="" Suffix="" Style="aaBb" /&gt;</s:String>
 	<s:String x:Key="/Default/CodeStyle/Naming/JavaScriptNaming/UserRules/=TS_005FPROTECTED_005FSTATIC_005FTYPE_005FFIELD/@EntryIndexedValue">&lt;Policy Inspect="True" Prefix="" Suffix="" Style="aaBb" /&gt;</s:String>
