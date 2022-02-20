@@ -20,6 +20,8 @@ public class ProductsController : ControllerBase
     }
 
     [HttpGet]
+    [Consumes("application/json")]
+    [Produces("application/json")]
     [ProducesResponseType(200)]
     [ProducesResponseType(204)]
     public async Task<ActionResult<IList<Product>>> GetAll()
