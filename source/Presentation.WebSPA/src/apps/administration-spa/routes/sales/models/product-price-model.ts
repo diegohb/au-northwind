@@ -1,13 +1,17 @@
 ﻿export class ProductPriceModel {
     private readonly _changes: Array<ChangeDTO>;
 
-    constructor(initialPriceParam?: number) {
+    constructor(productSkuParam: string, initialPriceParam: number) {
         this._changes = new Array<ChangeDTO>();
-        this.increasePrice(87.85, "Initial price.");
-        this.decreasePrice(83.42, "Prices go down.");
+        if (initialPriceParam > 0) {
+            this.increasePrice(initialPriceParam, "Initial price.");
+        } else {
+            this.decreasePrice(initialPriceParam, "Initial price.");
+        }
+        this.sku = productSkuParam;
     }
 
-    public sku = "AB124CDE44FGH";
+    public sku: string;
     public name = "A Strawbery";
     public description = "Some description here...";
     public currentPrice = 0;

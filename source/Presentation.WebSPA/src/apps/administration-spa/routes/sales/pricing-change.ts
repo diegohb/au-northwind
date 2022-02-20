@@ -2,18 +2,21 @@
 import { Router } from "aurelia-router";
 import { ProductPriceModel } from "./models/product-price-model";
 import * as toastr from "toastr";
+import { PricingSvc } from "./services/pricing-svc";
 
 @autoinject
 export class PricingIncreaseViewModel {
     private readonly _logger = LogManager.getLogger(this.constructor.name);
-    private _router: Router;
+    private readonly _pricingSvc: PricingSvc;
+    private readonly _router: Router;
     private _changeType: "increase" | "decrease" = null;
 
-    constructor(routerParam: Router) {
+    constructor(routerParam: Router, pricingServiceParam: PricingSvc) {
         this._router = routerParam;
+        this._pricingSvc = pricingServiceParam;
     }
 
-    public model = new ProductPriceModel();
+    public model: ProductPriceModel;
 
     @bindable
     public newPrice = "";
@@ -27,6 +30,13 @@ export class PricingIncreaseViewModel {
     public async activate(routeOptionsParam: any): Promise<void> {
         this._logger.debug(`Loaded product id ${routeOptionsParam.productId}.`);
         this._changeType = routeOptionsParam.changeType;
+
+        const productModel = await this._pricingSvc.getProductBySku(routeOptionsParam.productId);
+        const pricingModel = new ProductPriceModel(productModel.sku, productModel.price);
+        pricingModel.name = productModel.name;
+        pricingModel.description = productModel.description;
+
+        this.model = pricingModel;
     }
 
     public async commit(): Promise<void> {
@@ -70,4 +80,5 @@ export class PricingIncreaseViewModel {
         this.comment = "";
         this._router.navigateBack();
     }
+
 }
