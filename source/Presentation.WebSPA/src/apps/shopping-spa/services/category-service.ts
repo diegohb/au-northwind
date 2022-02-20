@@ -1,7 +1,7 @@
 ﻿import { autoinject, LogManager } from "aurelia-framework";
 import { HttpClient } from "aurelia-fetch-client";
 import { ApiLoggerInterceptor } from "../../../common/api-logger-interceptor";
-import { CategoryDTO } from "../models/category-dto";
+import { CategoryDTO } from "../../../models/category-dto";
 
 @autoinject()
 export class CategoryService {
