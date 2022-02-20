@@ -53,7 +53,7 @@ public class ProductsController : ControllerBase
     [HttpGet("{skuParam:guid}")]
     [ProducesResponseType(200)]
     [ProducesResponseType(404)]
-    public async Task<ActionResult<IList<Product>>> GetBySky(Guid skuParam)
+    public async Task<ActionResult<IList<Product>>> GetBySku(Guid skuParam)
     {
         var productEntity = await _northwindDb.Products.AsNoTracking().SingleOrDefaultAsync(p => p.Sku.Equals(skuParam));
         if (productEntity == null)
