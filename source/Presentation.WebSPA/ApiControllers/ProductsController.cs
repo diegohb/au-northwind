@@ -1,5 +1,6 @@
 ﻿namespace Presentation.WebSPA.ApiControllers;
 
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Infra.Persistence.EF;
@@ -20,6 +21,8 @@ public class ProductsController : ControllerBase
     }
 
     [HttpGet]
+    [Consumes("application/json")]
+    [Produces("application/json")]
     [ProducesResponseType(200)]
     [ProducesResponseType(204)]
     public async Task<ActionResult<IList<Product>>> GetAll()
@@ -47,5 +50,19 @@ public class ProductsController : ControllerBase
         }
 
         return Ok(productEntities);
+    }
+
+    [HttpGet("{skuParam:guid}")]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(404)]
+    public async Task<ActionResult<IList<Product>>> GetBySku(Guid skuParam)
+    {
+        var productEntity = await _northwindDb.Products.AsNoTracking().SingleOrDefaultAsync(p => p.Sku.Equals(skuParam));
+        if (productEntity == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(productEntity);
     }
 }

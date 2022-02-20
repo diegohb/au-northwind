@@ -1,0 +1,21 @@
+﻿<template>
+    <div class="card-columns">
+        <div class="card" repeat.for="product of products">
+            <img class="card-img-top" src="https://via.placeholder.com/344?text=product+image" alt="product image">
+            <div class="card-body">
+                <h5 class="card-title">${product.name}</h5>
+                <p class="card-text">${product.description}</p>
+            </div>
+            <div class="card-footer">
+                <div class="row no-gutters">
+                    <div class="col-6">
+                        <button class="btn btn-block btn-outline-success">Add To Cart</button>
+                    </div>
+                    <div class="col-6">
+                        <button class="btn btn-block btn-success">Details</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

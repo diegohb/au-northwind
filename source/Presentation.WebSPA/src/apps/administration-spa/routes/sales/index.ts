@@ -38,7 +38,7 @@ export class SalesIndexViewModel {
             {
                 route: "pricing/:productId/:changeType",
                 moduleId: PLATFORM.moduleName("./pricing-change"),
-                name: "pricing",
+                name: "productPricing",
                 title: "Product Pricing",
                 nav: false
             }
