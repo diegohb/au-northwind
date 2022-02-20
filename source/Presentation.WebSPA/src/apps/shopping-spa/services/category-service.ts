@@ -26,7 +26,7 @@ export class CategoryService {
 
     private async fetchCategories(): Promise<CategoryDTO[]> {
         const rawResponse = await this._http.fetch("categories");
-        const objects: Array<any> = await rawResponse.json();
+        const objects: Array<CategoryDTO> = await rawResponse.json();
         this._logger.debug(`Fetched ${objects.length} categories.`, objects);
         return objects;
     }

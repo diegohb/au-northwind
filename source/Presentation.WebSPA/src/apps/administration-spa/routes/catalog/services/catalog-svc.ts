@@ -4,6 +4,7 @@ import { ProductModel } from "../models/product-model";
 import { CategoryModel } from "../models/category-model";
 import { ApiLoggerInterceptor } from "../../../../../common/api-logger-interceptor";
 import { ProductDTO } from "../../../../../models/product-dto";
+import { CategoryDTO } from "../../../../../models/category-dto";
 
 @autoinject()
 export class CatalogSvc implements ICatalogService {
@@ -44,12 +45,17 @@ export class CatalogSvc implements ICatalogService {
     }
 
     public async getCategories(): Promise<CategoryModel[]> {
-        return [
-            { id: 1, name: "Books", description: "Inventory of books.", productCount: 7 },
-            { id: 2, name: "Food", description: "Inventory of foods.", productCount: 5 },
-            { id: 3, name: "Medical", description: "Inventory of medical supplies.", productCount: 3 },
-            { id: 4, name: "Music", description: "Inventory of music.", productCount: 9 }
-        ];
+        const dtos = await this.fetchCategories();
+        const models = dtos.map(dto => CategoryModel.fromDTO(dto));
+        return models;
+    }
+
+
+    private async fetchCategories(): Promise<CategoryDTO[]> {
+        const rawResponse = await this._http.fetch("categories");
+        const objects: Array<CategoryDTO> = await rawResponse.json();
+        this._logger.debug(`Fetched ${objects.length} categories.`, objects);
+        return objects;
     }
 }
 
