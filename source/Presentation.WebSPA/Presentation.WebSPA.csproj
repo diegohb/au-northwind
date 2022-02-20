@@ -15,6 +15,8 @@
     <TypeScriptToolsVersion>latest</TypeScriptToolsVersion>
     <TypeScriptCompileBlocked>True</TypeScriptCompileBlocked>
     <StartupObject>Presentation.WebSPA.Program</StartupObject>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
@@ -32,6 +34,7 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="6.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.2.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
   <ItemGroup>

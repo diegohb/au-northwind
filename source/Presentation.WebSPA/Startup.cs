@@ -2,6 +2,7 @@
 
 using System;
 using System.IO;
+using System.Reflection;
 using ApiConfig;
 using Infra.Persistence.EF;
 using Microsoft.AspNetCore.Builder;
@@ -15,6 +16,7 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
+using Microsoft.OpenApi.Models;
 
 public class Startup
 {
@@ -56,12 +58,35 @@ public class Startup
             endpoints.MapRazorPages();
             endpoints.MapControllers();
         });
+
+        appParam.UseSwagger();
+        appParam.UseSwaggerUI
+        (opt =>
+        {
+            opt.RoutePrefix = "swagger";
+            opt.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+        });
     }
 
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection servicesParam)
     {
         servicesParam.AddControllers(opt => opt.UseGeneralRoutePrefix("api"));
+
+        servicesParam.AddSwaggerGen
+        (opt =>
+        {
+            opt.SwaggerDoc
+            ("v1", new OpenApiInfo
+            {
+                Version = "v1",
+                Title = "Northwind API"
+            });
+
+            var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+            opt.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+        });
+
         servicesParam.Configure<JsonOptions>
         (opt =>
         {
