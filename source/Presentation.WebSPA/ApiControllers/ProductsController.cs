@@ -6,7 +6,6 @@ using System.Net.Mime;
 using System.Threading.Tasks;
 using Infra.Persistence.EF;
 using Infra.Persistence.EF.Entities;
-using Infra.Persistence.EF.Entities.QueryViews;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -25,9 +24,9 @@ public class ProductsController : ControllerBase
     }
 
     [HttpGet]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(IList<Product>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    public async Task<ActionResult<IList<Product>>> GetAll()
+    public async Task<IActionResult> GetAll()
     {
         var productEntities = await _northwindDb.Products.AsNoTracking().ToListAsync();
         if (productEntities.Count == 0)
@@ -39,9 +38,9 @@ public class ProductsController : ControllerBase
     }
 
     [HttpGet("bycategory")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(IList<Product>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    public async Task<ActionResult<IList<ProductsByCategoryView>>> GetByCategory()
+    public async Task<IActionResult> GetByCategory()
     {
         var productEntities = await _northwindDb.ProductsByCategories.AsNoTracking().ToListAsync();
         if (productEntities.Count == 0)
@@ -53,9 +52,9 @@ public class ProductsController : ControllerBase
     }
 
     [HttpGet("{skuParam:guid}")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(Product), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<IList<Product>>> GetBySku(Guid skuParam)
+    public async Task<IActionResult> GetBySku(Guid skuParam)
     {
         var productEntity = await _northwindDb.Products.AsNoTracking().SingleOrDefaultAsync(p => p.Sku.Equals(skuParam));
         if (productEntity == null)
