@@ -23,10 +23,10 @@ public class CategoriesController : ControllerBase
         _northwindDb = dbContextParam;
     }
 
-    [HttpGet("")]
-    [ProducesResponseType(typeof(IList<Category>), StatusCodes.Status200OK)]
+    [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    public async Task<IActionResult> GetAll()
+    public async Task<ActionResult<IList<Category>>> GetAll()
     {
         var productCategoryEntities = await _northwindDb.Categories.AsNoTracking().ToListAsync();
         if (productCategoryEntities.Count == 0)
@@ -43,9 +43,9 @@ public class CategoriesController : ControllerBase
     /// <param name="idParam">ID for category to be fetched.</param>
     /// <returns></returns>
     [HttpGet("{idParam:int}")]
-    [ProducesResponseType(typeof(Category), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetByID(int idParam)
+    public async Task<ActionResult<Category>> GetByID(int idParam)
     {
         var categoryEntity = await _northwindDb.Categories.AsNoTracking().SingleOrDefaultAsync(category => category.CategoryId.Equals(idParam));
 
@@ -63,9 +63,9 @@ public class CategoriesController : ControllerBase
     /// <param name="nameParam">The name of the category to fetch.</param>
     /// <returns></returns>
     [HttpGet("{nameParam}")]
-    [ProducesResponseType(typeof(Category), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetByName(string nameParam)
+    public async Task<ActionResult<Category>> GetByName(string nameParam)
     {
         var decodedName = Uri.UnescapeDataString(nameParam);
         var categoryEntity = await _northwindDb.Categories.AsNoTracking().SingleOrDefaultAsync(category => category.CategoryName.Equals(decodedName));
