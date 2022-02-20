@@ -2,14 +2,18 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using Infra.Persistence.EF;
 using Infra.Persistence.EF.Entities;
 using Infra.Persistence.EF.Entities.QueryViews;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 [ApiController]
+[Consumes(MediaTypeNames.Application.Json)]
+[Produces(MediaTypeNames.Application.Json)]
 [Route("[controller]")]
 public class ProductsController : ControllerBase
 {
@@ -21,10 +25,8 @@ public class ProductsController : ControllerBase
     }
 
     [HttpGet]
-    [Consumes("application/json")]
-    [Produces("application/json")]
-    [ProducesResponseType(200)]
-    [ProducesResponseType(204)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<ActionResult<IList<Product>>> GetAll()
     {
         var productEntities = await _northwindDb.Products.AsNoTracking().ToListAsync();
@@ -37,10 +39,8 @@ public class ProductsController : ControllerBase
     }
 
     [HttpGet("bycategory")]
-    [Consumes("application/json")]
-    [Produces("application/json")]
-    [ProducesResponseType(200)]
-    [ProducesResponseType(204)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<ActionResult<IList<ProductsByCategoryView>>> GetByCategory()
     {
         var productEntities = await _northwindDb.ProductsByCategories.AsNoTracking().ToListAsync();
@@ -53,8 +53,8 @@ public class ProductsController : ControllerBase
     }
 
     [HttpGet("{skuParam:guid}")]
-    [ProducesResponseType(200)]
-    [ProducesResponseType(404)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<IList<Product>>> GetBySku(Guid skuParam)
     {
         var productEntity = await _northwindDb.Products.AsNoTracking().SingleOrDefaultAsync(p => p.Sku.Equals(skuParam));

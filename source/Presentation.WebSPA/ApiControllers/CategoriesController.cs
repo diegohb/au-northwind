@@ -2,13 +2,17 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using Infra.Persistence.EF;
 using Infra.Persistence.EF.Entities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 [ApiController]
+[Consumes(MediaTypeNames.Application.Json)]
+[Produces(MediaTypeNames.Application.Json)]
 [Route("[controller]")]
 public class CategoriesController : ControllerBase
 {
@@ -20,10 +24,8 @@ public class CategoriesController : ControllerBase
     }
 
     [HttpGet]
-    [Consumes("application/json")]
-    [Produces("application/json")]
-    [ProducesResponseType(200)]
-    [ProducesResponseType(204)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<ActionResult<IList<Category>>> GetAll()
     {
         var productCategoryEntities = await _northwindDb.Categories.AsNoTracking().ToListAsync();
@@ -41,10 +43,8 @@ public class CategoriesController : ControllerBase
     /// <param name="idParam">ID for category to be fetched.</param>
     /// <returns></returns>
     [HttpGet("{idParam:int}")]
-    [Consumes("application/json")]
-    [Produces("application/json")]
-    [ProducesResponseType(200)]
-    [ProducesResponseType(404)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<Category>> GetByID(int idParam)
     {
         var categoryEntity = await _northwindDb.Categories.AsNoTracking().SingleOrDefaultAsync(category => category.CategoryId.Equals(idParam));
@@ -63,10 +63,8 @@ public class CategoriesController : ControllerBase
     /// <param name="nameParam">The name of the category to fetch.</param>
     /// <returns></returns>
     [HttpGet("{nameParam}")]
-    [Consumes("application/json")]
-    [Produces("application/json")]
-    [ProducesResponseType(200)]
-    [ProducesResponseType(404)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<Category>> GetByName(string nameParam)
     {
         var decodedName = Uri.UnescapeDataString(nameParam);
