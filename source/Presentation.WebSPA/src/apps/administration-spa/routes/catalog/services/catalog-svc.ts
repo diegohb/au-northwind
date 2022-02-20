@@ -3,6 +3,7 @@ import { HttpClient } from "aurelia-fetch-client";
 import { ProductModel } from "../models/product-model";
 import { CategoryModel } from "../models/category-model";
 import { ApiLoggerInterceptor } from "../../../../../common/api-logger-interceptor";
+import { ProductDTO } from "../../../../../models/product-dto";
 
 @autoinject()
 export class CatalogSvc implements ICatalogService {
@@ -27,18 +28,10 @@ export class CatalogSvc implements ICatalogService {
     public async getProducts(): Promise<ProductModel[]> {
         if (this._products.length === 0) {
             const rawResponse = await this._http.fetch("products");
-            const objects: Array<any> = await rawResponse.json();
+            const objects: Array<ProductDTO> = await rawResponse.json();
             this._logger.debug(`Fetched ${objects.length} products.`, objects);
 
-            const productModels = objects.map(t => {
-                const model = new ProductModel(t.sku);
-                model.name = t.productName;
-                model.description = t.description;
-                model.cost = 0;
-                model.price = t.unitPrice;
-                model.quantity = t.unitsInStock; //TODO: account for units on order.
-                return model;
-            });
+            const productModels = objects.map(dto => ProductModel.fromDTO(dto));
 
             this._products = productModels;
         }
