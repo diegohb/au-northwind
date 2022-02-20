@@ -1,5 +1,27 @@
 ﻿<script src="~/js/vendor-bundle.js"></script>
 
 <script>
-    SystemJS.import("aurelia-bootstrapper").catch(function (err) { console.log(err); });
+    SystemJS.import("aurelia-bootstrapper").catch(function(err) { console.log(err); });
+</script>
+
+<script>
+    //TODO: hacky hack to set active on top level nav
+    var topLevelNavEl = document.getElementById("topLevelNav");
+    if (document.location.pathname.toLowerCase().indexOf("/shopping") !== -1) {
+        topLevelNavEl.children[0].className += " active";
+    } else if (document.location.pathname.toLowerCase().indexOf("/administration") !== -1) {
+        topLevelNavEl.children[1].className += " active";
+    }
+
+    /*<ul id="topLevelNav" class="navbar-nav flex-grow-1 justify-content-end">
+        <li class="nav-item">
+            <a class="nav-link" asp-area="" asp-page="Shopping">Shopping</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" asp-area="" asp-page="Administration">Administration</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="~/swagger/">API</a>
+        </li>
+    </ul>*/
 </script>
