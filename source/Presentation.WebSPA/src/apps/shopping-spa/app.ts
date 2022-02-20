@@ -11,9 +11,40 @@ export class ShoppingSPAViewModel {
         pConfig.title = "Shopping Site";
         //pConfig.options.pushState = true;
         pConfig.map([
-            { route: ["", "products/all"], moduleId: PLATFORM.moduleName("./all-products"), title: "All Products" },
-            { route: "products/no-selection", moduleId: PLATFORM.moduleName("./no-selection"), title: "Select" },
-            { route: "products/:id", moduleId: PLATFORM.moduleName("./product-detail"), name: "Product" }
+            {
+                name: "allProducts",
+                route: ["", "products/all"],
+                moduleId: PLATFORM.moduleName("./all-products"),
+                title: "All Products",
+                nav: true
+            },
+            {
+                name: "featuredProducts",
+                route: "products/featured",
+                moduleId: PLATFORM.moduleName("./no-selection"),
+                title: "Featured",
+                nav: true
+            },
+            {
+                name: "specials",
+                route: "products/specials",
+                moduleId: PLATFORM.moduleName("./no-selection"),
+                title: "Specials",
+                nav: true
+            },
+            {
+                name: "noSelection",
+                route: "products/no-selection",
+                moduleId: PLATFORM.moduleName("./no-selection"),
+                title: "Select",
+                nav: false
+            },
+            {
+                name: "productById",
+                route: "products/:id",
+                moduleId: PLATFORM.moduleName("./product-detail"),
+                nav: false
+            }
         ]);
 
         this.router = pRouter;
