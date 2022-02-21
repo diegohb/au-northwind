@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Net.Mime;
 using System.Threading.Tasks;
+using ApiConfig;
 using Infra.Persistence.EF;
 using Infra.Persistence.EF.Entities;
 using Microsoft.AspNetCore.Http;
@@ -47,6 +48,7 @@ public class CategoriesController : ControllerBase
     [HttpGet("{id:int}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [SwaggerDefaultValue("id", "4")]
     public async Task<ActionResult<Category>> GetByID([FromRoute(Name = "id")] int idParam)
     {
         var categoryEntity = await _northwindDb.Categories.AsNoTracking().SingleOrDefaultAsync(category => category.CategoryId.Equals(idParam));
@@ -67,6 +69,7 @@ public class CategoriesController : ControllerBase
     [HttpGet("{name}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [SwaggerDefaultValue("name", "Dairy Products")]
     public async Task<ActionResult<Category>> GetByName([FromRoute(Name = "name")] string nameParam)
     {
         var decodedName = Uri.UnescapeDataString(nameParam);

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Net.Mime;
 using System.Threading.Tasks;
+using ApiConfig;
 using Infra.Persistence.EF;
 using Infra.Persistence.EF.Entities;
 using Infra.Persistence.EF.Entities.QueryViews;
@@ -62,6 +63,7 @@ public class ProductsController : ControllerBase
     [HttpGet("{sku:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [SwaggerDefaultValue("sku", "94b14c55-f76d-ac18-e366-697742b93469")]
     public async Task<ActionResult<Product>> GetBySku([FromRoute(Name = "sku")] Guid skuParam)
     {
         var productEntity = await _northwindDb.Products.AsNoTracking().SingleOrDefaultAsync(p => p.Sku.Equals(skuParam));

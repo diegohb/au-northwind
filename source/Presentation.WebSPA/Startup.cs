@@ -85,6 +85,8 @@ public class Startup
 
             var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
             opt.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+
+            opt.OperationFilter<AddDefaulValueOperation>();
         });
 
         servicesParam.Configure<JsonOptions>
