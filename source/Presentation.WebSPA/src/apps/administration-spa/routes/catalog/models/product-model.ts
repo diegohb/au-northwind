@@ -1,9 +1,10 @@
 ﻿import { createGuid } from "../../../../../common/utils";
+import { ProductDTO } from "../../../../../models/product-dto";
 
 export class ProductModel {
-    private _sku: string;
+    private readonly _sku: string;
 
-    constructor(skuParam?: string) {
+    constructor(skuParam: string) {
         if (skuParam) {
             this._sku = skuParam;
             return;
@@ -28,4 +29,14 @@ export class ProductModel {
 
     /*public offerFreeShipping: boolean;
     public onSale: boolean;*/
+
+    public static fromDTO(dtoParam: ProductDTO): ProductModel {
+        const model = new ProductModel(dtoParam.sku);
+        model.name = dtoParam.productName;
+        model.description = dtoParam.description;
+        model.cost = 0;
+        model.price = dtoParam.unitPrice;
+        model.quantity = dtoParam.unitsInStock; //TODO: account for units on order.
+        return model;
+    }
 }

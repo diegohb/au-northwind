@@ -1,7 +1,7 @@
 ﻿import { autoinject, LogManager } from "aurelia-framework";
 import { HttpClient } from "aurelia-fetch-client";
 import { ApiLoggerInterceptor } from "../../../common/api-logger-interceptor";
-import { CategoryDTO } from "../models/category-dto";
+import { CategoryDTO } from "../../../models/category-dto";
 
 @autoinject()
 export class CategoryService {
@@ -26,7 +26,7 @@ export class CategoryService {
 
     private async fetchCategories(): Promise<CategoryDTO[]> {
         const rawResponse = await this._http.fetch("categories");
-        const objects: Array<any> = await rawResponse.json();
+        const objects: Array<CategoryDTO> = await rawResponse.json();
         this._logger.debug(`Fetched ${objects.length} categories.`, objects);
         return objects;
     }

@@ -2,7 +2,7 @@
 import { HttpClient } from "aurelia-fetch-client";
 import { ApiLoggerInterceptor } from "../../../common/api-logger-interceptor";
 import { ProductSummaryModel } from "../models/product-summary";
-import { ProductDTO } from "../models/product-dto";
+import { ProductDTO } from "../../../models/product-dto";
 
 @autoinject()
 export class ProductService {

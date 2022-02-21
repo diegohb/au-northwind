@@ -1,4 +1,4 @@
-﻿import { ProductDTO } from "./product-dto";
+﻿import { ProductDTO } from "../../../models/product-dto";
 
 export class ProductSummaryModel {
     public constructor(

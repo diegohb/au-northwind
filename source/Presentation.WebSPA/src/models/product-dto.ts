@@ -4,4 +4,5 @@
     public productName: string;
     public description: string;
     public unitPrice: number;
+    public unitsInStock: number;
 }
