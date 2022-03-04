@@ -1,4 +1,4 @@
-﻿namespace SharedKernel;
+﻿namespace SharedKernel.Domain;
 
 /// <summary>
 ///   Base class for value objects in domain.
