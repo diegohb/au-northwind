@@ -14,4 +14,8 @@
     <PackageReference Include="coverlet.collector" Version="3.1.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Nrothwind.Domain\Nrothwind.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

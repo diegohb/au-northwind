@@ -1,7 +1,18 @@
 ﻿namespace Nrothwind.Domain.Shipment;
 
+using ValueObjects;
+
 public abstract class ShipmentStop
 {
+  protected ShipmentStop(int stopIDParam, int sequenceParam)
+  {
+    Sequence = sequenceParam;
+    StopID = stopIDParam;
+  }
+
+  public AddressValueObject? Address { get; set; }
+  public DateTime? Departed { get; set; }
+  public DateTime Scheduled { get; set; }
   public int Sequence { get; set; }
   public StopStatusEnum Status { get; set; }
   public int StopID { get; set; }
@@ -10,7 +21,7 @@ public abstract class ShipmentStop
   {
     if (Status != StopStatusEnum.InTransit)
     {
-      throw new InvalidOperationException("Stop has laready arrived.");
+      throw new InvalidOperationException("Stop has already arrived.");
     }
 
     Status = StopStatusEnum.Arrived;
@@ -29,5 +40,6 @@ public abstract class ShipmentStop
     }
 
     Status = StopStatusEnum.Departed;
+    Departed = DateTime.UtcNow;
   }
 }

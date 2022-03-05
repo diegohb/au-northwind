@@ -2,6 +2,7 @@ namespace Northwind.UnitTests;
 
 using NUnit.Framework;
 
+[TestFixture]
 public class ProductTestFixture
 {
   [SetUp]

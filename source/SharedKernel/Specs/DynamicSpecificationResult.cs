@@ -2,6 +2,6 @@
 
 public class DynamicSpecificationResult
 {
-  public string Filter { get; set; }
-  public object[] Parameters { get; set; }
+  public string Filter { get; set; } = null!;
+  public object[] Parameters { get; set; } = null!;
 }
