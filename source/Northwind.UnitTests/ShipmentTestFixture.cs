@@ -2,7 +2,7 @@ namespace Northwind.UnitTests;
 
 using System;
 using System.Collections.Generic;
-using Nrothwind.Domain.Shipment;
+using Domain.Shipment;
 using NUnit.Framework;
 
 [TestFixture]

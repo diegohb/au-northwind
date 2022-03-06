@@ -1,4 +1,4 @@
-﻿namespace Nrothwind.Domain.Product;
+﻿namespace Northwind.Domain.Product;
 
 public class Product
 {

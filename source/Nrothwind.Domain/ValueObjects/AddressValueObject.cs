@@ -1,4 +1,4 @@
-﻿namespace Nrothwind.Domain.ValueObjects;
+﻿namespace Northwind.Domain.ValueObjects;
 
 using SharedKernel.Domain;
 
@@ -18,7 +18,7 @@ public class AddressValueObject : ValueObjectBase<AddressValueObject>
   public string StreetAddress { get; }
   public string Zip { get; }
 
-  #region equality
+  #region Equality
 
   public override bool Equals(AddressValueObject? other)
   {

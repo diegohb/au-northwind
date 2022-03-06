@@ -1,4 +1,4 @@
-﻿namespace Nrothwind.Domain.Shipment;
+﻿namespace Northwind.Domain.Shipment;
 
 public class ShipmentDeliveryStop : ShipmentStop
 {
