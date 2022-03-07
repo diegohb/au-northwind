@@ -1,4 +1,4 @@
-﻿namespace SharedKernel.Domain;
+﻿namespace Northwind.Core.Domain;
 
 public abstract class DomainEventBase<TAggregateId> : IDomainEvent<TAggregateId>, IEquatable<DomainEventBase<TAggregateId>>
 {

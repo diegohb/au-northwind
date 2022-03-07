@@ -1,4 +1,4 @@
-﻿namespace SharedKernel.Persistence.EventStore;
+﻿namespace Northwind.Core.Persistence.EventStore;
 
 public class AppendResult
 {

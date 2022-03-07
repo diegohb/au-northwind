@@ -1,4 +1,4 @@
-﻿namespace SharedKernel.Persistence;
+﻿namespace Northwind.Core.Persistence;
 
 using Domain;
 

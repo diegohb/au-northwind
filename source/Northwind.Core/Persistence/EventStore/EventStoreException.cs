@@ -1,4 +1,4 @@
-﻿namespace SharedKernel.Persistence.EventStore;
+﻿namespace Northwind.Core.Persistence.EventStore;
 
 using System.Runtime.Serialization;
 

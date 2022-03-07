@@ -1,4 +1,4 @@
-﻿namespace SharedKernel.Domain;
+﻿namespace Northwind.Core.Domain;
 
 public interface IDomainMediator<TAggregateId>
 {

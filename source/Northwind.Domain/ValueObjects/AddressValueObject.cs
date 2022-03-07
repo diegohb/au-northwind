@@ -1,6 +1,6 @@
 ﻿namespace Northwind.Domain.ValueObjects;
 
-using SharedKernel.Domain;
+using Core.Domain;
 
 public class AddressValueObject : ValueObjectBase<AddressValueObject>
 {
