@@ -4,11 +4,11 @@ using Domain;
 
 internal interface IEventSourcingAggregate<TAggregateId>
 {
-  long Version { get; }
+  public long Version { get; }
 
-  void ApplyEvent(IDomainEvent<TAggregateId> @event, long version);
+  internal void ApplyEvent(IDomainEvent<TAggregateId> @event, long version);
 
-  void ClearUncommittedEvents();
+  public void ClearUncommittedEvents();
 
   IEnumerable<IDomainEvent<TAggregateId>> GetUncommittedEvents();
 }

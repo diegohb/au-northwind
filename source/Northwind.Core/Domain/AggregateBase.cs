@@ -15,7 +15,7 @@ public abstract class AggregateBase<TId> : IAggregate<TId>, IEventSourcingAggreg
   {
     if (!_uncommittedEvents.Any(x => Equals(x.EventId, @event.EventId)))
     {
-      ((dynamic)this).Apply((dynamic)@event);
+      ((dynamic)this).when((dynamic)@event);
       _version = version;
     }
   }
@@ -32,7 +32,7 @@ public abstract class AggregateBase<TId> : IAggregate<TId>, IEventSourcingAggreg
 
   long IEventSourcingAggregate<TId>.Version => _version;
 
-  protected void RaiseEvent<TEvent>(TEvent @event)
+  protected void raiseEvent<TEvent>(TEvent @event)
     where TEvent : DomainEventBase<TId>
   {
     var eventWithAggregate = @event.WithAggregate
