@@ -4,7 +4,8 @@ using System.Runtime.Serialization;
 using Domain;
 
 public interface IRepository<TAggregate, TAggregateId>
-  where TAggregate : IAggregate<TAggregateId>
+  where TAggregate : IHaveIdentity<TAggregateId>
+  where TAggregateId : IIdentityValueObject
 {
   Task<TAggregate?> GetByIdAsync(TAggregateId id);
 

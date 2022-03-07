@@ -6,7 +6,7 @@ public class CatalogProduct : AggregateBase<ProductId>
 {
   public CatalogProduct() { }
 
-  public CatalogProduct(ProductId productIdParam, Guid skuParam) : this()
+  public CatalogProduct(ProductId productIdParam, Guid skuParam) : base(productIdParam)
   {
     if (productIdParam is null)
     {
@@ -23,6 +23,8 @@ public class CatalogProduct : AggregateBase<ProductId>
 
   public Guid Sku { get; private set; }
 
+  #region Intentions
+
   public void CategorizeProduct(CategoryId categoryIdParam)
   {
     if (categoryIdParam == null)
@@ -31,7 +33,9 @@ public class CatalogProduct : AggregateBase<ProductId>
     }
   }
 
-  #region Domain Event Handlers
+  #endregion
+
+  #region Mutations
 
   //((dynamic)this).Apply((dynamic) @event);
 
@@ -49,7 +53,7 @@ public class CatalogProduct : AggregateBase<ProductId>
   #endregion
 }
 
-public class ProductId : IAggregateId
+public class ProductId : IIdentityValueObject
 {
   private const string idAsStringPrefix = "Product-";
 
@@ -106,7 +110,7 @@ public class ProductId : IAggregateId
   }
 }
 
-public class CategoryId : IAggregateId
+public class CategoryId : IIdentityValueObject
 {
   private const string idAsStringPrefix = "Category-";
 
