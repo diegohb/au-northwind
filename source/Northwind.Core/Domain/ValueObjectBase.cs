@@ -13,20 +13,20 @@ public abstract class ValueObjectBase<TValueObject> : IEquatable<TValueObject>
   /// <summary>
   ///   <see cref="M:System.Object.IEquatable{TValueObject}" />
   /// </summary>
-  /// <param name="other">
+  /// <param name="otherParam">
   ///   <see cref="M:System.Object.IEquatable{TValueObject}" />
   /// </param>
   /// <returns>
   ///   <see cref="M:System.Object.IEquatable{TValueObject}" />
   /// </returns>
-  public virtual bool Equals(TValueObject? other)
+  public virtual bool Equals(TValueObject? otherParam)
   {
-    if ((object)other! == null)
+    if (otherParam is null)
     {
       return false;
     }
 
-    if (ReferenceEquals(this, other))
+    if (ReferenceEquals(this, otherParam))
     {
       return true;
     }
@@ -40,7 +40,7 @@ public abstract class ValueObjectBase<TValueObject> : IEquatable<TValueObject>
       (p =>
       {
         var left = p.GetValue(this, null);
-        var right = p.GetValue(other, null);
+        var right = p.GetValue(otherParam, null);
 
         return left != null && (left is TValueObject ? ReferenceEquals(left, right) : left.Equals(right));
       });
@@ -52,27 +52,25 @@ public abstract class ValueObjectBase<TValueObject> : IEquatable<TValueObject>
   /// <summary>
   ///   <see cref="M:System.Object.Equals" />
   /// </summary>
-  /// <param name="obj">
+  /// <param name="objParam">
   ///   <see cref="M:System.Object.Equals" />
   /// </param>
   /// <returns>
   ///   <see cref="M:System.Object.Equals" />
   /// </returns>
-  public override bool Equals(object? obj)
+  public override bool Equals(object? objParam)
   {
-    if (obj == null)
+    if (objParam is null)
     {
       return false;
     }
 
-    if (ReferenceEquals(this, obj))
+    if (ReferenceEquals(this, objParam))
     {
       return true;
     }
 
-    var item = obj as ValueObjectBase<TValueObject>;
-
-    return (object)item! != null && Equals((TValueObject)item);
+    return objParam is ValueObjectBase<TValueObject> item && Equals((TValueObject)item);
   }
 
   /// <summary>
@@ -112,12 +110,12 @@ public abstract class ValueObjectBase<TValueObject> : IEquatable<TValueObject>
     return hashCode;
   }
 
-  public static bool operator ==(ValueObjectBase<TValueObject> left, ValueObjectBase<TValueObject> right)
+  public static bool operator ==(ValueObjectBase<TValueObject>? left, ValueObjectBase<TValueObject>? right)
   {
-    return Equals(left, null) ? Equals(right, null) : left.Equals(right);
+    return left?.Equals(right) ?? false;
   }
 
-  public static bool operator !=(ValueObjectBase<TValueObject> left, ValueObjectBase<TValueObject> right)
+  public static bool operator !=(ValueObjectBase<TValueObject>? left, ValueObjectBase<TValueObject>? right)
   {
     return !(left == right);
   }

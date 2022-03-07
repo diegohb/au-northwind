@@ -1,6 +1,6 @@
 ﻿namespace Northwind.Core.Domain;
 
-public interface IAggregateId
+public interface IIdentityValueObject
 {
   string IdAsString();
 }

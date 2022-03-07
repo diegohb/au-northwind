@@ -2,21 +2,24 @@
 
 using Persistence;
 
-public abstract class AggregateBase<TId> : IAggregate<TId>, IEventSourcingAggregate<TId>
+public abstract class AggregateBase<TId> : EntityBase<TId>, IEventSourcingAggregate<TId>
+  where TId : IIdentityValueObject
 {
   public const long NewAggregateVersion = -1;
 
   private readonly ICollection<IDomainEvent<TId>> _uncommittedEvents = new LinkedList<IDomainEvent<TId>>();
   private long _version = NewAggregateVersion;
 
-  public TId Id { get; protected set; } = default!;
+  protected AggregateBase() { }
 
-  void IEventSourcingAggregate<TId>.ApplyEvent(IDomainEvent<TId> @event, long version)
+  protected AggregateBase(TId idParam) : base(idParam) { }
+
+  void IEventSourcingAggregate<TId>.ApplyEvent(IDomainEvent<TId> eventParam, long versionParam)
   {
-    if (!_uncommittedEvents.Any(x => Equals(x.EventId, @event.EventId)))
+    if (!_uncommittedEvents.Any(x => Equals(x.EventId, eventParam.EventId)))
     {
-      ((dynamic)this).when((dynamic)@event);
-      _version = version;
+      ((dynamic)this).when((dynamic)eventParam);
+      _version = versionParam;
     }
   }
 
@@ -32,12 +35,12 @@ public abstract class AggregateBase<TId> : IAggregate<TId>, IEventSourcingAggreg
 
   long IEventSourcingAggregate<TId>.Version => _version;
 
-  protected void raiseEvent<TEvent>(TEvent @event)
+  protected void raiseEvent<TEvent>(TEvent eventParam)
     where TEvent : DomainEventBase<TId>
   {
-    var eventWithAggregate = @event.WithAggregate
+    var eventWithAggregate = eventParam.WithAggregate
     (
-      Equals(Id, default(TId)) ? @event.AggregateId : Id,
+      Equals(Id, default(TId)) ? eventParam.AggregateId : Id,
       _version);
 
     ((IEventSourcingAggregate<TId>)this).ApplyEvent(eventWithAggregate, _version + 1);

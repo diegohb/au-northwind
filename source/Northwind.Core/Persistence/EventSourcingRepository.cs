@@ -5,8 +5,8 @@ using Domain;
 using EventStore;
 
 public class EventSourcingRepository<TAggregate, TAggregateId> : IRepository<TAggregate, TAggregateId>
-  where TAggregate : AggregateBase<TAggregateId>, IAggregate<TAggregateId>
-  where TAggregateId : IAggregateId
+  where TAggregate : AggregateBase<TAggregateId>, IHaveIdentity<TAggregateId>
+  where TAggregateId : IIdentityValueObject
 {
   private readonly IEventStore _eventStore;
   private readonly IDomainMediator<TAggregateId> _publisher;
