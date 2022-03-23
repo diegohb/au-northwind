@@ -9,11 +9,11 @@ public class EventSourcingRepository<TAggregate, TAggregateId> : IRepository<TAg
   where TAggregateId : IIdentityValueObject
 {
   private readonly IEventStore _eventStore;
-  private readonly IDomainMediator<TAggregateId> _publisher;
+  private readonly IDomainMediator<TAggregateId>? _publisher;
 
   public EventSourcingRepository(IEventStore eventStore, IDomainMediator<TAggregateId> publisher)
   {
-    _eventStore = eventStore;
+    _eventStore = eventStore ?? throw new ArgumentNullException(nameof(eventStore));
     _publisher = publisher;
   }
 
@@ -50,7 +50,11 @@ public class EventSourcingRepository<TAggregate, TAggregateId> : IRepository<TAg
       foreach (var @event in aggregatePersistence.GetUncommittedEvents())
       {
         await _eventStore.AppendEventAsync(@event);
-        await _publisher.PublishAsync((dynamic)@event);
+
+        if (_publisher is not null)
+        {
+          await _publisher.PublishAsync((dynamic)@event);
+        }
       }
 
       aggregatePersistence.ClearUncommittedEvents();

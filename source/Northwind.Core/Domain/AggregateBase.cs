@@ -1,5 +1,6 @@
 ﻿namespace Northwind.Core.Domain;
 
+using System.Reflection;
 using Persistence;
 
 public abstract class AggregateBase<TId> : EntityBase<TId>, IEventSourcingAggregate<TId>
@@ -18,7 +19,8 @@ public abstract class AggregateBase<TId> : EntityBase<TId>, IEventSourcingAggreg
   {
     if (!_uncommittedEvents.Any(x => Equals(x.EventId, eventParam.EventId)))
     {
-      ((dynamic)this).when((dynamic)eventParam);
+      var whenMethod = GetType().GetMethod("when", BindingFlags.Instance | BindingFlags.NonPublic);
+      whenMethod?.Invoke((dynamic)this, new object?[] { eventParam });
       _version = versionParam;
     }
   }

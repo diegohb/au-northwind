@@ -2,7 +2,7 @@
 
 using Core.Domain;
 
-public class CatalogProduct : AggregateBase<ProductId>
+public class CatalogProduct : AggregateBase<ProductId>, IHaveIdentity<ProductId>
 {
   public CatalogProduct() { }
 
