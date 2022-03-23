@@ -18,29 +18,52 @@ public class ProductTestFixture
   private readonly InMemProductEventStore _eventStore = new();
   private readonly FakeProductIdMediator _productNotificationMediator = new();
   private EventSourcingRepository<CatalogProduct, ProductId> _productRepo = null!;
-
   private CatalogProduct _sut = null!;
 
   [SetUp]
-  public void Setup()
+  public async Task Setup()
   {
     _productRepo = new EventSourcingRepository<CatalogProduct, ProductId>(_eventStore, _productNotificationMediator);
+
+    var newProductId = ProductId.NewProductId(101);
+    var expectedProductGuid = Guid.NewGuid();
+    _sut = new CatalogProduct(newProductId, expectedProductGuid);
+    await _productRepo.SaveAsync(_sut);
+  }
+
+  [Test]
+  public async Task ChangeSkuShouldUpdateProductSkuWhenNew()
+  {
+    var expectedOldGuid = _sut.Sku;
+    var expectedNewGuid = Guid.NewGuid();
+
+    _sut.ChangeSku(expectedNewGuid);
+    var actualUpdatedSku = _sut.Sku;
+    Assert.AreEqual(expectedNewGuid, actualUpdatedSku);
+    await _productRepo.SaveAsync(_sut);
+
+    var actualMessages = _productNotificationMediator.Messages.OfType<ProductSkuChangedEvent>().ToImmutableHashSet();
+    var actualMessage = actualMessages.First();
+
+    CollectionAssert.IsNotEmpty(actualMessages);
+    Assert.IsNotNull(actualMessage);
+    Assert.AreEqual(expectedOldGuid, actualMessage.OldSku);
+    Assert.AreEqual(expectedNewGuid, actualMessage.NewSku);
   }
 
   [Test]
   public async Task SaveAndLoadAggregateShouldReturnAddedAggregate()
   {
-    var newProductId = ProductId.NewProductId(101);
+    var newProductId = ProductId.NewProductId(102);
     var expectedProductGuid = Guid.NewGuid();
-    _sut = new CatalogProduct(newProductId, expectedProductGuid);
-    await _productRepo.SaveAsync(_sut);
+    var sut = new CatalogProduct(newProductId, expectedProductGuid);
+    await _productRepo.SaveAsync(sut);
     var result = await _productRepo.GetByIdAsync(newProductId);
     Assert.IsNotNull(result);
     Assert.AreEqual(expectedProductGuid, result!.Sku);
     var messages = _productNotificationMediator.Messages.OfType<CatalogProductCreatedEvent>().ToImmutableHashSet();
     CollectionAssert.IsNotEmpty(messages);
-    Assert.AreEqual(1, messages.Count);
-    Assert.AreEqual(expectedProductGuid, messages.First().Sku);
+    Assert.AreEqual(expectedProductGuid, messages.Single(msg => msg.AggregateId.Equals(newProductId)).Sku);
   }
 
   public class FakeProductIdMediator : IDomainMediator<ProductId>

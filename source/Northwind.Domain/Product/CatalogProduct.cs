@@ -25,12 +25,14 @@ public class CatalogProduct : AggregateBase<ProductId>, IHaveIdentity<ProductId>
 
   #region Intentions
 
-  public void CategorizeProduct(CategoryId categoryIdParam)
+  public void ChangeSku(Guid skuParam)
   {
-    if (categoryIdParam == null)
+    if (Sku.Equals(skuParam))
     {
-      throw new ArgumentNullException(nameof(categoryIdParam));
+      throw new InvalidOperationException("Sku is not different.");
     }
+
+    raiseEvent(new ProductSkuChangedEvent(Id, Sku, skuParam));
   }
 
   #endregion
@@ -48,6 +50,16 @@ public class CatalogProduct : AggregateBase<ProductId>, IHaveIdentity<ProductId>
 
     Id = eventParam.AggregateId;
     Sku = eventParam.Sku;
+  }
+
+  protected void when(ProductSkuChangedEvent eventParam)
+  {
+    if (eventParam == null)
+    {
+      throw new ArgumentNullException(nameof(eventParam));
+    }
+
+    Sku = eventParam.NewSku;
   }
 
   #endregion
@@ -185,5 +197,29 @@ public class CatalogProductCreatedEvent : DomainEventBase<ProductId>
   public override IDomainEvent<ProductId> WithAggregate(ProductId aggregateIdParam, long aggregateVersionParam)
   {
     return new CatalogProductCreatedEvent(aggregateIdParam, aggregateVersionParam, Sku);
+  }
+}
+
+public class ProductSkuChangedEvent : DomainEventBase<ProductId>
+{
+  internal ProductSkuChangedEvent(ProductId aggregateId, Guid oldSkuParam, Guid newSkuParam) : base(aggregateId)
+  {
+    OldSku = oldSkuParam;
+    NewSku = newSkuParam;
+  }
+
+  private ProductSkuChangedEvent(ProductId aggregateId, long aggregateVersion, Guid oldSkuParam, Guid newSkuParam) : base
+    (aggregateId, aggregateVersion)
+  {
+    OldSku = oldSkuParam;
+    NewSku = newSkuParam;
+  }
+
+  public Guid NewSku { get; }
+  public Guid OldSku { get; }
+
+  public override IDomainEvent<ProductId> WithAggregate(ProductId aggregateId, long aggregateVersion)
+  {
+    return new ProductSkuChangedEvent(aggregateId, aggregateVersion, OldSku, NewSku);
   }
 }
