@@ -32,6 +32,15 @@ public class ProductTestFixture
   }
 
   [Test]
+  public void ChangeSkuShouldThrowWhenSameSku()
+  {
+    var expectedOldGuid = _sut.Sku;
+    var expectedNewGuid = expectedOldGuid;
+
+    Assert.Throws<InvalidOperationException>(() => _sut.ChangeSku(expectedNewGuid));
+  }
+
+  [Test]
   public async Task ChangeSkuShouldUpdateProductSkuWhenNew()
   {
     var expectedOldGuid = _sut.Sku;
@@ -49,6 +58,42 @@ public class ProductTestFixture
     Assert.IsNotNull(actualMessage);
     Assert.AreEqual(expectedOldGuid, actualMessage.OldSku);
     Assert.AreEqual(expectedNewGuid, actualMessage.NewSku);
+  }
+
+  [Test]
+  public void RenameShouldThrowWhenNull()
+  {
+    Assert.Throws<ArgumentNullException>(() => _sut.Rename(string.Empty));
+  }
+
+  [Test]
+  public async Task RenameShouldThrowWhenSameName()
+  {
+    var productName = "Banana";
+    _sut.Rename(productName);
+    await _productRepo.SaveAsync(_sut);
+
+    Assert.Throws<InvalidOperationException>(() => _sut.Rename(productName));
+  }
+
+  [Test]
+  public async Task RenameShouldUpdateWhenNew()
+  {
+    var expectedOldName = _sut.Name;
+    var expectedNewName = "Bananas";
+
+    _sut.Rename(expectedNewName);
+    var actualNewName = _sut.Name;
+    Assert.AreEqual(expectedNewName, actualNewName);
+    await _productRepo.SaveAsync(_sut);
+
+    var actualMessages = _productNotificationMediator.Messages.OfType<ProductRenamedEvent>().ToImmutableHashSet();
+    var actualMessage = actualMessages.First();
+
+    CollectionAssert.IsNotEmpty(actualMessages);
+    Assert.IsNotNull(actualMessage);
+    Assert.AreEqual(expectedOldName, actualMessage.OldName);
+    Assert.AreEqual(expectedNewName, actualMessage.NewName);
   }
 
   [Test]

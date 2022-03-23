@@ -22,6 +22,8 @@ public class CatalogProduct : AggregateBase<ProductId>, IHaveIdentity<ProductId>
     raiseEvent(new CatalogProductCreatedEvent(Id, skuParam));
   }
 
+  public string? Name { get; private set; }
+
   public Guid Sku { get; private set; }
 
   #region Intentions
@@ -34,6 +36,21 @@ public class CatalogProduct : AggregateBase<ProductId>, IHaveIdentity<ProductId>
     }
 
     raiseEvent(new ProductSkuChangedEvent(Id, Sku, skuParam));
+  }
+
+  public void Rename(string? newProductNameParam)
+  {
+    if (string.IsNullOrEmpty(newProductNameParam))
+    {
+      throw new ArgumentNullException(nameof(newProductNameParam));
+    }
+
+    if (!string.IsNullOrEmpty(Name) && Name.Equals(newProductNameParam, StringComparison.CurrentCultureIgnoreCase))
+    {
+      throw new InvalidOperationException("Name is not different.");
+    }
+
+    raiseEvent(new ProductRenamedEvent(Id, Name, newProductNameParam));
   }
 
   #endregion
@@ -63,6 +80,17 @@ public class CatalogProduct : AggregateBase<ProductId>, IHaveIdentity<ProductId>
     }
 
     Sku = eventParam.NewSku;
+  }
+
+  [SuppressMessage("ReSharper", "UnusedMember.Global")]
+  protected void when(ProductRenamedEvent eventParam)
+  {
+    if (eventParam == null)
+    {
+      throw new ArgumentNullException(nameof(eventParam));
+    }
+
+    Name = eventParam.NewName;
   }
 
   #endregion
