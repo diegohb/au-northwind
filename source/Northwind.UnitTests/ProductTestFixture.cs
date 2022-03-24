@@ -23,8 +23,7 @@ public class ProductTestFixture
   [SetUp]
   public async Task Setup()
   {
-    _productRepo = new EventSourcingRepository<CatalogProduct, ProductId>(_eventStore, _productNotificationMediator);
-
+    _eventStore.Reset();
     var newProductId = ProductId.NewProductId(101);
     var expectedProductGuid = Guid.NewGuid();
     _sut = new CatalogProduct(newProductId, expectedProductGuid);
@@ -58,6 +57,23 @@ public class ProductTestFixture
     Assert.IsNotNull(actualMessage);
     Assert.AreEqual(expectedOldGuid, actualMessage.OldSku);
     Assert.AreEqual(expectedNewGuid, actualMessage.NewSku);
+  }
+
+  [Test]
+  public async Task DescribeProductShouldChangeDescription()
+  {
+    var originalDesc = "An initial description goes here.";
+    _sut.DescribeProduct(originalDesc);
+    await _productRepo.SaveAsync(_sut);
+
+    var actualDesc = _sut.Description;
+    Assert.AreEqual(originalDesc, actualDesc);
+
+    var actualMessages = _productNotificationMediator.Messages.OfType<ProductDescribedEvent>().ToImmutableHashSet();
+    var actualMessage = actualMessages.First();
+    CollectionAssert.IsNotEmpty(actualMessages);
+    Assert.IsNull(actualMessage.OldDescription);
+    Assert.AreEqual(originalDesc, actualMessage.NewDescription);
   }
 
   [Test]
@@ -146,5 +162,20 @@ public class ProductTestFixture
       var results = _events.Where(ev => ev.DomainEvent.AggregateId.Equals(id));
       return Task.FromResult(results.Cast<Event<TAggregateId>>());
     }
+
+    public void Reset()
+    {
+      _events.Clear();
+    }
   }
+
+  #region Support Methods
+
+  [OneTimeSetUp]
+  public void SetupOnce()
+  {
+    _productRepo = new EventSourcingRepository<CatalogProduct, ProductId>(_eventStore, _productNotificationMediator);
+  }
+
+  #endregion
 }

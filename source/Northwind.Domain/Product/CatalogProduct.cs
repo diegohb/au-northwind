@@ -22,9 +22,21 @@ public class CatalogProduct : AggregateBase<ProductId>, IHaveIdentity<ProductId>
     raiseEvent(new CatalogProductCreatedEvent(Id, skuParam));
   }
 
+  public string? Description { get; private set; }
+
   public string? Name { get; private set; }
 
   public Guid Sku { get; private set; }
+
+  public void DescribeProduct(string newDescriptionParam)
+  {
+    if (string.IsNullOrEmpty(newDescriptionParam))
+    {
+      throw new ArgumentNullException(nameof(newDescriptionParam));
+    }
+
+    raiseEvent(new ProductDescribedEvent(Id, Description, newDescriptionParam));
+  }
 
   #region Intentions
 
@@ -91,6 +103,17 @@ public class CatalogProduct : AggregateBase<ProductId>, IHaveIdentity<ProductId>
     }
 
     Name = eventParam.NewName;
+  }
+
+  [SuppressMessage("ReSharper", "UnusedMember.Global")]
+  protected void when(ProductDescribedEvent eventParam)
+  {
+    if (eventParam == null)
+    {
+      throw new ArgumentNullException(nameof(eventParam));
+    }
+
+    Description = eventParam.NewDescription;
   }
 
   #endregion

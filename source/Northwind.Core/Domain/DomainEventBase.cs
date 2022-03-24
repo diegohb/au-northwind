@@ -13,6 +13,8 @@ public abstract class DomainEventBase<TAggregateId> : IDomainEvent<TAggregateId>
     AggregateVersion = aggregateVersion;
   }
 
+  public DateTimeOffset OccurredAt { get; } = DateTimeOffset.UtcNow;
+
   public TAggregateId AggregateId { get; }
 
   public long AggregateVersion { get; }
