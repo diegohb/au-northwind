@@ -5,7 +5,7 @@ using Core.Domain;
 
 public class CatalogProduct : AggregateBase<ProductId>, IHaveIdentity<ProductId>
 {
-  public CatalogProduct() { }
+  private CatalogProduct() { }
 
   public CatalogProduct(ProductId productIdParam, Guid skuParam) : base(productIdParam)
   {
