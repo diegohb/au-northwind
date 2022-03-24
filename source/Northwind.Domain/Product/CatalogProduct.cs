@@ -23,7 +23,9 @@ public class CatalogProduct : AggregateBase<ProductId>, IHaveIdentity<ProductId>
   }
 
   public string? Description { get; private set; }
+
   public bool ListedInCatalog { get; private set; }
+
   public DateTime? ListingExpiration { get; private set; }
 
   public string? Name { get; private set; }
@@ -85,6 +87,16 @@ public class CatalogProduct : AggregateBase<ProductId>, IHaveIdentity<ProductId>
     }
 
     raiseEvent(new ProductListedEvent(Id, listingExpirationParam));
+  }
+
+  public void Unlist()
+  {
+    if (!ListedInCatalog)
+    {
+      throw new InvalidOperationException("Product is already unlisted.");
+    }
+
+    raiseEvent(new ProductUnlistedEvent(Id));
   }
 
   #endregion
@@ -155,6 +167,17 @@ public class CatalogProduct : AggregateBase<ProductId>, IHaveIdentity<ProductId>
     {
       ListedInCatalog = true;
     }
+  }
+
+  [SuppressMessage("ReSharper", "UnusedMember.Global")]
+  protected void when(ProductUnlistedEvent eventParam)
+  {
+    if (eventParam == null)
+    {
+      throw new ArgumentNullException(nameof(eventParam));
+    }
+
+    ListedInCatalog = false;
   }
 
   #endregion

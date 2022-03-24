@@ -116,7 +116,6 @@ public class ProductTestFixture
     );
   }
 
-
   [Test]
   public async Task RehydratedExpiredProductShouldNotBeListed()
   {
@@ -178,6 +177,26 @@ public class ProductTestFixture
     var messages = _productNotificationMediator.Messages.OfType<CatalogProductCreatedEvent>().ToImmutableHashSet();
     CollectionAssert.IsNotEmpty(messages);
     Assert.AreEqual(expectedProductGuid, messages.Single(msg => msg.AggregateId.Equals(newProductId)).Sku);
+  }
+
+  [Test]
+  public async Task UnlistProductShouldChangeListedInCatalog()
+  {
+    _sut.List();
+    Assert.IsTrue(_sut.ListedInCatalog);
+    _sut.Unlist();
+    Assert.IsFalse(_sut.ListedInCatalog);
+    await _productRepo.SaveAsync(_sut);
+
+    var unlistedProductEvent = _productNotificationMediator.Messages.OfType<ProductUnlistedEvent>()
+      .SingleOrDefault(msg => msg.AggregateId.Equals(_sut.Id));
+    Assert.IsNotNull(unlistedProductEvent);
+  }
+
+  [Test]
+  public void UnlistProductWhenUnlistedShouldThrow()
+  {
+    Assert.Throws<InvalidOperationException>(() => _sut.Unlist());
   }
 
   public class FakeProductIdMediator : IDomainMediator<ProductId>
