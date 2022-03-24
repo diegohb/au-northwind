@@ -23,7 +23,9 @@ public class ProductTestFixture
   [SetUp]
   public async Task Setup()
   {
-    _eventStore.Reset();
+    _eventStore.ResetForTesting();
+    _productNotificationMediator.ResetForTesting();
+    _productRepo = new EventSourcingRepository<CatalogProduct, ProductId>(_eventStore, _productNotificationMediator);
     var newProductId = ProductId.NewProductId(101);
     var expectedProductGuid = Guid.NewGuid();
     _sut = new CatalogProduct(newProductId, expectedProductGuid);
@@ -74,6 +76,57 @@ public class ProductTestFixture
     CollectionAssert.IsNotEmpty(actualMessages);
     Assert.IsNull(actualMessage.OldDescription);
     Assert.AreEqual(originalDesc, actualMessage.NewDescription);
+  }
+
+  [Test]
+  public async Task ListProductWithExpriationShouldUpdateListingStatusAndExpiration()
+  {
+    var expectedExpiration = DateTime.UtcNow.AddSeconds(1);
+    _sut.List(expectedExpiration);
+    await _productRepo.SaveAsync(_sut);
+
+    var productListedEvent = _productNotificationMediator.Messages.OfType<ProductListedEvent>()
+      .SingleOrDefault(msg => msg.AggregateId.Equals(_sut.Id));
+
+    Assert.IsTrue(_sut.ListedInCatalog);
+    Assert.AreEqual(expectedExpiration, _sut.ListingExpiration);
+    Assert.IsNotNull(productListedEvent);
+    Assert.AreEqual(expectedExpiration, productListedEvent!.ListingExpiresAt);
+  }
+
+  [Test]
+  public async Task ListProductWithoutExpriationShouldUpdateListingStatus()
+  {
+    _sut.List();
+    await _productRepo.SaveAsync(_sut);
+
+    var productListedEvent = _productNotificationMediator.Messages.OfType<ProductListedEvent>()
+      .SingleOrDefault(msg => msg.AggregateId.Equals(_sut.Id));
+
+    Assert.IsTrue(_sut.ListedInCatalog);
+    Assert.IsNotNull(productListedEvent);
+  }
+
+  [Test]
+  public void ListProductWithPastExpirationShouldThrow()
+  {
+    Assert.Throws<InvalidOperationException>
+    (() =>
+      _sut.List(DateTime.UtcNow.AddDays(-1))
+    );
+  }
+
+
+  [Test]
+  public async Task RehydratedExpiredProductShouldNotBeListed()
+  {
+    //arrange
+    await ListProductWithExpriationShouldUpdateListingStatusAndExpiration();
+    await Task.Delay(1000);
+
+    var reloadedProduct = await _productRepo.GetByIdAsync(_sut.Id);
+    Assert.IsNotNull(reloadedProduct);
+    Assert.IsFalse(reloadedProduct!.ListedInCatalog);
   }
 
   [Test]
@@ -143,6 +196,11 @@ public class ProductTestFixture
       Messages.Add(notificationParam);
       return Task.CompletedTask;
     }
+
+    internal void ResetForTesting()
+    {
+      Messages.Clear();
+    }
   }
 
   public class InMemProductEventStore : IEventStore
@@ -163,19 +221,9 @@ public class ProductTestFixture
       return Task.FromResult(results.Cast<Event<TAggregateId>>());
     }
 
-    public void Reset()
+    internal void ResetForTesting()
     {
       _events.Clear();
     }
   }
-
-  #region Support Methods
-
-  [OneTimeSetUp]
-  public void SetupOnce()
-  {
-    _productRepo = new EventSourcingRepository<CatalogProduct, ProductId>(_eventStore, _productNotificationMediator);
-  }
-
-  #endregion
 }

@@ -23,6 +23,8 @@ public class CatalogProduct : AggregateBase<ProductId>, IHaveIdentity<ProductId>
   }
 
   public string? Description { get; private set; }
+  public bool ListedInCatalog { get; private set; }
+  public DateTime? ListingExpiration { get; private set; }
 
   public string? Name { get; private set; }
 
@@ -63,6 +65,26 @@ public class CatalogProduct : AggregateBase<ProductId>, IHaveIdentity<ProductId>
     }
 
     raiseEvent(new ProductRenamedEvent(Id, Name, newProductNameParam));
+  }
+
+  public void List(DateTime? listingExpirationParam = null)
+  {
+    if (ListedInCatalog)
+    {
+      throw new InvalidOperationException("The product is already listed.");
+    }
+
+    if (ListingExpiration.HasValue && ListingExpiration.Equals(listingExpirationParam))
+    {
+      throw new InvalidOperationException("The desired expiration is the same.");
+    }
+
+    if (listingExpirationParam < DateTime.UtcNow)
+    {
+      throw new InvalidOperationException("The listing expiration cannot be in the past.");
+    }
+
+    raiseEvent(new ProductListedEvent(Id, listingExpirationParam));
   }
 
   #endregion
@@ -114,6 +136,25 @@ public class CatalogProduct : AggregateBase<ProductId>, IHaveIdentity<ProductId>
     }
 
     Description = eventParam.NewDescription;
+  }
+
+  [SuppressMessage("ReSharper", "UnusedMember.Global")]
+  protected void when(ProductListedEvent eventParam)
+  {
+    if (eventParam == null)
+    {
+      throw new ArgumentNullException(nameof(eventParam));
+    }
+
+    if (eventParam.ListingExpiresAt.HasValue)
+    {
+      ListingExpiration = eventParam.ListingExpiresAt;
+      ListedInCatalog = eventParam.ListingExpiresAt > DateTime.UtcNow; //NOTE: this accounts for setting correct false value when rehydrating
+    }
+    else
+    {
+      ListedInCatalog = true;
+    }
   }
 
   #endregion
