@@ -1,22 +1,26 @@
 ﻿namespace Northwind.Domain.Shipment;
 
+using Core.Domain;
 using ValueObjects;
 
-public class ShipmentAggRoot
+public class ShipmentAggRoot : AggregateBase<ShipmentId>, IHaveIdentity<ShipmentId>
 {
   //ref: https://www.youtube.com/watch?v=64ngP-aUYPc
 
-  public ShipmentAggRoot(int shipmentIDParam, IList<ShipmentStop> stopsParam)
+  private ShipmentAggRoot()
   {
-    ShipmentID = shipmentIDParam;
+    Stops = new List<ShipmentStop>();
+  }
+
+  public ShipmentAggRoot(ShipmentId shipmentIDParam, IList<ShipmentStop> stopsParam)
+  {
+    Id = shipmentIDParam;
     Stops = stopsParam;
   }
 
   public AddressValueObject? CustomerAddress { get; private set; }
 
   public DateTime ShipmentDate { get; set; }
-
-  public int ShipmentID { get; }
 
   public IList<ShipmentStop> Stops { get; }
 

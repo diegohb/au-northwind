@@ -1,8 +1,9 @@
 ﻿namespace Northwind.Domain.Shipment;
 
+using Core.Domain;
 using ValueObjects;
 
-public abstract class ShipmentStop
+public abstract class ShipmentStop : EntityBase<ShipmentStopId>
 {
   protected ShipmentStop(int stopIDParam, int sequenceParam)
   {

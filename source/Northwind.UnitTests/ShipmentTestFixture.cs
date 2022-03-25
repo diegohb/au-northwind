@@ -14,7 +14,7 @@ public class ShipmentTestFixture
   public void Setup()
   {
     var stops = new List<ShipmentStop> { new ShipmentPickupStop(1, 1), new ShipmentDeliveryStop(2, 2) };
-    _shipmentRoot = new ShipmentAggRoot(1, stops);
+    _shipmentRoot = new ShipmentAggRoot(ShipmentId.NewProductId(1), stops);
   }
 
 
