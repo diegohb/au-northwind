@@ -24,7 +24,6 @@ public class ShipmentAggRoot : AggregateBase<ShipmentId>, IHaveIdentity<Shipment
 
   public IList<ShipmentStop> Stops { get; }
 
-
   public void Arrive(int stopIDParam)
   {
     var currentStop = Stops.SingleOrDefault(s => s.StopID == stopIDParam);
@@ -40,6 +39,18 @@ public class ShipmentAggRoot : AggregateBase<ShipmentId>, IHaveIdentity<Shipment
     }
 
     currentStop.Arrive();
+  }
+
+  public void ConfigureDeliveryAddress(AddressValueObject deliveryAddressParam)
+  {
+    if (CustomerAddress is not null)
+    {
+      throw new InvalidOperationException("Delivery address is already set.");
+    }
+
+    Stops.Add(new ShipmentPickupStop(1, 1));
+    Stops.Add(new ShipmentDeliveryStop(2, 2));
+    CustomerAddress = deliveryAddressParam;
   }
 
   public void Deliver(int stopIDParam)
