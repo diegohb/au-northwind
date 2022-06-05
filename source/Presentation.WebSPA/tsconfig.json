@@ -10,15 +10,24 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "moduleResolution": "node",
-    "lib": ["es2017", "ESNext", "ESNext.Array", "dom", "ESNext.Promise"],
+    "lib": [
+      "es2017",
+      "ESNext",
+      "ESNext.Array",
+      "dom",
+      "ESNext.Promise"
+    ],
     "baseUrl": "src",
     "resolveJsonModule": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "typeRoots": [
+      "node_modules/@types",
+      "./custom_typings/**/*.d.ts"
+    ]
   },
   "include": [
     "./src/**/*.ts",
-    "./test/**/*.ts",
-    "./src/custom_typings/**/*.d.ts"
+    "./test/**/*.ts"
   ],
   "atom": {
     "rewriteTsconfig": false
