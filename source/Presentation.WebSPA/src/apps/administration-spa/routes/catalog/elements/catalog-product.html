@@ -1,15 +1,15 @@
 ﻿<template>
     <form with.bind="product">
-        <div class="form-group">
-            <label for="productIdTextbox">Product SKU:</label>
-            <input type="text" readonly class="form-control-plaintext" id="productIdTextbox" value.bind="sku" />
+        <div>
+            <label for="productIdTextbox" class="form-label">Product SKU:</label>
+            <input type="text" readonly class="form-control form-control-plaintext" id="productIdTextbox" value.bind="sku"/>
         </div>
-        <div class="form-group">
-            <label for="productNameTextbox">Product Name</label>
-            <input class="form-control form-control-lg" type="text" placeholder="Descriptive name of product." id="productNameTextbox" value.bind="name" autocomplete="off" />
+        <div>
+            <label for="productNameTextbox" class="form-label">Product Name</label>
+            <input class="form-control form-control-lg" type="text" placeholder="Descriptive name of product." id="productNameTextbox" value.bind="name" autocomplete="off"/>
         </div>
-        <div class="form-group">
-            <label for="productDescriptionTextbox">Description</label>
+        <div>
+            <label for="productDescriptionTextbox" class="form-label">Description</label>
             <textarea id="productDescriptionTextbox" rows="4" class="form-control" placeholder="A detailed description of the product." value.bind="description"></textarea>
         </div>
 
