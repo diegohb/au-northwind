@@ -1,14 +1,10 @@
 namespace Northwind.UnitTests;
 
 using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
-using Core.Domain;
 using Core.Persistence;
-using Core.Persistence.EventStore;
 using Domain.Product;
 using NUnit.Framework;
 
@@ -200,7 +196,17 @@ public class ProductTestFixture
   }
 
   [Test]
-  public async Task UpdateListingPrice()
+  public void UpdateListingPrice_DisallowNegativeValuesForAmount()
+  {
+    Assert.Throws<InvalidOperationException>
+      (() => { _sut.IncreaseListPrice(-10, string.Empty); }, "Change amount must not be negative.");
+
+    Assert.Throws<InvalidOperationException>
+      (() => { _sut.DecreaseListPrice(-10, string.Empty); }, "Change amount must not be negative.");
+  }
+
+  [Test]
+  public async Task UpdateListingPrice_ShouldIncreaseAndDecrease()
   {
     var expectedInitialPrice = 20.55m;
     _sut.IncreaseListPrice(expectedInitialPrice, "initial price");
@@ -226,52 +232,5 @@ public class ProductTestFixture
     Assert.AreEqual(PriceAdjustmentTypeEnum.Decrease, priceChangedEvents[1].AdjustmentType);
     Assert.AreEqual(expectedPriceDelta2, priceChangedEvents[2].Amount);
     Assert.AreEqual(PriceAdjustmentTypeEnum.Increase, priceChangedEvents[2].AdjustmentType);
-  }
-
-  public class FakeProductIdMediator : IDomainMediator<ProductId>
-  {
-    public HashSet<IDomainEvent<ProductId>> Messages { get; } = new();
-
-    public Task PublishAsync(IDomainEvent<ProductId> notificationParam, CancellationToken cancellationTokenParam = default)
-    {
-      Messages.Add(notificationParam);
-      return Task.CompletedTask;
-    }
-
-    public Task PublishAsync<TNotification>(TNotification notificationParam, CancellationToken cancellationTokenParam = default)
-      where TNotification : IDomainEvent<ProductId>
-    {
-      Messages.Add(notificationParam);
-      return Task.CompletedTask;
-    }
-
-    internal void ResetForTesting()
-    {
-      Messages.Clear();
-    }
-  }
-
-  public class InMemProductEventStore : IEventStore
-  {
-    private readonly HashSet<Event<ProductId>> _events = new();
-
-    public Task<AppendResult> AppendEventAsync<TAggregateId>(IDomainEvent<TAggregateId> @event)
-      where TAggregateId : IIdentityValueObject
-    {
-      _events.Add(new Event<ProductId>((IDomainEvent<ProductId>)@event, @event.AggregateVersion));
-      return Task.FromResult(new AppendResult(@event.AggregateVersion + 1));
-    }
-
-    public Task<IEnumerable<Event<TAggregateId>>> ReadEventsAsync<TAggregateId>(TAggregateId id)
-      where TAggregateId : IIdentityValueObject
-    {
-      var results = _events.Where(ev => ev.DomainEvent.AggregateId.Equals(id));
-      return Task.FromResult(results.Cast<Event<TAggregateId>>());
-    }
-
-    internal void ResetForTesting()
-    {
-      _events.Clear();
-    }
   }
 }
