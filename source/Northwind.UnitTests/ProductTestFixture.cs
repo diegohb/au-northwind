@@ -44,6 +44,32 @@ public class ProductTestFixture
   }
 
   [Test]
+  public async Task CategorizeThenRecategorizeShouldThrowDifferentEvents()
+  {
+    var expectedCategoryId = CategoryId.NewCategoryId(202);
+    _sut.Categorize(expectedCategoryId);
+    Assert.AreEqual(expectedCategoryId, _sut.CategoryID);
+    await _productRepo.SaveAsync(_sut);
+
+    var expectedChangedCategoryId = CategoryId.NewCategoryId(203);
+    _sut.Categorize(expectedChangedCategoryId);
+    Assert.AreEqual(expectedChangedCategoryId, _sut.CategoryID);
+    await _productRepo.SaveAsync(_sut);
+
+    var actualMessages = _productNotificationMediator.Messages.ToImmutableHashSet();
+    var hasCategorizedEvent = actualMessages.OfType<ProductCategorizedEvent>().Any();
+    var hasRecategorizedEvent = actualMessages.OfType<ProductRecategorizedEvent>().Any();
+    CollectionAssert.IsNotEmpty(actualMessages);
+    Assert.IsTrue(hasCategorizedEvent);
+    Assert.IsTrue(hasRecategorizedEvent);
+
+    //just out of caution, verify it will reload with latest categoryid applied in materialized state.
+    var reloadedEntity = await _productRepo.GetByIdAsync(_sut.Id);
+    Assert.IsNotNull(reloadedEntity);
+    Assert.AreEqual(expectedChangedCategoryId, reloadedEntity?.CategoryID);
+  }
+
+  [Test]
   public void ChangeSkuShouldThrowWhenSameSku()
   {
     var expectedOldGuid = _sut.Sku;
@@ -125,6 +151,27 @@ public class ProductTestFixture
     (() =>
       _sut.List(DateTime.UtcNow.AddDays(-1))
     );
+  }
+
+  [Test]
+  public async Task RecategorizeShouldThrowErrorWhenNewCategoryIsNotDifferent()
+  {
+    const int categoryId = 202;
+    var expectedCategoryId = CategoryId.NewCategoryId(categoryId);
+    _sut.Categorize(expectedCategoryId);
+    Assert.AreEqual(expectedCategoryId, _sut.CategoryID);
+    await _productRepo.SaveAsync(_sut);
+
+    var expectedChangedCategoryId = CategoryId.NewCategoryId(categoryId);
+
+    Assert.Throws<InvalidOperationException>(() => { _sut.Categorize(expectedChangedCategoryId); }, "Category ID provided is not different.");
+
+    var actualMessages = _productNotificationMediator.Messages.ToImmutableHashSet();
+    var hasCategorizedEvent = actualMessages.OfType<ProductCategorizedEvent>().Any();
+    var hasRecategorizedEvent = actualMessages.OfType<ProductRecategorizedEvent>().Any();
+    CollectionAssert.IsNotEmpty(actualMessages);
+    Assert.IsTrue(hasCategorizedEvent);
+    Assert.IsFalse(hasRecategorizedEvent);
   }
 
   [Test]

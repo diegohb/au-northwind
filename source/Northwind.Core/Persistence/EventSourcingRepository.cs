@@ -21,7 +21,7 @@ public class EventSourcingRepository<TAggregate, TAggregateId> : IRepository<TAg
   {
     try
     {
-      var aggregate = CreateEmptyAggregate();
+      var aggregate = createEmptyAggregate();
       IEventSourcingAggregate<TAggregateId> aggregatePersistence = aggregate;
 
       foreach (var @event in await _eventStore.ReadEventsAsync(id))
@@ -67,7 +67,7 @@ public class EventSourcingRepository<TAggregate, TAggregateId> : IRepository<TAg
 
   #region Support Methods
 
-  private TAggregate CreateEmptyAggregate()
+  private TAggregate createEmptyAggregate()
   {
     return (TAggregate)typeof(TAggregate)
       .GetConstructor

@@ -43,7 +43,19 @@ public class CatalogProduct : AggregateBase<ProductId>, IHaveIdentity<ProductId>
       throw new ArgumentNullException(nameof(categoryIdParam));
     }
 
-    raiseEvent(new ProductCategorizedEvent(Id, categoryIdParam));
+    if (CategoryID == null)
+    {
+      raiseEvent(new ProductCategorizedEvent(Id, categoryIdParam));
+    }
+    else
+    {
+      if (CategoryID.Equals(categoryIdParam))
+      {
+        throw new InvalidOperationException("Category ID provided is not different.");
+      }
+
+      raiseEvent(new ProductRecategorizedEvent(Id, CategoryID, categoryIdParam));
+    }
   }
 
   public void DescribeProduct(string newDescriptionParam)
@@ -235,6 +247,17 @@ public class CatalogProduct : AggregateBase<ProductId>, IHaveIdentity<ProductId>
     }
 
     CategoryID = eventParam.CategoryID;
+  }
+
+  [SuppressMessage("ReSharper", "UnusedMember.Global")]
+  protected void when(ProductRecategorizedEvent eventParam)
+  {
+    if (eventParam == null)
+    {
+      throw new ArgumentNullException(nameof(eventParam));
+    }
+
+    CategoryID = eventParam.NewCategoryID;
   }
 
   #endregion

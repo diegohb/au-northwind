@@ -43,7 +43,7 @@ public class CategoryId : IIdentityValueObject
     return new CategoryId(categoryIdParam);
   }
 
-  public static bool operator ==(CategoryId left, CategoryId? right)
+  public static bool operator ==(CategoryId? left, CategoryId? right)
   {
     return Equals(left?.Id, right?.Id);
   }
