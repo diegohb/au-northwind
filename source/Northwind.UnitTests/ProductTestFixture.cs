@@ -29,6 +29,7 @@ public class ProductTestFixture
   }
 
   [Test]
+  [Category("Product:Category")]
   public async Task CategorizeShouldAlterProductCategory()
   {
     var expectedCategoryId = CategoryId.NewCategoryId(202);
@@ -44,6 +45,7 @@ public class ProductTestFixture
   }
 
   [Test]
+  [Category("Product:Category")]
   public async Task CategorizeThenRecategorizeShouldThrowDifferentEvents()
   {
     var expectedCategoryId = CategoryId.NewCategoryId(202);
@@ -70,6 +72,7 @@ public class ProductTestFixture
   }
 
   [Test]
+  [Category("Product:Sku")]
   public void ChangeSkuShouldThrowWhenSameSku()
   {
     var expectedOldGuid = _sut.Sku;
@@ -79,6 +82,7 @@ public class ProductTestFixture
   }
 
   [Test]
+  [Category("Product:Sku")]
   public async Task ChangeSkuShouldUpdateProductSkuWhenNew()
   {
     var expectedOldGuid = _sut.Sku;
@@ -99,6 +103,7 @@ public class ProductTestFixture
   }
 
   [Test]
+  [Category("Product:Description")]
   public async Task DescribeProductShouldChangeDescription()
   {
     var originalDesc = "An initial description goes here.";
@@ -116,6 +121,7 @@ public class ProductTestFixture
   }
 
   [Test]
+  [Category("Product:CatalogListing")]
   public async Task ListProductWithExpriationShouldUpdateListingStatusAndExpiration()
   {
     var expectedExpiration = DateTime.UtcNow.AddSeconds(1);
@@ -132,6 +138,7 @@ public class ProductTestFixture
   }
 
   [Test]
+  [Category("Product:CatalogListing")]
   public async Task ListProductWithoutExpriationShouldUpdateListingStatus()
   {
     _sut.List();
@@ -145,6 +152,7 @@ public class ProductTestFixture
   }
 
   [Test]
+  [Category("Product:CatalogListing")]
   public void ListProductWithPastExpirationShouldThrow()
   {
     Assert.Throws<InvalidOperationException>
@@ -154,6 +162,7 @@ public class ProductTestFixture
   }
 
   [Test]
+  [Category("Product:Category")]
   public async Task RecategorizeShouldThrowErrorWhenNewCategoryIsNotDifferent()
   {
     const int categoryId = 202;
@@ -175,6 +184,7 @@ public class ProductTestFixture
   }
 
   [Test]
+  [Category("Product:CatalogListing")]
   public async Task RehydratedExpiredProductShouldNotBeListed()
   {
     //arrange
@@ -187,12 +197,14 @@ public class ProductTestFixture
   }
 
   [Test]
+  [Category("Product:Naming")]
   public void RenameShouldThrowWhenNull()
   {
     Assert.Throws<ArgumentNullException>(() => _sut.Rename(string.Empty));
   }
 
   [Test]
+  [Category("Product:Naming")]
   public async Task RenameShouldThrowWhenSameName()
   {
     var productName = "Banana";
@@ -203,6 +215,7 @@ public class ProductTestFixture
   }
 
   [Test]
+  [Category("Product:Naming")]
   public async Task RenameShouldUpdateWhenNew()
   {
     var expectedOldName = _sut.Name;
@@ -238,6 +251,7 @@ public class ProductTestFixture
   }
 
   [Test]
+  [Category("Product:CatalogListing")]
   public async Task UnlistProductShouldChangeListedInCatalog()
   {
     _sut.List();
@@ -252,12 +266,14 @@ public class ProductTestFixture
   }
 
   [Test]
+  [Category("Product:CatalogListing")]
   public void UnlistProductWhenUnlistedShouldThrow()
   {
     Assert.Throws<InvalidOperationException>(() => _sut.Unlist());
   }
 
   [Test]
+  [Category("Product:Pricing")]
   public void UpdateListingPrice_DisallowNegativeValuesForAmount()
   {
     Assert.Throws<InvalidOperationException>
@@ -268,6 +284,7 @@ public class ProductTestFixture
   }
 
   [Test]
+  [Category("Product:Pricing")]
   public async Task UpdateListingPrice_ShouldIncreaseAndDecrease()
   {
     var expectedInitialPrice = 20.55m;
