@@ -22,6 +22,8 @@ public class CatalogProduct : AggregateBase<ProductId>, IHaveIdentity<ProductId>
     raiseEvent(new CatalogProductCreatedEvent(Id, skuParam));
   }
 
+  public CategoryId? CategoryID { get; private set; }
+
   public string? Description { get; private set; }
 
   public bool ListedInCatalog { get; private set; }
@@ -33,6 +35,16 @@ public class CatalogProduct : AggregateBase<ProductId>, IHaveIdentity<ProductId>
   public decimal Price { get; private set; }
 
   public Guid Sku { get; private set; }
+
+  public void Categorize(CategoryId categoryIdParam)
+  {
+    if (categoryIdParam == null)
+    {
+      throw new ArgumentNullException(nameof(categoryIdParam));
+    }
+
+    raiseEvent(new ProductCategorizedEvent(Id, categoryIdParam));
+  }
 
   public void DescribeProduct(string newDescriptionParam)
   {
@@ -211,6 +223,18 @@ public class CatalogProduct : AggregateBase<ProductId>, IHaveIdentity<ProductId>
     }
 
     Price += eventParam.Amount;
+  }
+
+
+  [SuppressMessage("ReSharper", "UnusedMember.Global")]
+  protected void when(ProductCategorizedEvent eventParam)
+  {
+    if (eventParam == null)
+    {
+      throw new ArgumentNullException(nameof(eventParam));
+    }
+
+    CategoryID = eventParam.CategoryID;
   }
 
   #endregion

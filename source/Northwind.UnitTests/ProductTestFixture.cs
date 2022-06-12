@@ -29,6 +29,21 @@ public class ProductTestFixture
   }
 
   [Test]
+  public async Task CategorizeShouldAlterProductCategory()
+  {
+    var expectedCategoryId = CategoryId.NewCategoryId(202);
+    _sut.Categorize(expectedCategoryId);
+    Assert.AreEqual(expectedCategoryId, _sut.CategoryID);
+    await _productRepo.SaveAsync(_sut);
+
+    var actualMessages = _productNotificationMediator.Messages.OfType<ProductCategorizedEvent>().ToImmutableHashSet();
+    var actualMessage = actualMessages.First();
+    CollectionAssert.IsNotEmpty(actualMessages);
+    Assert.IsNotNull(actualMessage);
+    Assert.AreEqual(expectedCategoryId, actualMessage.CategoryID);
+  }
+
+  [Test]
   public void ChangeSkuShouldThrowWhenSameSku()
   {
     var expectedOldGuid = _sut.Sku;
