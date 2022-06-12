@@ -199,6 +199,35 @@ public class ProductTestFixture
     Assert.Throws<InvalidOperationException>(() => _sut.Unlist());
   }
 
+  [Test]
+  public async Task UpdateListingPrice()
+  {
+    var expectedInitialPrice = 20.55m;
+    _sut.IncreaseListPrice(expectedInitialPrice, "initial price");
+    Assert.AreEqual(expectedInitialPrice, _sut.Price);
+    var expectedPriceDelta1 = 7.55m;
+    _sut.DecreaseListPrice(expectedPriceDelta1, "adjustment 1");
+    Assert.AreEqual(expectedInitialPrice - expectedPriceDelta1, _sut.Price);
+    var expectedPriceDelta2 = 10m;
+    _sut.IncreaseListPrice(expectedPriceDelta2, "adjustment 2");
+
+    var expectedFinalPrice = expectedInitialPrice - expectedPriceDelta1 + expectedPriceDelta2;
+    Assert.AreEqual(expectedFinalPrice, _sut.Price);
+
+    await _productRepo.SaveAsync(_sut);
+
+    var priceChangedEvents = _productNotificationMediator.Messages.OfType<PriceAdjustedEvent>()
+      .Where(msg => msg.AggregateId.Equals(_sut.Id))
+      .ToImmutableArray();
+    Assert.AreEqual(3, priceChangedEvents.Length);
+    Assert.AreEqual(expectedInitialPrice, priceChangedEvents[0].Amount);
+    Assert.AreEqual(PriceAdjustmentTypeEnum.Increase, priceChangedEvents[0].AdjustmentType);
+    Assert.AreEqual(-expectedPriceDelta1, priceChangedEvents[1].Amount);
+    Assert.AreEqual(PriceAdjustmentTypeEnum.Decrease, priceChangedEvents[1].AdjustmentType);
+    Assert.AreEqual(expectedPriceDelta2, priceChangedEvents[2].Amount);
+    Assert.AreEqual(PriceAdjustmentTypeEnum.Increase, priceChangedEvents[2].AdjustmentType);
+  }
+
   public class FakeProductIdMediator : IDomainMediator<ProductId>
   {
     public HashSet<IDomainEvent<ProductId>> Messages { get; } = new();

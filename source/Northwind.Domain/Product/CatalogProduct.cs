@@ -30,6 +30,8 @@ public class CatalogProduct : AggregateBase<ProductId>, IHaveIdentity<ProductId>
 
   public string? Name { get; private set; }
 
+  public decimal Price { get; private set; }
+
   public Guid Sku { get; private set; }
 
   public void DescribeProduct(string newDescriptionParam)
@@ -97,6 +99,26 @@ public class CatalogProduct : AggregateBase<ProductId>, IHaveIdentity<ProductId>
     }
 
     raiseEvent(new ProductUnlistedEvent(Id));
+  }
+
+  public void IncreaseListPrice(decimal amountParam, string changeCommentParam)
+  {
+    if (amountParam < 0)
+    {
+      throw new InvalidOperationException("Change amount must not be negative.");
+    }
+
+    raiseEvent(new PriceAdjustedEvent(Id, amountParam, changeCommentParam));
+  }
+
+  public void DecreaseListPrice(decimal amountParam, string changeCommentParam)
+  {
+    if (amountParam < 0)
+    {
+      throw new InvalidOperationException("Change amount must not be negative.");
+    }
+
+    raiseEvent(new PriceAdjustedEvent(Id, 0 - amountParam, changeCommentParam));
   }
 
   #endregion
@@ -178,6 +200,17 @@ public class CatalogProduct : AggregateBase<ProductId>, IHaveIdentity<ProductId>
     }
 
     ListedInCatalog = false;
+  }
+
+  [SuppressMessage("ReSharper", "UnusedMember.Global")]
+  protected void when(PriceAdjustedEvent eventParam)
+  {
+    if (eventParam == null)
+    {
+      throw new ArgumentNullException(nameof(eventParam));
+    }
+
+    Price += eventParam.Amount;
   }
 
   #endregion
