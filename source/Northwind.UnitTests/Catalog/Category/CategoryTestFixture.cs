@@ -28,6 +28,28 @@ public class CategoryTestFixture
   }
 
   [Test]
+  public void AddExistingProductToCategoryThrowsError()
+  {
+    var expectedProductId = ProductId.NewProductId(101);
+    _sut.AddProduct(expectedProductId);
+    Assert.Throws<InvalidOperationException>(() => { _sut.AddProduct(expectedProductId); }, "Product is already categorized.");
+    Assert.AreEqual(_sut.Products.Count, 1);
+  }
+
+  [Test]
+  public async Task AddProductToCategoryIncreasesTheCount()
+  {
+    var expectedProductId = ProductId.NewProductId(101);
+    _sut.AddProduct(expectedProductId);
+    await _categoryRepo.SaveAsync(_sut);
+
+    var addedEvent = _categoryDomainMediator.Messages.OfType<CategoryProductAddedEvent>().SingleOrDefault();
+    Assert.IsNotNull(addedEvent);
+    Assert.AreEqual(expectedProductId, addedEvent?.NewProductID);
+    Assert.AreEqual(_sut.Products.Count, 1);
+  }
+
+  [Test]
   public async Task InstantiatedCategoryReloadsFromEvents()
   {
     var newCategoryId = CategoryId.NewCategoryId(510);

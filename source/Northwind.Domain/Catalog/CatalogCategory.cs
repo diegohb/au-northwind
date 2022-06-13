@@ -1,10 +1,13 @@
 ﻿namespace Northwind.Domain.Catalog;
 
+using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 using Core.Domain;
 
 public class CatalogCategory : AggregateBase<CategoryId>, IHaveIdentity<CategoryId>
 {
+  private readonly HashSet<ProductId> _products = new();
+
   private CatalogCategory() { }
 
   public CatalogCategory(CategoryId categoryIdParam, string nameParam) : base(categoryIdParam)
@@ -23,6 +26,18 @@ public class CatalogCategory : AggregateBase<CategoryId>, IHaveIdentity<Category
   }
 
   public string? DisplayName { get; private set; }
+
+  public ImmutableHashSet<ProductId> Products => _products.ToImmutableHashSet();
+
+  public void AddProduct(ProductId newProductIdParam)
+  {
+    if (_products.Contains(newProductIdParam))
+    {
+      throw new InvalidOperationException("Product is already categorized.");
+    }
+
+    raiseEvent(new CategoryProductAddedEvent(Id, newProductIdParam));
+  }
 
   public void ChangeName(string newNameParam)
   {
@@ -69,6 +84,17 @@ public class CatalogCategory : AggregateBase<CategoryId>, IHaveIdentity<Category
     }
 
     DisplayName = eventParam.NewName;
+  }
+
+  [SuppressMessage("ReSharper", "UnusedMember.Global")]
+  protected void when(CategoryProductAddedEvent eventParam)
+  {
+    if (eventParam == null)
+    {
+      throw new ArgumentNullException(nameof(eventParam));
+    }
+
+    _products.Add(eventParam.NewProductID);
   }
 
   #endregion
