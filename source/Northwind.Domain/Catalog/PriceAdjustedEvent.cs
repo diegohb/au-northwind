@@ -1,4 +1,4 @@
-﻿namespace Northwind.Domain.Product;
+﻿namespace Northwind.Domain.Catalog;
 
 using Core.Domain;
 

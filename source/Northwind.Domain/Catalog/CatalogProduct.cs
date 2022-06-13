@@ -1,4 +1,4 @@
-﻿namespace Northwind.Domain.Product;
+﻿namespace Northwind.Domain.Catalog;
 
 using System.Diagnostics.CodeAnalysis;
 using Core.Domain;

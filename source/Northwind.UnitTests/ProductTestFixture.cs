@@ -5,7 +5,7 @@ using System.Collections.Immutable;
 using System.Linq;
 using System.Threading.Tasks;
 using Core.Persistence;
-using Domain.Product;
+using Domain.Catalog;
 using NUnit.Framework;
 
 [TestFixture]

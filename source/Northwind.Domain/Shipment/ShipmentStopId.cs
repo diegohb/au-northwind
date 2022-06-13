@@ -1,7 +1,7 @@
 ﻿namespace Northwind.Domain.Shipment;
 
+using Catalog;
 using Core.Domain;
-using Product;
 
 public class ShipmentStopId : IIdentityValueObject
 {
