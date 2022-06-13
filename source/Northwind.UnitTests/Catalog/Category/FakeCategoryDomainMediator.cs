@@ -1,4 +1,4 @@
-namespace Northwind.UnitTests;
+namespace Northwind.UnitTests.Catalog.Category;
 
 using System.Collections.Generic;
 using System.Threading;
@@ -6,18 +6,18 @@ using System.Threading.Tasks;
 using Core.Domain;
 using Domain.Catalog;
 
-public class FakeProductDomainMediator : IDomainMediator<ProductId>
+public class FakeCategoryDomainMediator : IDomainMediator<CategoryId>
 {
-  public HashSet<IDomainEvent<ProductId>> Messages { get; } = new();
+  public HashSet<IDomainEvent<CategoryId>> Messages { get; } = new();
 
-  public Task PublishAsync(IDomainEvent<ProductId> notificationParam, CancellationToken cancellationTokenParam = default)
+  public Task PublishAsync(IDomainEvent<CategoryId> notificationParam, CancellationToken cancellationTokenParam = default)
   {
     Messages.Add(notificationParam);
     return Task.CompletedTask;
   }
 
   public Task PublishAsync<TNotification>(TNotification notificationParam, CancellationToken cancellationTokenParam = default)
-    where TNotification : IDomainEvent<ProductId>
+    where TNotification : IDomainEvent<CategoryId>
   {
     Messages.Add(notificationParam);
     return Task.CompletedTask;

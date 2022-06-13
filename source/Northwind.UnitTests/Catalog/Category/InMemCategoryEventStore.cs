@@ -1,4 +1,4 @@
-namespace Northwind.UnitTests;
+namespace Northwind.UnitTests.Catalog.Category;
 
 using System.Collections.Generic;
 using System.Linq;
