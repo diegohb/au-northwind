@@ -39,6 +39,29 @@ public class CatalogCategory : AggregateBase<CategoryId>, IHaveIdentity<Category
     raiseEvent(new CategoryProductAddedEvent(Id, newProductIdParam));
   }
 
+  public void AddProduct(params ProductId[] newProductIdParams)
+  {
+    if (newProductIdParams.Length == 0)
+    {
+      throw new NullReferenceException(nameof(newProductIdParams));
+    }
+
+    Array.ForEach(newProductIdParams, newProductID => AddProduct(newProductID));
+  }
+
+  public void AddProduct(ICollection<ProductId> newProductIdParams)
+  {
+    if (newProductIdParams.Count == 0)
+    {
+      throw new NullReferenceException(nameof(newProductIdParams));
+    }
+
+    foreach (var productId in newProductIdParams)
+    {
+      AddProduct(productId);
+    }
+  }
+
   public void ChangeName(string newNameParam)
   {
     if (string.IsNullOrWhiteSpace(newNameParam))

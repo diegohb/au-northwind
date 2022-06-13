@@ -37,6 +37,29 @@ public class CategoryTestFixture
   }
 
   [Test]
+  public async Task AddProductsToCategoryIncreasesTheCount()
+  {
+    var productIds = Enumerable.Range(105, 10).Select(ProductId.NewProductId);
+    _sut.AddProduct(productIds.ToArray());
+    await _categoryRepo.SaveAsync(_sut);
+
+    var addedEvents = _categoryDomainMediator.Messages.OfType<CategoryProductAddedEvent>();
+    Assert.IsNotNull(addedEvents);
+    foreach (var addedEvent in addedEvents)
+    {
+      Assert.Contains(addedEvent.NewProductID, productIds.ToArray());
+    }
+
+    Assert.AreEqual(_sut.Products.Count, 10);
+
+    var anotherProductId201 = ProductId.NewProductId(201);
+    var anotherProductId202 = ProductId.NewProductId(202);
+    _sut.AddProduct(anotherProductId201, anotherProductId202);
+
+    Assert.AreEqual(_sut.Products.Count, 12);
+  }
+
+  [Test]
   public async Task AddProductToCategoryIncreasesTheCount()
   {
     var expectedProductId = ProductId.NewProductId(101);
