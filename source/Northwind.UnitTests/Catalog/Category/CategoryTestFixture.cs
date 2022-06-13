@@ -1,6 +1,7 @@
 namespace Northwind.UnitTests.Catalog.Category;
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Core.Persistence;
@@ -51,12 +52,25 @@ public class CategoryTestFixture
     }
 
     Assert.AreEqual(_sut.Products.Count, 10);
+  }
 
-    var anotherProductId201 = ProductId.NewProductId(201);
-    var anotherProductId202 = ProductId.NewProductId(202);
-    _sut.AddProduct(anotherProductId201, anotherProductId202);
+  [Test]
+  public void AddProductsToCategoryWithAlreadyExistingShouldThrowError()
+  {
+    var productIds = new List<ProductId>(Enumerable.Range(105, 10).Select(ProductId.NewProductId));
+    productIds.Add(ProductId.NewProductId(110));
 
-    Assert.AreEqual(_sut.Products.Count, 12);
+    try
+    {
+      _sut.AddProduct(productIds.ToArray());
+    }
+    catch (InvalidOperationException exAtLeastOneExists)
+      when (exAtLeastOneExists.Message.Equals("At least one of the products is already categorized."))
+    {
+      Assert.Pass();
+    }
+
+    Assert.AreEqual(_sut.Products.Count, 0);
   }
 
   [Test]

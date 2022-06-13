@@ -46,19 +46,13 @@ public class CatalogCategory : AggregateBase<CategoryId>, IHaveIdentity<Category
       throw new NullReferenceException(nameof(newProductIdParams));
     }
 
-    Array.ForEach(newProductIdParams, newProductID => AddProduct(newProductID));
-  }
-
-  public void AddProduct(ICollection<ProductId> newProductIdParams)
-  {
-    if (newProductIdParams.Count == 0)
+    try
     {
-      throw new NullReferenceException(nameof(newProductIdParams));
+      Array.ForEach(newProductIdParams, newProductID => AddProduct(newProductID));
     }
-
-    foreach (var productId in newProductIdParams)
+    catch (InvalidOperationException exAlreadyCategorized) when (exAlreadyCategorized.Message.Equals("Product is already categorized."))
     {
-      AddProduct(productId);
+      throw new InvalidOperationException("At least one of the products is already categorized.", exAlreadyCategorized);
     }
   }
 
