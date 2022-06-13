@@ -1,5 +1,6 @@
 namespace Northwind.UnitTests.Catalog.Category;
 
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Core.Persistence;
@@ -38,6 +39,29 @@ public class CategoryTestFixture
       .SingleOrDefault(category => category.AggregateId.Equals(newCategoryId));
     Assert.IsNotNull(creationEvent);
     Assert.AreEqual(expectedName, creationEvent?.Name);
+  }
+
+  [Test]
+  public async Task RenameCategoryEmptyNameShouldThrowError()
+  {
+    const string expectedOldName = "Fruits";
+    Assert.Throws<NullReferenceException>
+      (() => { _sut.ChangeName(string.Empty); });
+    await _categoryRepo.SaveAsync(_sut);
+
+    var renamedEvent = _categoryDomainMediator.Messages.OfType<CatalogCategoryRenamedEvent>().SingleOrDefault();
+    Assert.IsNull(renamedEvent);
+    Assert.AreEqual(expectedOldName, _sut.DisplayName);
+  }
+
+  [Test]
+  public void RenameCategorySameNameShouldThrowError()
+  {
+    const string expectedOldName = "Fruits";
+    Assert.Throws<InvalidOperationException>
+      (() => { _sut.ChangeName(expectedOldName); }, "The new name is the same.");
+
+    Assert.AreEqual(expectedOldName, _sut.DisplayName);
   }
 
   [Test]
