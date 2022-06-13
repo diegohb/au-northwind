@@ -12,7 +12,7 @@ using NUnit.Framework;
 public class ProductTestFixture
 {
   private readonly InMemProductEventStore _eventStore = new();
-  private readonly FakeProductIdMediator _productNotificationMediator = new();
+  private readonly FakeProductDomainMediator _productNotificationMediator = new();
   private EventSourcingRepository<CatalogProduct, ProductId> _productRepo = null!;
   private CatalogProduct _sut = null!;
 

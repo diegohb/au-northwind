@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Core.Domain;
 using Domain.Catalog;
 
-public class FakeProductIdMediator : IDomainMediator<ProductId>
+public class FakeProductDomainMediator : IDomainMediator<ProductId>
 {
   public HashSet<IDomainEvent<ProductId>> Messages { get; } = new();
 
