@@ -39,4 +39,18 @@ public class CategoryTestFixture
     Assert.IsNotNull(creationEvent);
     Assert.AreEqual(expectedName, creationEvent?.Name);
   }
+
+  [Test]
+  public async Task RenameCategoryShouldUpdateName()
+  {
+    const string expectedNewName = "Tools";
+    const string expectedOldName = "Fruits";
+    _sut.ChangeName(expectedNewName);
+    await _categoryRepo.SaveAsync(_sut);
+
+    var renamedEvent = _categoryDomainMediator.Messages.OfType<CatalogCategoryRenamedEvent>().SingleOrDefault();
+    Assert.IsNotNull(renamedEvent);
+    Assert.AreEqual(expectedOldName, renamedEvent?.OldName);
+    Assert.AreEqual(expectedNewName, renamedEvent?.NewName);
+  }
 }

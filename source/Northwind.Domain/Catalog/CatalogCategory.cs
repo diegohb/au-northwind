@@ -24,6 +24,26 @@ public class CatalogCategory : AggregateBase<CategoryId>, IHaveIdentity<Category
 
   public string? DisplayName { get; private set; }
 
+  public void ChangeName(string newNameParam)
+  {
+    if (string.IsNullOrWhiteSpace(newNameParam))
+    {
+      throw new NullReferenceException(nameof(newNameParam));
+    }
+
+    if (string.IsNullOrWhiteSpace(DisplayName))
+    {
+      throw new InvalidOperationException("The name has not been set. This is an unexpected error.");
+    }
+
+    if (DisplayName.Equals(newNameParam))
+    {
+      throw new InvalidOperationException("The new name is the same.");
+    }
+
+    raiseEvent(new CatalogCategoryRenamedEvent(Id, DisplayName, newNameParam));
+  }
+
   #region Mutations
 
   //((dynamic)this).Apply((dynamic) @event);
@@ -38,6 +58,17 @@ public class CatalogCategory : AggregateBase<CategoryId>, IHaveIdentity<Category
 
     Id = eventParam.AggregateId;
     DisplayName = eventParam.Name;
+  }
+
+  [SuppressMessage("ReSharper", "UnusedMember.Global")]
+  protected void when(CatalogCategoryRenamedEvent eventParam)
+  {
+    if (eventParam == null)
+    {
+      throw new ArgumentNullException(nameof(eventParam));
+    }
+
+    DisplayName = eventParam.NewName;
   }
 
   #endregion
