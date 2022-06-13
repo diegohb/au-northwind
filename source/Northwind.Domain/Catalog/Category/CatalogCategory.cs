@@ -1,8 +1,9 @@
-﻿namespace Northwind.Domain.Catalog;
+﻿namespace Northwind.Domain.Catalog.Category;
 
 using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 using Core.Domain;
+using Product;
 
 public class CatalogCategory : AggregateBase<CategoryId>, IHaveIdentity<CategoryId>
 {

@@ -1,4 +1,4 @@
-﻿namespace Northwind.Domain.Catalog;
+﻿namespace Northwind.Domain.Catalog.Product;
 
 public enum PriceAdjustmentTypeEnum
 {

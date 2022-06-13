@@ -1,6 +1,7 @@
-﻿namespace Northwind.Domain.Catalog;
+﻿namespace Northwind.Domain.Catalog.Product;
 
 using System.Diagnostics.CodeAnalysis;
+using Category;
 using Core.Domain;
 
 public class CatalogProduct : AggregateBase<ProductId>, IHaveIdentity<ProductId>

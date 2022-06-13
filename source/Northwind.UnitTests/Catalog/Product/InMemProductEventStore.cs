@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Core.Domain;
 using Core.Persistence.EventStore;
-using Domain.Catalog;
+using Domain.Catalog.Product;
 
 public class InMemProductEventStore : IEventStore
 {

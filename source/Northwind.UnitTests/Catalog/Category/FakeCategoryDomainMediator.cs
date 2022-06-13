@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Core.Domain;
-using Domain.Catalog;
+using Domain.Catalog.Category;
 
 public class FakeCategoryDomainMediator : IDomainMediator<CategoryId>
 {

@@ -1,6 +1,6 @@
 ﻿namespace Northwind.Domain.Shipment;
 
-using Catalog;
+using Catalog.Product;
 using Core.Domain;
 
 public class ShipmentId : IIdentityValueObject

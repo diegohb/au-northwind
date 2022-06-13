@@ -1,6 +1,7 @@
-﻿namespace Northwind.Domain.Catalog;
+﻿namespace Northwind.Domain.Catalog.Category;
 
 using Core.Domain;
+using Product;
 
 public class CategoryProductAddedEvent : DomainEventBase<CategoryId>
 {
