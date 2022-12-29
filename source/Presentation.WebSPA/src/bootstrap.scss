@@ -41,7 +41,9 @@ $body-color: $black;
 $body-bg: #f5f5f5;
 $border-radius: .4rem;
 
-@import "../node_modules/bootstrap/scss/_root";
+@import "~bootstrap/scss/bootstrap";
+
+/* @import "../node_modules/bootstrap/scss/_root";
 @import "../node_modules/bootstrap/scss/_reboot"; // Required
 @import "../node_modules/bootstrap/scss/_type";
 @import "../node_modules/bootstrap/scss/images";
@@ -75,7 +77,7 @@ $border-radius: .4rem;
 // @import "bootstrap/scss/spinners";
 @import "../node_modules/bootstrap/scss/_utilities";
 // @import "bootstrap/scss/print";
-
+ */
 
 //
 // Custom styles

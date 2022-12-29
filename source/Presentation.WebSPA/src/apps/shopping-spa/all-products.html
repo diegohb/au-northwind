@@ -1,23 +1,21 @@
 ﻿<template>
-    <div class="product-cards">
-        <div class="card" repeat.for="product of products">
-            <img class="card-img-top" src="https://via.placeholder.com/344?text=product+image" alt="product image">
-            <div class="card-body">
-                <h5 class="card-title">${product.name}</h5>
-                <p class="card-text">
-                    <strong>Price:</strong> ${product.price | currencyFormat}
-                </p>
-                <p class="card-text text-truncate">
-                    ${product.description}
-                </p>
-            </div>
-            <div class="card-footer">
-                <div class="row no-gutters">
-                    <div class="col-6">
-                        <button class="btn btn-block btn-outline-success">Add To Cart</button>
-                    </div>
-                    <div class="col-6">
-                        <button class="btn btn-block btn-success">Details</button>
+    <div id="product-cards" class="row row-cols-xl-5 row-cols-lg-4 row-cols-md-3 row-cols-sm-1 g-3">
+        <div class="col" repeat.for="product of products">
+            <div class="card">
+                <img class="card-img-top" src="https://via.placeholder.com/344?text=product+image" alt="product image">
+                <div class="card-body">
+                    <h5 class="card-title">${product.name}</h5>
+                    <p class="card-text">
+                        <strong>Price:</strong> ${product.price | currencyFormat}
+                    </p>
+                    <p class="card-text text-truncate">
+                        ${product.description}
+                    </p>
+                </div>
+                <div class="card-footer">
+                    <div class="d-grid gap-1">
+                        <button class="btn btn-outline-success">Add To Cart</button>
+                        <button class="btn btn-success">Details</button>
                     </div>
                 </div>
             </div>

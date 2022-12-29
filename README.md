@@ -10,9 +10,9 @@
 - Editor: None
 
 ## Other Configurations
-- ASPNET .NET 5
-- Bootstrap w/ Scss
-- Settings for VS2019 and VS Code.
+- ASPNET .NET 6
+- Bootstrap 5 w/ Scss
+- Settings for VS2022 and VS Code.
 
 ## how to setup environment and run code
 1. Install chocolatey
@@ -22,11 +22,11 @@ Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.We
 `
 [see ref](https://chocolatey.org/install)
 
-2. Execute `choco install nodejs`. Should install v14.x+
+2. Execute `choco install nodejs`. Should install v16.x+
 
-3. Execute `choco install yarn`. Should install v1.7.x.
+3. Execute `choco install yarn`. Should install v1.22.15
 
-4. Execute `yarn global aurelia-cli`. Should install > v0.32.x
+4. Execute `yarn global aurelia-cli`. Should install > v2.0.3
 
     Note: Execute `refreshenv` or restart machine if you can't run `yarn`.
 
@@ -41,9 +41,9 @@ Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.We
     4. Execute `yarn install`.
     5. Go to Debug (CTRL+SHIFT+D) in VS Code.
     6. Switch to "launch (web)" configuration up top.
-    7. CTRL+F5 and the browser should launch.
+    7. CTRL+F5 and the browser should launch. (if it doesn't, click the restart button on debug toolbar)
 
-    Visual Studio 2019:
+    Visual Studio 2022:
     1. Open PowerShell or Command Prompt and CD into Presentation.Web directory.
     2. Execute `yarn install`.
     3. Open solution file.
@@ -52,7 +52,7 @@ Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.We
     6. If Task Runner Explorer shows an error.   
     7. Go to Tools -> Options
         1. Projects & Solutions -> Web Package Management -> External Web Tools: Ensure path to nodejs is at the top of the list, typically "c:\program files\nodejs\" 
-        2.  Projects & Solutions -> Web Package Management -> Package Restore: Disable NPM Restore on Project Open and Save.
+        2. Projects & Solutions -> Web Package Management -> Package Restore: Disable NPM Restore on Project Open and Save.
     8. In Task Runner Explorer, close the au-build-watch task that threw error. Double-click "au-build-watch" task to restart.
     9. Verify last line is "Finished 'writeBundles'.
     10. CTRL+F5 to Run w/o Debugging.

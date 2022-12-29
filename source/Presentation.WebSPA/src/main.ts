@@ -2,6 +2,8 @@ import { Aurelia } from "aurelia-framework"
 import * as auPathUtil from "aurelia-path";
 import environment from "./environment";
 import "bootstrap";
+import "@popperjs/core";
+import process from "process";
 import * as toastr from "toastr";
 
 export function configure(aureliaParam: Aurelia) {
@@ -11,6 +13,9 @@ export function configure(aureliaParam: Aurelia) {
 
     aureliaParam.use.globalResources("bootstrap.css");
     aureliaParam.use.globalResources("toastr/build/toastr.css");
+
+    //NOTE: hack fix for popperjs 2.x in bt5 because au-cli bundling struggles to stub out the "process" pkg
+    window.process = process;
 
     aureliaParam.use.developmentLogging(environment.debug ? "debug" : "warn");
 

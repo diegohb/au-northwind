@@ -1,25 +1,21 @@
 ﻿<template>
-    <div class="form-group">
-        <label for.bind="inputId" if.bind="showLabel">${label}</label>
+    <div>
+        <label class="form-label" for.bind="inputId" if.bind="showLabel">${label}</label>
         <div class="input-group">
-            <div class="input-group-prepend" if.bind="hasPrepend">
-                <span class="input-group-text">${prependText}</span>
-            </div>
+            <span class="input-group-text" if.bind="hasPrepend">${prependText}</span>
             <input type.bind="inputType" class="form-control ${inputCssClass}" id.bind="inputId" value.bind="value"
                    readonly.bind="readOnly"/>
-            <div class="input-group-append">
-                <span class="input-group-text" if.bind="hasAppend">${appendText}</span>
-                <button if.bind="hasActionMenu" class="btn dropdown-toggle ${actionMenuCssClass}" type="button" data-toggle="dropdown"
-                        aria-haspopup="true" aria-expanded="False">
-                    <span class="sr-only">Toggle Dropdown</span>
-                </button>
-                <!--conditional doesn't work for this, will render-->
-                <slot name="menuItems" class="dropdown-menu">
-                    <a href="#" class="dropdown-item">One</a>
-                    <a href="#" class="dropdown-item">Two</a>
-                    <a href="#" class="dropdown-item">Three</a>
-                </slot>
-            </div>
+            <span class="input-group-text" if.bind="hasAppend">${appendText}</span>
+            <button if.bind="hasActionMenu" class="btn dropdown-toggle ${actionMenuCssClass}" type="button" data-bs-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="False">
+                <span class="visually-hidden">Toggle Dropdown</span>
+            </button>
+            <!--conditional doesn't work for this, will render-->
+            <slot name="menuItems" class="dropdown-menu dropdown-menu-end">
+                <a href="#" class="dropdown-item">One</a>
+                <a href="#" class="dropdown-item">Two</a>
+                <a href="#" class="dropdown-item">Three</a>
+            </slot>
         </div>
     </div>
 </template>
