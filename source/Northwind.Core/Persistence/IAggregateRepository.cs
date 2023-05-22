@@ -3,7 +3,7 @@
 using System.Runtime.Serialization;
 using Domain;
 
-public interface IRepository<TAggregate, TAggregateId>
+public interface IAggregateRepository<TAggregate, TAggregateId>
   where TAggregate : IHaveIdentity<TAggregateId>
   where TAggregateId : IIdentityValueObject
 {

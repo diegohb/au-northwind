@@ -26,7 +26,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.UnitTests", "Nort
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.Domain", "Northwind.Domain\Northwind.Domain.csproj", "{0F3081F8-F918-49D8-991B-4950504892BD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Northwind.Core", "Northwind.Core\Northwind.Core.csproj", "{8CD9876D-CB09-49FE-87B2-312386EF1B03}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.Core", "Northwind.Core\Northwind.Core.csproj", "{8CD9876D-CB09-49FE-87B2-312386EF1B03}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{1A835F9B-2027-4A9A-BC8F-5D8374C5336C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -133,6 +135,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{234964C6-0AD0-4AB9-B661-6FC9A38D2EA2} = {1A835F9B-2027-4A9A-BC8F-5D8374C5336C}
 		{E5AE6B05-6140-4053-A0E0-4DF7010A48BA} = {80F1C3E7-BC50-4D10-823C-F622BCB4B5D4}
 		{FFBD91F0-F72F-4380-9E29-A0DF9AAE2D75} = {3F691DE4-92C6-4D87-9DC5-C068DAA43975}
 		{E45BACF3-F896-4710-ADCC-313EC40633F9} = {8B94F406-D136-4E29-8CFB-162374654DCE}

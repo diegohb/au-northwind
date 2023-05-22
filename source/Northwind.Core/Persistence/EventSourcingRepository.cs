@@ -4,7 +4,7 @@ using System.Reflection;
 using Domain;
 using EventStore;
 
-public class EventSourcingRepository<TAggregate, TAggregateId> : IRepository<TAggregate, TAggregateId>
+public class EventSourcingRepository<TAggregate, TAggregateId> : IAggregateRepository<TAggregate, TAggregateId>
   where TAggregate : AggregateBase<TAggregateId>, IHaveIdentity<TAggregateId>
   where TAggregateId : IIdentityValueObject
 {
