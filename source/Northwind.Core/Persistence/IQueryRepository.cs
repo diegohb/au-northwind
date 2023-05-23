@@ -14,9 +14,13 @@ public interface IQueryRepository<TEntity, in TEntityID>
 
   Task<bool> ContainsAsync(Expression<Func<TEntity, bool>> predicateParam);
 
+  int Count();
+
   int Count(ISpecification<TEntity> specificationParam);
 
   int Count(Expression<Func<TEntity, bool>> predicateParam);
+
+  Task<int> CountAsync();
 
   Task<int> CountAsync(ISpecification<TEntity> specificationParam);
 
@@ -24,11 +28,11 @@ public interface IQueryRepository<TEntity, in TEntityID>
 
   IQueryable<TEntity> FindBySpecification(ISpecification<TEntity> specificationParam);
 
-  Task<IQueryable<TEntity>> FindBySpecificationAsync(ISpecification<TEntity> specificationParam);
+  Task<IEnumerable<TEntity>> FindBySpecificationAsync(ISpecification<TEntity> specificationParam);
 
   IQueryable<TEntity> GetAll();
 
-  Task<IQueryable<TEntity>> GetAllAsync();
+  Task<IEnumerable<TEntity>> GetAllAsync();
 
   TEntity GetById(TEntityID entityIdParam);
 
