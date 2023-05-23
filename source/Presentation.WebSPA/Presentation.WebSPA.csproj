@@ -49,6 +49,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Infra.Persistence.EF\Infra.Persistence.EF.csproj" />
     <ProjectReference Include="..\Northwind.Application\Northwind.Application.csproj" />
+    <ProjectReference Include="..\Northwind.Core\Northwind.Core.csproj" />
   </ItemGroup>
 
 </Project>

@@ -17,6 +17,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
 using Microsoft.OpenApi.Models;
+using Northwind.Application.Categories;
+using Northwind.Core.Persistence;
 
 public class Startup
 {
@@ -123,6 +125,15 @@ public class Startup
         {
             opts.UseSqlServer("name=ConnectionStrings:NorthwindDb", providerOptions => { providerOptions.EnableRetryOnFailure(); });
             opts.LogTo(Console.WriteLine, LogLevel.Information).EnableDetailedErrors().EnableSensitiveDataLogging();
+        });
+
+        servicesParam.AddScoped(typeof(IQueryRepository<,>), typeof(GenericQueryRepository<,>));
+
+        servicesParam.AddMediatR
+        (config =>
+        {
+            config.RegisterServicesFromAssemblyContaining<GetCategoriesHandler>();
+            config.RegisterServicesFromAssemblyContaining<Program>();
         });
     }
 }

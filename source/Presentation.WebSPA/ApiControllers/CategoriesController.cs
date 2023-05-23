@@ -6,11 +6,11 @@ using System.Diagnostics.CodeAnalysis;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using ApiConfig;
-using Infra.Persistence.EF;
 using Infra.Persistence.EF.Entities;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using Northwind.Application.Categories;
 
 [ApiController]
 [Consumes(MediaTypeNames.Application.Json)]
@@ -19,11 +19,11 @@ using Microsoft.EntityFrameworkCore;
 [SuppressMessage("ReSharper", "RouteTemplates.RouteParameterIsNotPassedToMethod")]
 public class CategoriesController : ControllerBase
 {
-    private readonly NorthwindDbContext _northwindDb;
+    private readonly ISender _sender;
 
-    public CategoriesController(NorthwindDbContext dbContextParam)
+    public CategoriesController(ISender senderParam)
     {
-        _northwindDb = dbContextParam;
+        _sender = senderParam;
     }
 
     [HttpGet]
@@ -31,13 +31,13 @@ public class CategoriesController : ControllerBase
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<ActionResult<IList<Category>>> GetAll()
     {
-        var productCategoryEntities = await _northwindDb.Categories.AsNoTracking().ToListAsync();
-        if (productCategoryEntities.Count == 0)
+        var result = await _sender.Send(new GetCategoriesQuery());
+        if (result.Count == 0)
         {
             return NoContent();
         }
 
-        return Ok(productCategoryEntities);
+        return Ok(result);
     }
 
     /// <summary>
@@ -51,7 +51,7 @@ public class CategoriesController : ControllerBase
     [SwaggerDefaultValue("id", "4")]
     public async Task<ActionResult<Category>> GetByID([FromRoute(Name = "id")] int idParam)
     {
-        var categoryEntity = await _northwindDb.Categories.AsNoTracking().SingleOrDefaultAsync(category => category.CategoryId.Equals(idParam));
+        var categoryEntity = await _sender.Send(new GetCategoryByIDQuery(idParam));
 
         if (categoryEntity == null)
         {
@@ -73,7 +73,7 @@ public class CategoriesController : ControllerBase
     public async Task<ActionResult<Category>> GetByName([FromRoute(Name = "name")] string nameParam)
     {
         var decodedName = Uri.UnescapeDataString(nameParam);
-        var categoryEntity = await _northwindDb.Categories.AsNoTracking().SingleOrDefaultAsync(category => category.CategoryName.Equals(decodedName));
+        var categoryEntity = await _sender.Send(new GetCategoryByNameQuery(decodedName));
 
         if (categoryEntity == null)
         {
