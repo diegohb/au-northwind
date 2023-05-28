@@ -16,7 +16,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
 using Microsoft.OpenApi.Models;
 using Northwind.Application;
-using Northwind.Application.Categories;
 
 public class Startup
 {
@@ -121,10 +120,6 @@ public class Startup
         servicesParam.AddApplication();
 
         servicesParam.AddMediatR
-        (config =>
-        {
-            config.RegisterServicesFromAssemblyContaining<GetCategoriesHandler>();
-            config.RegisterServicesFromAssemblyContaining<Program>();
-        });
+            (config => { config.RegisterServicesFromAssembly(typeof(Program).Assembly); });
     }
 }

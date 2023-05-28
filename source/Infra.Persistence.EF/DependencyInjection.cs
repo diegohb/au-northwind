@@ -17,7 +17,6 @@ public static class DependencyInjection
       opts.LogTo(Console.WriteLine, LogLevel.Information).EnableDetailedErrors().EnableSensitiveDataLogging();
     });
 
-    //servicesParam.AddScoped<IQueryRepository<Category, int>, GenericQueryRepository<Category, int>>();
     servicesParam.AddScoped(typeof(IQueryRepository<,>), typeof(GenericQueryRepository<,>));
 
     return servicesParam;
