@@ -1,7 +1,7 @@
 ﻿namespace Northwind.Application.Categories;
 
 using Abstractions;
-using Infra.Persistence.EF;
+using Core.Persistence;
 using Infra.Persistence.EF.Entities;
 
 public class GetCategoriesHandler
@@ -9,9 +9,9 @@ public class GetCategoriesHandler
     IQueryHandler<GetCategoryByIDQuery, Category?>,
     IQueryHandler<GetCategoryByNameQuery, Category?>
 {
-  private readonly GenericQueryRepository<Category, int> _queryRepo;
+  private readonly IQueryRepository<Category, int> _queryRepo;
 
-  public GetCategoriesHandler(GenericQueryRepository<Category, int> queryRepositoryParam)
+  public GetCategoriesHandler(IQueryRepository<Category, int> queryRepositoryParam)
   {
     _queryRepo = queryRepositoryParam;
   }
