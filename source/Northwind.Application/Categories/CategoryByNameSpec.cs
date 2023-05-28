@@ -15,6 +15,6 @@ public sealed class CategoryByNameSpec : Specification<Category>
 
   public override Expression<Func<Category, bool>> SatisfiedBy()
   {
-    return p => p.CategoryName.Equals(_name, StringComparison.InvariantCultureIgnoreCase);
+    return p => p.CategoryName.Equals(_name);
   }
 }
