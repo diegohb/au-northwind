@@ -9,10 +9,10 @@ public class Category
     Products = new HashSet<Product>();
   }
 
-  public int CategoryId { get; set; }
-  public string CategoryName { get; set; }
-  public string Description { get; set; }
-  public byte[] Picture { get; set; }
+  public int CategoryId { get; private set; }
+  public string CategoryName { get; private set; }
+  public string Description { get; private set; }
+  public byte[] Picture { get; private set; }
 
-  public virtual ICollection<Product> Products { get; set; }
+  public ICollection<Product> Products { get; }
 }
