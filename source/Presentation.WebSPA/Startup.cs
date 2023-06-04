@@ -4,12 +4,10 @@ using System;
 using System.IO;
 using System.Reflection;
 using ApiConfig;
-using Infra.Persistence.EF;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Json;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
@@ -17,6 +15,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
 using Microsoft.OpenApi.Models;
+using Northwind.Application;
 
 public class Startup
 {
@@ -118,11 +117,9 @@ public class Startup
             pLoggingBuilder.AddConfiguration(Configuration.GetSection("Logging"));
         });
 
-        servicesParam.AddDbContext<NorthwindDbContext>
-        (opts =>
-        {
-            opts.UseSqlServer("name=ConnectionStrings:NorthwindDb", providerOptions => { providerOptions.EnableRetryOnFailure(); });
-            opts.LogTo(Console.WriteLine, LogLevel.Information).EnableDetailedErrors().EnableSensitiveDataLogging();
-        });
+        servicesParam.AddApplication();
+
+        servicesParam.AddMediatR
+            (config => { config.RegisterServicesFromAssembly(typeof(Program).Assembly); });
     }
 }

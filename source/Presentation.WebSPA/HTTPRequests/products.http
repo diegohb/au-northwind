@@ -1,0 +1,15 @@
+# For more info on HTTP files go to https://aka.ms/vs/httpfile
+
+@hostname=localhost
+@port=6001
+@host={{hostname}}:{{port}}
+
+GET http://{{host}}/api/Products
+
+###
+
+GET  http://{{host}}/api/Products/bycategory
+
+###
+
+GET  http://{{host}}/api/Products/408f4b9b-5b9d-98e3-ca13-89da6ec96bb7

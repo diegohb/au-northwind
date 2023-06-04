@@ -7,12 +7,15 @@ using Microsoft.EntityFrameworkCore;
 
 public class NorthwindDbContext : DbContext
 {
-  public NorthwindDbContext(DbContextOptions<NorthwindDbContext> optionsParam) : base(optionsParam) { }
+  public NorthwindDbContext() { }
 
-  /*protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilderParam)
+  public NorthwindDbContext(DbContextOptions<NorthwindDbContext> optionsParam)
+    : base(optionsParam) { }
+
+  protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilderParam)
   {
     base.OnConfiguring(optionsBuilderParam);
-  }*/
+  }
 
   protected override void OnModelCreating(ModelBuilder modelBuilderParam)
   {

@@ -6,12 +6,12 @@ using System.Diagnostics.CodeAnalysis;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using ApiConfig;
-using Infra.Persistence.EF;
 using Infra.Persistence.EF.Entities;
 using Infra.Persistence.EF.Entities.QueryViews;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using Northwind.Application.Products;
 
 [ApiController]
 [Consumes(MediaTypeNames.Application.Json)]
@@ -20,11 +20,11 @@ using Microsoft.EntityFrameworkCore;
 [SuppressMessage("ReSharper", "RouteTemplates.RouteParameterIsNotPassedToMethod")]
 public class ProductsController : ControllerBase
 {
-    private readonly NorthwindDbContext _northwindDb;
+    private readonly ISender _sender;
 
-    public ProductsController(NorthwindDbContext dbContextParam)
+    public ProductsController(ISender senderParam)
     {
-        _northwindDb = dbContextParam;
+        _sender = senderParam;
     }
 
     [HttpGet]
@@ -32,13 +32,13 @@ public class ProductsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<ActionResult<IList<Product>>> GetAll()
     {
-        var productEntities = await _northwindDb.Products.AsNoTracking().ToListAsync();
-        if (productEntities.Count == 0)
+        var result = await _sender.Send(new GetAllProductsQuery());
+        if (result.Count == 0)
         {
             return NoContent();
         }
 
-        return Ok(productEntities);
+        return Ok(result);
     }
 
     [HttpGet("bycategory")]
@@ -46,13 +46,15 @@ public class ProductsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<ActionResult<IList<ProductsByCategoryView>>> GetByCategory()
     {
-        var productEntities = await _northwindDb.ProductsByCategories.AsNoTracking().ToListAsync();
+        /*var productEntities = await _northwindDb.ProductsByCategories.AsNoTracking().ToListAsync();
         if (productEntities.Count == 0)
         {
             return NoContent();
         }
 
-        return Ok(productEntities);
+        return Ok(productEntities);*/
+        await Task.Delay(1000);
+        return NoContent();
     }
 
     /// <summary>
@@ -66,12 +68,12 @@ public class ProductsController : ControllerBase
     [SwaggerDefaultValue("sku", "94b14c55-f76d-ac18-e366-697742b93469")]
     public async Task<ActionResult<Product>> GetBySku([FromRoute(Name = "sku")] Guid skuParam)
     {
-        var productEntity = await _northwindDb.Products.AsNoTracking().SingleOrDefaultAsync(p => p.Sku.Equals(skuParam));
-        if (productEntity == null)
+        var result = await _sender.Send(new GetProductBySku(skuParam));
+        if (result == null)
         {
             return NotFound();
         }
 
-        return Ok(productEntity);
+        return Ok(result);
     }
 }
