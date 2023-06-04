@@ -1,8 +1,7 @@
 ﻿namespace Northwind.Application.Products;
 
 using Abstractions;
-using Infra.Persistence.EF.Entities;
 
-public record GetAllProductsQuery : IQuery<IList<Product>>;
+public record GetAllProductsQuery : IQuery<IList<CatalogProductDTO>>;
 
-public record GetProductBySku(Guid ProductId) : IQuery<Product>;
+public record GetProductBySku(Guid ProductId) : IQuery<CatalogProductDTO>;

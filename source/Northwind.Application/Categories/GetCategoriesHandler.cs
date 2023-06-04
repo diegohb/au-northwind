@@ -19,21 +19,13 @@ public class GetCategoriesHandler
   public async Task<IList<CatalogCategoryDTO>> Handle(GetCategoriesQuery queryParam, CancellationToken cancellationTokenParam)
   {
     var activeCategories = await _queryRepo.GetAllAsync();
-    return activeCategories.Select
-      (item => new CatalogCategoryDTO
-      (
-        item.CategoryId,
-        item.CategoryName,
-        item.Description,
-        item.Products.Count
-      ))
-      .ToList();
+    return activeCategories.Select(getDTOFromEntity).ToList();
   }
 
   public async Task<CatalogCategoryDTO?> Handle(GetCategoryByIDQuery queryParam, CancellationToken cancellationTokenParam)
   {
     var categoryEntity = await _queryRepo.GetByIdAsync(queryParam.CategoryID);
-    return new CatalogCategoryDTO(categoryEntity.CategoryId, categoryEntity.CategoryName, categoryEntity.Description, categoryEntity.Products.Count);
+    return getDTOFromEntity(categoryEntity);
   }
 
   public async Task<CatalogCategoryDTO?> Handle(GetCategoryByNameQuery queryParam, CancellationToken cancellationTokenParam)
@@ -47,6 +39,15 @@ public class GetCategoriesHandler
     var categoryEntity = categories.SingleOrDefault();
     return categoryEntity == null
       ? null
-      : new CatalogCategoryDTO(categoryEntity.CategoryId, categoryEntity.CategoryName, categoryEntity.Description, categoryEntity.Products.Count);
+      : getDTOFromEntity(categoryEntity);
   }
+
+  #region Support Methods
+
+  private CatalogCategoryDTO getDTOFromEntity(Category entityParam)
+  {
+    return new CatalogCategoryDTO(entityParam.CategoryId, entityParam.CategoryName, entityParam.Description, entityParam.Products.Count);
+  }
+
+  #endregion
 }

@@ -5,8 +5,8 @@ using Core.Persistence;
 using Infra.Persistence.EF.Entities;
 
 public class GetProductsHandler
-  : IQueryHandler<GetAllProductsQuery, IList<Product>>,
-    IQueryHandler<GetProductBySku, Product?>
+  : IQueryHandler<GetAllProductsQuery, IList<CatalogProductDTO>>,
+    IQueryHandler<GetProductBySku, CatalogProductDTO?>
 {
   private readonly IQueryRepository<Product, int> _queryRepo;
 
@@ -15,15 +15,32 @@ public class GetProductsHandler
     _queryRepo = queryRepositoryParam;
   }
 
-  public async Task<IList<Product>> Handle(GetAllProductsQuery requestParam, CancellationToken cancellationTokenParam)
+  public async Task<IList<CatalogProductDTO>> Handle(GetAllProductsQuery requestParam, CancellationToken cancellationTokenParam)
   {
     var productEntities = await _queryRepo.GetAllAsync();
-    return productEntities.ToList();
+    return productEntities.Select(getDTOFromEntity).ToList();
   }
 
-  public async Task<Product?> Handle(GetProductBySku requestParam, CancellationToken cancellationTokenParam)
+  public async Task<CatalogProductDTO?> Handle(GetProductBySku requestParam, CancellationToken cancellationTokenParam)
   {
     var products = await _queryRepo.FindBySpecificationAsync(new GetProductBySkuSpec(requestParam.ProductId));
-    return products.SingleOrDefault();
+    var entity = products.SingleOrDefault();
+    if (entity == null)
+    {
+      return null;
+    }
+
+    return getDTOFromEntity(entity);
   }
+
+  #region Support Methods
+
+  private CatalogProductDTO getDTOFromEntity(Product entityParam)
+  {
+    return new CatalogProductDTO
+    (entityParam.ProductId, entityParam.Sku, entityParam.ProductName, entityParam.Description, entityParam.UnitPrice,
+      entityParam.UnitsInStock.GetValueOrDefault(0));
+  }
+
+  #endregion
 }
