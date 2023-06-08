@@ -37,9 +37,16 @@ public class GetProductsHandler
 
   private CatalogProductDTO getDTOFromEntity(Product entityParam)
   {
-    return new CatalogProductDTO
-    (entityParam.ProductId, entityParam.Sku, entityParam.ProductName, entityParam.Description, entityParam.UnitPrice,
-      entityParam.UnitsInStock.GetValueOrDefault(0));
+    var dto = new CatalogProductDTO
+    (CategoryName: entityParam.Category.CategoryName,
+      Sku: entityParam.Sku,
+      ProductId: entityParam.ProductId,
+      ProductName: entityParam.ProductName,
+      Description: entityParam.Description,
+      UnitPrice: entityParam.UnitPrice,
+      UnitsInStock: entityParam.UnitsInStock.GetValueOrDefault(0));
+
+    return dto;
   }
 
   #endregion

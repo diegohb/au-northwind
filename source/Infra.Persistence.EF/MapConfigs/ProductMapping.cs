@@ -58,6 +58,8 @@ public class ProductMapping : IEntityTypeConfiguration<Product>
       .HasForeignKey(d => d.SupplierId)
       .HasConstraintName("FK_Products_Suppliers");
 
+    builderParam.Navigation(e => e.Category).AutoInclude();
+
     //entity.Navigation(e => e.OrderDetails).AutoInclude(false); //NOTE: to not automatically eager load related data
   }
 }

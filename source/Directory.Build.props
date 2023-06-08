@@ -4,15 +4,19 @@
 		<DisableTransitiveProjectReferences>true</DisableTransitiveProjectReferences>
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 	</PropertyGroup>
+	<!--
+	For NuGet.
+	https://learn.microsoft.com/en-us/nuget/consume-packages/package-references-in-project-files
+	https://www.jacobmohl.dk/use-project-to-project-references-in-nuget
 	<ItemDefinitionGroup>
 		<PackageReference>
-			<!--NOTE: Must be removed for projects being published as nuget packages -->
+			~1~NOTE: Must be removed for projects being published as nuget packages @1@
 			<PrivateAssets>compile</PrivateAssets>
 		</PackageReference>
         <ProjectReference>
             <PrivateAssets>all</PrivateAssets>
         </ProjectReference>
-    </ItemDefinitionGroup>
+    </ItemDefinitionGroup>-->
 	<PropertyGroup>
 		<!-- https://stackoverflow.com/a/42183301/1240322 -->
 		<VersionName Condition="'$(VersionName)'==''">1.0.0</VersionName>
