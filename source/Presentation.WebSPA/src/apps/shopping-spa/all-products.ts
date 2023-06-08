@@ -13,8 +13,13 @@ export class AllProductsVM {
 
     public products: Array<ProductSummaryModel>;
 
-    public async activate(): Promise<void> {
-        this.products = await this._productSvc.getShoppableProductSummaries();
+    public async activate(params: any): Promise<void> {
+        if (!params || !params.categoryName) {
+            this.products = await this._productSvc.getShoppableProductSummaries();
+        }
+        else {
+            this.products = await this._productSvc.getShoppableProductSummariesByCategory(params.categoryName);
+        }
         this._logger.debug(`Activated view with ${this.products.length} products.`, this.products);
     }
 
