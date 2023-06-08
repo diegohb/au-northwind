@@ -13,3 +13,7 @@ GET  http://{{host}}/api/Products/bycategory
 ###
 
 GET  http://{{host}}/api/Products/408f4b9b-5b9d-98e3-ca13-89da6ec96bb7
+
+###
+
+GET  http://{{host}}/api/Categories/Confections/products
