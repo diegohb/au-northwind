@@ -2,13 +2,14 @@
 
 using Abstractions;
 using Core.Persistence;
+using ErrorOr;
 using Infra.Persistence.EF.Entities;
 using SharedKernel.Specs;
 
 public class GetProductsHandler
-  : IQueryHandler<GetAllProductsQuery, IList<CatalogProductDTO>>,
-    IQueryHandler<GetProductsByCategoryQuery, IList<CatalogProductDTO>>,
-    IQueryHandler<GetProductBySkuQuery, CatalogProductDTO?>
+  : IQueryHandler<GetAllProductsQuery, ErrorOr<IList<CatalogProductDTO>>>,
+    IQueryHandler<GetProductsByCategoryQuery, ErrorOr<IList<CatalogProductDTO>>>,
+    IQueryHandler<GetProductBySkuQuery, ErrorOr<CatalogProductDTO>>
 {
   private readonly IQueryRepository<Product, int> _queryRepo;
 
@@ -17,25 +18,25 @@ public class GetProductsHandler
     _queryRepo = queryRepositoryParam;
   }
 
-  public async Task<IList<CatalogProductDTO>> Handle(GetAllProductsQuery requestParam, CancellationToken cancellationTokenParam)
+  public async Task<ErrorOr<IList<CatalogProductDTO>>> Handle(GetAllProductsQuery requestParam, CancellationToken cancellationTokenParam)
   {
     var productEntities = await _queryRepo.GetAllAsync();
     return productEntities.Select(getDTOFromEntity).ToList();
   }
 
-  public async Task<CatalogProductDTO?> Handle(GetProductBySkuQuery requestParam, CancellationToken cancellationTokenParam)
+  public async Task<ErrorOr<CatalogProductDTO>> Handle(GetProductBySkuQuery requestParam, CancellationToken cancellationTokenParam)
   {
     var products = await _queryRepo.FindBySpecificationAsync(new GetProductBySkuSpec(requestParam.ProductId));
     var entity = products.SingleOrDefault();
     if (entity == null)
     {
-      return null;
+      return Error.NotFound();
     }
 
     return getDTOFromEntity(entity);
   }
 
-  public async Task<IList<CatalogProductDTO>> Handle(GetProductsByCategoryQuery requestParam, CancellationToken cancellationTokenParam)
+  public async Task<ErrorOr<IList<CatalogProductDTO>>> Handle(GetProductsByCategoryQuery requestParam, CancellationToken cancellationTokenParam)
   {
     var productEntities = await _queryRepo.FindBySpecificationAsync
       (new DirectSpecification<Product>(entity => entity.Category.CategoryName.Equals(requestParam.CategoryName)));

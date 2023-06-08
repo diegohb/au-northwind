@@ -6,6 +6,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using ApiConfig;
+using ErrorOr;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -26,31 +27,25 @@ public class ProductsController : ControllerBase
     }
 
     [HttpGet]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IList<CatalogProductDTO>))]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    public async Task<ActionResult<IList<CatalogProductDTO>>> GetAll()
+    public async Task<IActionResult> GetAll()
     {
         var result = await _sender.Send(new GetAllProductsQuery());
-        if (result.Count == 0)
-        {
-            return NoContent();
-        }
-
-        return Ok(result);
+        return result.MatchFirst<IActionResult>
+        (products => Ok(products),
+            error => error.Type == ErrorType.NotFound ? NoContent() : Problem(error.Description));
     }
 
     [HttpGet("/api/categories/{categoryName}/products")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CatalogProductDTO))]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    public async Task<ActionResult<IList<CatalogProductDTO>>> GetByCategory([FromRoute(Name = "categoryName")] string categoryNameParam)
+    public async Task<IActionResult> GetByCategory([FromRoute(Name = "categoryName")] string categoryNameParam)
     {
         var result = await _sender.Send(new GetProductsByCategoryQuery(categoryNameParam));
-        if (result == null)
-        {
-            return NotFound();
-        }
-
-        return Ok(result);
+        return result.MatchFirst<IActionResult>
+        (product => Ok(product),
+            error => error.Type == ErrorType.NotFound ? NoContent() : Problem(error.Description));
     }
 
     /// <summary>
@@ -59,17 +54,14 @@ public class ProductsController : ControllerBase
     /// <param name="skuParam">The guid that represents the sku for the product.</param>
     /// <returns></returns>
     [HttpGet("{sku:guid}")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CatalogProductDTO))]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [SwaggerDefaultValue("sku", "94b14c55-f76d-ac18-e366-697742b93469")]
-    public async Task<ActionResult<CatalogProductDTO>> GetBySku([FromRoute(Name = "sku")] Guid skuParam)
+    public async Task<IActionResult> GetBySku([FromRoute(Name = "sku")] Guid skuParam)
     {
         var result = await _sender.Send(new GetProductBySkuQuery(skuParam));
-        if (result == null)
-        {
-            return NotFound();
-        }
-
-        return Ok(result);
+        return result.MatchFirst<IActionResult>
+        (product => Ok(product),
+            error => error.Type == ErrorType.NotFound ? NoContent() : Problem(error.Description));
     }
 }
