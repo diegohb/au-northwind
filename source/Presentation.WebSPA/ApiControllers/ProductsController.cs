@@ -6,8 +6,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using ApiConfig;
-using Infra.Persistence.EF.Entities;
-using Infra.Persistence.EF.Entities.QueryViews;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -30,7 +28,7 @@ public class ProductsController : ControllerBase
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    public async Task<ActionResult<IList<Product>>> GetAll()
+    public async Task<ActionResult<IList<CatalogProductDTO>>> GetAll()
     {
         var result = await _sender.Send(new GetAllProductsQuery());
         if (result.Count == 0)
@@ -41,20 +39,18 @@ public class ProductsController : ControllerBase
         return Ok(result);
     }
 
-    [HttpGet("bycategory")]
+    [HttpGet("/api/categories/{categoryName}/products")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    public async Task<ActionResult<IList<ProductsByCategoryView>>> GetByCategory()
+    public async Task<ActionResult<IList<CatalogProductDTO>>> GetByCategory([FromRoute(Name = "categoryName")] string categoryNameParam)
     {
-        /*var productEntities = await _northwindDb.ProductsByCategories.AsNoTracking().ToListAsync();
-        if (productEntities.Count == 0)
+        var result = await _sender.Send(new GetProductsByCategoryQuery(categoryNameParam));
+        if (result == null)
         {
-            return NoContent();
+            return NotFound();
         }
 
-        return Ok(productEntities);*/
-        await Task.Delay(1000);
-        return NoContent();
+        return Ok(result);
     }
 
     /// <summary>
@@ -66,9 +62,9 @@ public class ProductsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [SwaggerDefaultValue("sku", "94b14c55-f76d-ac18-e366-697742b93469")]
-    public async Task<ActionResult<Product>> GetBySku([FromRoute(Name = "sku")] Guid skuParam)
+    public async Task<ActionResult<CatalogProductDTO>> GetBySku([FromRoute(Name = "sku")] Guid skuParam)
     {
-        var result = await _sender.Send(new GetProductBySku(skuParam));
+        var result = await _sender.Send(new GetProductBySkuQuery(skuParam));
         if (result == null)
         {
             return NotFound();

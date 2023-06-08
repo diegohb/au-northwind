@@ -24,5 +24,7 @@ public class CategoryMapping : IEntityTypeConfiguration<Category>
       .WithOne(e => e.Category)
       .HasForeignKey(e => e.CategoryId)
       .HasConstraintName("FK_Products_Categories");
+
+    builderParam.Navigation(e => e.Products).AutoInclude();
   }
 }

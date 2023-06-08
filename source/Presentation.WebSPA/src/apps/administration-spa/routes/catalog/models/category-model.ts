@@ -21,6 +21,7 @@ export class CategoryModel {
         model.name = dtoParam.categoryName;
         model.description = dtoParam.description;
         model.picture = dtoParam.picture;
+        model.productCount = dtoParam.productCount;
         return model;
     }
 }

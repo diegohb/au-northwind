@@ -19,6 +19,14 @@ export class ShoppingSPAViewModel {
                 nav: true
             },
             {
+                name: "productsByCategory",
+                route: "categories/:categoryName",
+                href: "#categories",
+                moduleId: PLATFORM.moduleName("./all-products"),
+                title: "Products By Category",
+                nav: false
+            },
+            {
                 name: "featuredProducts",
                 route: "products/featured",
                 moduleId: PLATFORM.moduleName("./no-selection"),

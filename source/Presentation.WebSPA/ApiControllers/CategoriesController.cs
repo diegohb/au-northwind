@@ -6,7 +6,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using ApiConfig;
-using Infra.Persistence.EF.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -29,7 +28,7 @@ public class CategoriesController : ControllerBase
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    public async Task<ActionResult<IList<Category>>> GetAll()
+    public async Task<ActionResult<IList<CatalogCategoryDTO>>> GetAll()
     {
         var result = await _sender.Send(new GetCategoriesQuery());
         if (result.Count == 0)
@@ -49,7 +48,7 @@ public class CategoriesController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [SwaggerDefaultValue("id", "4")]
-    public async Task<ActionResult<Category>> GetByID([FromRoute(Name = "id")] int idParam)
+    public async Task<ActionResult<CatalogCategoryDTO>> GetByID([FromRoute(Name = "id")] int idParam)
     {
         var categoryEntity = await _sender.Send(new GetCategoryByIDQuery(idParam));
 
@@ -70,7 +69,7 @@ public class CategoriesController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [SwaggerDefaultValue("name", "Dairy Products")]
-    public async Task<ActionResult<Category>> GetByName([FromRoute(Name = "name")] string nameParam)
+    public async Task<ActionResult<CatalogCategoryDTO>> GetByName([FromRoute(Name = "name")] string nameParam)
     {
         var decodedName = Uri.UnescapeDataString(nameParam);
         var categoryEntity = await _sender.Send(new GetCategoryByNameQuery(decodedName));
