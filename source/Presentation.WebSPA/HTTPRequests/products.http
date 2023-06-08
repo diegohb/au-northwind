@@ -8,7 +8,7 @@ GET http://{{host}}/api/Products
 
 ###
 
-GET  http://{{host}}/api/Products/bycategory
+GET  http://{{host}}/api/Products/aasdve
 
 ###
 
