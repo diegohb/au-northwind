@@ -4,7 +4,6 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Northwind.Core.Persistence;
 
 public static class DependencyInjection
 {
@@ -17,7 +16,7 @@ public static class DependencyInjection
       opts.LogTo(Console.WriteLine, LogLevel.Information).EnableDetailedErrors().EnableSensitiveDataLogging();
     });
 
-    servicesParam.AddScoped(typeof(IQueryRepository<,>), typeof(GenericQueryRepository<,>));
+    servicesParam.AddScoped(typeof(GenericQueryRepository<,>));
 
     return servicesParam;
   }

@@ -1,32 +1,31 @@
 ﻿namespace Northwind.Application.Products;
 
 using Abstractions;
-using Core.Persistence;
 using ErrorOr;
+using Infra.Persistence.EF;
 using Infra.Persistence.EF.Entities;
-using SharedKernel.Specs;
 
 public class GetProductsHandler
   : IQueryHandler<GetAllProductsQuery, ErrorOr<IList<CatalogProductDTO>>>,
     IQueryHandler<GetProductsByCategoryQuery, ErrorOr<IList<CatalogProductDTO>>>,
     IQueryHandler<GetProductBySkuQuery, ErrorOr<CatalogProductDTO>>
 {
-  private readonly IQueryRepository<Product, int> _queryRepo;
+  private readonly GenericQueryRepository<Product, int> _queryRepo;
 
-  public GetProductsHandler(IQueryRepository<Product, int> queryRepositoryParam)
+  public GetProductsHandler(GenericQueryRepository<Product, int> queryRepositoryParam)
   {
     _queryRepo = queryRepositoryParam;
   }
 
   public async Task<ErrorOr<IList<CatalogProductDTO>>> Handle(GetAllProductsQuery requestParam, CancellationToken cancellationTokenParam)
   {
-    var productEntities = await _queryRepo.GetAllAsync();
+    var productEntities = await _queryRepo.ListAsync(cancellationTokenParam);
     return productEntities.Select(getDTOFromEntity).ToList();
   }
 
   public async Task<ErrorOr<CatalogProductDTO>> Handle(GetProductBySkuQuery requestParam, CancellationToken cancellationTokenParam)
   {
-    var products = await _queryRepo.FindBySpecificationAsync(new GetProductBySkuSpec(requestParam.ProductId));
+    var products = await _queryRepo.ListAsync(new GetProductBySkuSpec(requestParam.ProductId), cancellationTokenParam);
     var entity = products.SingleOrDefault();
     if (entity == null)
     {
@@ -38,8 +37,7 @@ public class GetProductsHandler
 
   public async Task<ErrorOr<IList<CatalogProductDTO>>> Handle(GetProductsByCategoryQuery requestParam, CancellationToken cancellationTokenParam)
   {
-    var productEntities = await _queryRepo.FindBySpecificationAsync
-      (new DirectSpecification<Product>(entity => entity.Category.CategoryName.Equals(requestParam.CategoryName)));
+    var productEntities = await _queryRepo.ListAsync(new GetProductsByCategorySpec(requestParam.CategoryName), cancellationTokenParam);
     return productEntities.Select(getDTOFromEntity).ToList();
   }
 
