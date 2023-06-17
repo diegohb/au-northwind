@@ -11,8 +11,8 @@
     "autoimport.useSemiColon": true,
     "aurelia.autocomplete.quotes": "double",
     "files.eol": "\r\n",
-    "editor.formatOnSave": true,
+    "editor.formatOnSave": false,
     "editor.formatOnSaveTimeout": 750,
     "app.spa-name": "Presentation.WebSPA",
-    "app.target-runtime": "net5.0"
+    "app.target-runtime": "net7.0"
 }
