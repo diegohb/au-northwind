@@ -1,20 +1,15 @@
 ﻿namespace Northwind.Application.Categories;
 
-using System.Linq.Expressions;
+using Ardalis.Specification;
 using Infra.Persistence.EF.Entities;
-using SharedKernel.Specs;
 
 public sealed class CategoryByNameSpec : Specification<Category>
 {
-  private readonly string _name;
-
   public CategoryByNameSpec(string nameParam)
   {
-    _name = nameParam;
+    Name = nameParam;
+    Query.Where(p => p.CategoryName.Equals(nameParam));
   }
 
-  public override Expression<Func<Category, bool>> SatisfiedBy()
-  {
-    return p => p.CategoryName.Equals(_name);
-  }
+  public string Name { get; }
 }
