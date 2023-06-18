@@ -61,7 +61,27 @@ public class ProductsController : ControllerBase
     {
         var result = await _sender.Send(new GetProductBySkuQuery(skuParam));
         return result.MatchFirst<IActionResult>
-        (product => Ok(product),
+            (Ok, error => error.Type == ErrorType.NotFound ? NoContent() : Problem(error.Description));
+    }
+
+    /// <summary>
+    ///     Update product price by sku.
+    /// </summary>
+    /// <param name="dtoParam">Request paramters object.</param>
+    /// <returns></returns>
+    [HttpPut("{sku:guid}/price")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [SwaggerDefaultValue("sku", "94b14c55-f76d-ac18-e366-697742b93469")]
+    public async Task<IActionResult> UpdateProductPrice(ProductPriceChangeRequestDTO dtoParam)
+    {
+        var result = await _sender.Send
+            (new UpdateProductPriceBySkyCommand(dtoParam.ProductSku, dtoParam.OriginalPrice, dtoParam.ChangeAmount, dtoParam.Comment));
+        return result.MatchFirst<IActionResult>
+        (product => Ok(),
             error => error.Type == ErrorType.NotFound ? NoContent() : Problem(error.Description));
     }
+
+    public record ProductPriceChangeRequestDTO
+        ([FromRoute(Name = "sku")] Guid ProductSku, [FromBody] decimal OriginalPrice, [FromBody] decimal ChangeAmount, [FromBody] string Comment);
 }

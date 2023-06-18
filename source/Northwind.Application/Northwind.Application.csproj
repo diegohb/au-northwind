@@ -15,6 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Infra.Persistence.EF\Infra.Persistence.EF.csproj" />
     <ProjectReference Include="..\Northwind.Core\Northwind.Core.csproj" />
+    <ProjectReference Include="..\Northwind.Domain\Northwind.Domain.csproj" />
     <ProjectReference Include="..\SharedKernel\SharedKernel.csproj" />
   </ItemGroup>
 

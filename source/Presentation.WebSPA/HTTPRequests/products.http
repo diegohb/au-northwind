@@ -16,4 +16,14 @@ GET  http://{{host}}/api/Products/408f4b9b-5b9d-98e3-ca13-89da6ec96bb7
 
 ###
 
+PUT http://{{host}}/api/Products/408f4b9b-5b9d-98e3-ca13-89da6ec96bb7/price
+Content-Type application/json
+
+{
+    "originalPrice": 18.00,
+    "changeAmount": 1.57,
+    "comment": "Increase because of inflation."
+}
+###
+
 GET  http://{{host}}/api/Categories/Confections/products
