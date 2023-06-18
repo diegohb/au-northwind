@@ -4,9 +4,9 @@ using Domain;
 
 public interface IEventStore
 {
-  Task<AppendResult> AppendEventAsync<TAggregateId>(IDomainEvent<TAggregateId> @event)
+  Task<AppendResult> AppendEventAsync<TAggregateId>(IDomainEvent<TAggregateId> eventParam)
     where TAggregateId : IIdentityValueObject;
 
-  Task<IEnumerable<Event<TAggregateId>>> ReadEventsAsync<TAggregateId>(TAggregateId id)
+  Task<IEnumerable<Event<TAggregateId>>> ReadEventsAsync<TAggregateId>(TAggregateId idParam)
     where TAggregateId : IIdentityValueObject;
 }
