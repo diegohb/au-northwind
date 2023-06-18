@@ -32,7 +32,6 @@ public class Startup
         if (envParam.IsDevelopment())
         {
             appParam.UseDeveloperExceptionPage();
-            appParam.UseBrowserLink();
 
             //This allows you to debug your ts files in browser using the mappings provided by gulp-typescript
             appParam.UseStaticFiles
