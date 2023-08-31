@@ -3,6 +3,7 @@
 using System.Text;
 using global::EventStore.Client;
 using Newtonsoft.Json;
+using Northwind.Core;
 using Northwind.Core.Domain;
 using Northwind.Core.Persistence.EventStore;
 
@@ -10,6 +11,9 @@ public class ESEventStore : IEventStore
 
 {
   private readonly EventStoreClient _client;
+
+  private readonly JsonSerializerSettings _jsonSerializerSettings =
+    new() { ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor };
 
   public ESEventStore(string connectionStringParam)
   {
@@ -19,7 +23,12 @@ public class ESEventStore : IEventStore
   public async Task<AppendResult> AppendEventAsync<TAggregateId>(IDomainEvent<TAggregateId> eventParam)
     where TAggregateId : IIdentityValueObject
   {
-    throw new NotImplementedException();
+    var streamName = eventParam.AggregateId.IdAsString();
+    var jsonEvent = JsonConvert.SerializeObject(eventParam, _jsonSerializerSettings);
+    var payload = Encoding.UTF8.GetBytes(jsonEvent);
+    var eventData = new EventData(Uuid.FromGuid(eventParam.EventId), eventParam.GetType().FullName!, payload);
+    var result = await _client.AppendToStreamAsync(streamName, StreamRevision.FromInt64(eventParam.AggregateVersion), new[] { eventData });
+    return new AppendResult(result.NextExpectedStreamRevision.ToInt64());
   }
 
   public async Task<IEnumerable<Event<TAggregateId>>> ReadEventsAsync<TAggregateId>(TAggregateId idParam)
@@ -37,18 +46,16 @@ public class ESEventStore : IEventStore
       .Select(deserialize)
       .ToListAsync();
 
-    static IDomainEvent<> deserialize(ResolvedEvent resolvedEventParam)
+    Event<TAggregateId> deserialize(ResolvedEvent resolvedEventParam)
     {
-      var dataType = TypeMapper.GetMappedType(resolvedEventParam.Event.EventType);
+      var dataType = TypeProvider.GetTypeFromAnyReferencingAssembly(resolvedEventParam.Event.EventType);
       var jsonData = Encoding.UTF8.GetString(resolvedEventParam.Event.Data.ToArray());
-      var jsonSerializerSettings = new JsonSerializerSettings { ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor };
-      var data = JsonConvert.DeserializeObject
-        (jsonData, dataType, jsonSerializerSettings);
+      var data = JsonConvert.DeserializeObject(jsonData, dataType, _jsonSerializerSettings);
 
       if (data != null)
       {
-        var domainEvent = data as DomainEvent ?? throw new InvalidOperationException();
-        return domainEvent;
+        var domainEvent = data as IDomainEvent<TAggregateId> ?? throw new InvalidOperationException();
+        return new Event<TAggregateId>(domainEvent, long.CreateChecked(resolvedEventParam.Event.EventNumber.ToInt64()));
       }
 
       throw new NullReferenceException("Unexpected null event data.");
