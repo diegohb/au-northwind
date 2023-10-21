@@ -8,7 +8,7 @@ using Infra.Persistence.EF;
 using Infra.Persistence.EF.Entities;
 
 public class UpdateProductPriceHandler
-  : ICommandHandler<UpdateProductPriceBySkyCommand, ErrorOr<bool>>
+  : ICommandHandler<UpdateProductPriceBySkuCommand, ErrorOr<bool>>
 {
   private readonly IAggregateRepository<CatalogProduct, ProductId> _aggregateRepo;
   private readonly GenericQueryRepository<Product, int> _productRepo;
@@ -20,7 +20,7 @@ public class UpdateProductPriceHandler
     _aggregateRepo = aggregateRepoParam;
   }
 
-  public async Task<ErrorOr<bool>> Handle(UpdateProductPriceBySkyCommand requestParam, CancellationToken cancellationTokenParam)
+  public async Task<ErrorOr<bool>> Handle(UpdateProductPriceBySkuCommand requestParam, CancellationToken cancellationTokenParam)
   {
     var productEntity = await _productRepo.SingleOrDefaultAsync(new GetProductBySkuSpec(requestParam.ProductSku), cancellationTokenParam);
     if (productEntity is null)

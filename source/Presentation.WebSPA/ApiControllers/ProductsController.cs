@@ -76,7 +76,7 @@ public class ProductsController : ControllerBase
     public async Task<IActionResult> UpdateProductPrice(ProductPriceChangeRequestDTO dtoParam)
     {
         var result = await _sender.Send
-            (new UpdateProductPriceBySkyCommand(dtoParam.ProductSku, dtoParam.OriginalPrice, dtoParam.ChangeAmount, dtoParam.Comment));
+            (new UpdateProductPriceBySkuCommand(dtoParam.ProductSku, dtoParam.OriginalPrice, dtoParam.ChangeAmount, dtoParam.Comment));
         return result.MatchFirst<IActionResult>
         (product => Ok(),
             error => error.Type == ErrorType.NotFound ? NoContent() : Problem(error.Description));
