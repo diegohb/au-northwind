@@ -49,8 +49,8 @@ export class PricingIncreaseViewModel {
 
         if (this._changeType === "increase") {
             try {
-                this.model.increasePrice(changeAmount, this.comment);
                 await this._pricingSvc.executePriceChange(this.model.sku, this.model.currentPrice, changeAmount, this.comment);
+                this.model.increasePrice(changeAmount, this.comment);
             } catch (errIncrease) {
                 if (errIncrease.message.startsWith("Price increase")) {
                     toastr.warning(errIncrease.message);
@@ -61,8 +61,8 @@ export class PricingIncreaseViewModel {
             }
         } else if (this._changeType === "decrease") {
             try {
-                this.model.decreasePrice(changeAmount, this.comment);
                 await this._pricingSvc.executePriceChange(this.model.sku, this.model.currentPrice, changeAmount, this.comment);
+                this.model.decreasePrice(changeAmount, this.comment);
             } catch (errDecrease) {
                 if (errDecrease.message.startsWith("Price decrease")) {
                     toastr.warning(errDecrease.message);

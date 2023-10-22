@@ -116,7 +116,7 @@ public class Startup
             pLoggingBuilder.AddConfiguration(Configuration.GetSection("Logging"));
         });
 
-        servicesParam.AddApplication();
+        servicesParam.AddApplication(this.Configuration);
 
         servicesParam.AddMediatR
             (config => { config.RegisterServicesFromAssembly(typeof(Program).Assembly); });
