@@ -40,7 +40,7 @@ export class PricingIncreaseViewModel {
     }
 
     public async commit(): Promise<void> {
-        const price = parseFloat(this.newPrice);
+        const changeAmount = parseFloat(this.newPrice);
 
         if (!this.comment || this.comment.length === 0) {
             toastr.warning("A comment is required to change the price.");
@@ -49,7 +49,8 @@ export class PricingIncreaseViewModel {
 
         if (this._changeType === "increase") {
             try {
-                this.model.increasePrice(price, this.comment);
+                this.model.increasePrice(changeAmount, this.comment);
+                await this._pricingSvc.executePriceChange(this.model.sku, this.model.currentPrice, changeAmount, this.comment);
             } catch (errIncrease) {
                 if (errIncrease.message.startsWith("Price increase")) {
                     toastr.warning(errIncrease.message);
@@ -60,7 +61,8 @@ export class PricingIncreaseViewModel {
             }
         } else if (this._changeType === "decrease") {
             try {
-                this.model.decreasePrice(price, this.comment);
+                this.model.decreasePrice(changeAmount, this.comment);
+                await this._pricingSvc.executePriceChange(this.model.sku, this.model.currentPrice, changeAmount, this.comment);
             } catch (errDecrease) {
                 if (errDecrease.message.startsWith("Price decrease")) {
                     toastr.warning(errDecrease.message);
