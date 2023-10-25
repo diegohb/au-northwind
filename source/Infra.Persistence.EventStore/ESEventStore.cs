@@ -37,9 +37,9 @@ public class ESEventStore : IEventStore
     var streamName = idParam.IdAsString();
     var readResult = _client.ReadStreamAsync(Direction.Forwards, streamName, StreamPosition.Start, resolveLinkTos: true);
 
-    if (await readResult.ReadState != ReadState.Ok)
+    if (await readResult.ReadState == ReadState.StreamNotFound)
     {
-      throw new ArgumentOutOfRangeException();
+      throw new EventStoreAggregateNotFoundException($"A stream by name '{streamName}' was not found.");
     }
 
     return await readResult

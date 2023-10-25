@@ -79,7 +79,7 @@ public class ProductsController : ControllerBase
             (new UpdateProductPriceBySkuCommand(dtoParam.ProductSku, dtoParam.OriginalPrice, dtoParam.ChangeAmount, dtoParam.Comment));
         return result.MatchFirst<IActionResult>
         (product => Ok(),
-            error => error.Type == ErrorType.NotFound ? NoContent() : Problem(error.Description));
+            error => error.Type == ErrorType.NotFound ? NotFound() : Problem(error.Description));
     }
 
     public record ProductPriceChangeRequestDTO

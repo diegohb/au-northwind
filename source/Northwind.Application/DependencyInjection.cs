@@ -1,6 +1,7 @@
 ﻿namespace Northwind.Application;
 
 using Categories;
+using Core.Domain;
 using Core.Persistence;
 using Core.Persistence.EventStore;
 using Infra.Persistence.EF;
@@ -23,6 +24,8 @@ public static class DependencyInjection
     servicesParam.AddMediatR(a => a.RegisterServicesFromAssemblyContaining<GetCategoriesHandler>());
     servicesParam.AddScoped<IEventStore, ESEventStore>(es => new ESEventStore(esConnString));
     servicesParam.AddScoped(typeof(IAggregateRepository<,>), typeof(EventSourcingRepository<,>));
+
+    servicesParam.AddScoped(typeof(IDomainMediator<>), typeof(MediatrDomainMediator<>));
 
     return servicesParam;
   }
