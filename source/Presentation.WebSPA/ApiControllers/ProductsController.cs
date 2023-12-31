@@ -26,6 +26,15 @@ public class ProductsController : ControllerBase
         _sender = senderParam;
     }
 
+    [HttpPost]
+    [ProducesResponseType(201)]
+    public async Task<IActionResult> CreateProduct([FromBody] CreateProductRequestDTO dtoNewCatalogProductParam)
+    {
+        var commandResult = await _sender.Send(new CreateCatalogProductFromExistingCommand(dtoNewCatalogProductParam.ProductSku));
+        return commandResult.MatchFirst<IActionResult>
+            (result => CreatedAtAction(nameof(GetBySku), new { sku = result.Sku }, result), error => Problem(error.Description));
+    }
+
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IList<CatalogProductDTO>))]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -81,6 +90,8 @@ public class ProductsController : ControllerBase
         (product => Ok(),
             error => error.Type == ErrorType.NotFound ? NotFound() : Problem(error.Description));
     }
+
+    public record CreateProductRequestDTO(Guid ProductSku, string Name, string CategoryName, string Description, decimal Price);
 
     public record ProductPriceChangeRequestDTO
         ([FromRoute(Name = "sku")] Guid ProductSku, [FromBody] decimal OriginalPrice, [FromBody] decimal ChangeAmount, [FromBody] string Comment);

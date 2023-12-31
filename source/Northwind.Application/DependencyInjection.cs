@@ -23,9 +23,8 @@ public static class DependencyInjection
 
     servicesParam.AddMediatR(a => a.RegisterServicesFromAssemblyContaining<GetCategoriesHandler>());
     servicesParam.AddScoped<IEventStore, ESEventStore>(es => new ESEventStore(esConnString));
-    servicesParam.AddScoped(typeof(IAggregateRepository<,>), typeof(EventSourcingRepository<,>));
-
     servicesParam.AddScoped(typeof(IDomainMediator<>), typeof(MediatrDomainMediator<>));
+    servicesParam.AddScoped(typeof(IAggregateRepository<,>), typeof(EventSourcingRepository<,>));
 
     return servicesParam;
   }
