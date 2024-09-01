@@ -11,6 +11,7 @@ public class EventStoreException : Exception
 
   public EventStoreException(string message, Exception inner) : base(message, inner) { }
 
+  [Obsolete("Obsolete")]
   protected EventStoreException
   (
     SerializationInfo info,
@@ -26,6 +27,7 @@ public class EventStoreAggregateNotFoundException : EventStoreException
 
   public EventStoreAggregateNotFoundException(string message, Exception inner) : base(message, inner) { }
 
+  [Obsolete("Obsolete")]
   protected EventStoreAggregateNotFoundException
   (
     SerializationInfo info,
@@ -41,6 +43,7 @@ public class EventStoreCommunicationException : EventStoreException
 
   public EventStoreCommunicationException(string message, Exception inner) : base(message, inner) { }
 
+  [Obsolete("Obsolete")]
   protected EventStoreCommunicationException
   (
     SerializationInfo info,
