@@ -41,15 +41,15 @@ public class CategoryTestFixture
   [Test]
   public async Task AddProductsToCategoryIncreasesTheCount()
   {
-    var productIds = Enumerable.Range(105, 10).Select(ProductId.NewProductId);
-    _sut.AddProduct(productIds.ToArray());
+    var productIds = Enumerable.Range(105, 10).Select(ProductId.NewProductId).ToArray();
+    _sut.AddProduct(productIds);
     await _categoryRepo.SaveAsync(_sut);
 
     var addedEvents = _categoryDomainMediator.Messages.OfType<CategoryProductAddedEvent>();
-    Assert.IsNotNull(addedEvents);
+    Assert.That(addedEvents, Is.Not.Empty);
     foreach (var addedEvent in addedEvents)
     {
-      Assert.Contains(addedEvent.NewProductID, productIds.ToArray());
+      Assert.That(productIds, Contains.Item(addedEvent.NewProductID));
     }
 
     Assert.That(_sut.Products.Count, Is.EqualTo(10));
@@ -82,7 +82,7 @@ public class CategoryTestFixture
     await _categoryRepo.SaveAsync(_sut);
 
     var addedEvent = _categoryDomainMediator.Messages.OfType<CategoryProductAddedEvent>().SingleOrDefault();
-    Assert.IsNotNull(addedEvent);
+    Assert.That(addedEvent, Is.Not.Null);
     Assert.That(addedEvent?.NewProductID, Is.EqualTo(expectedProductId));
     Assert.That(_sut.Products.Count, Is.EqualTo(1));
   }
@@ -97,7 +97,7 @@ public class CategoryTestFixture
 
     var creationEvent = _categoryDomainMediator.Messages.OfType<CatalogCategoryCreatedEvent>()
       .SingleOrDefault(category => category.AggregateId.Equals(newCategoryId));
-    Assert.IsNotNull(creationEvent);
+    Assert.That(creationEvent, Is.Not.Null);
     Assert.That(creationEvent?.Name, Is.EqualTo(expectedName));
   }
 
@@ -110,7 +110,7 @@ public class CategoryTestFixture
     await _categoryRepo.SaveAsync(_sut);
 
     var renamedEvent = _categoryDomainMediator.Messages.OfType<CatalogCategoryRenamedEvent>().SingleOrDefault();
-    Assert.IsNull(renamedEvent);
+    Assert.That(renamedEvent, Is.Null);
     Assert.That(_sut.DisplayName, Is.EqualTo(expectedOldName));
   }
 
@@ -133,7 +133,7 @@ public class CategoryTestFixture
     await _categoryRepo.SaveAsync(_sut);
 
     var renamedEvent = _categoryDomainMediator.Messages.OfType<CatalogCategoryRenamedEvent>().SingleOrDefault();
-    Assert.IsNotNull(renamedEvent);
+    Assert.That(renamedEvent, Is.Not.Null);
     Assert.That(renamedEvent?.OldName, Is.EqualTo(expectedOldName));
     Assert.That(renamedEvent?.NewName, Is.EqualTo(expectedNewName));
   }

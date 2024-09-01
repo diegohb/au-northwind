@@ -41,7 +41,7 @@ public class ProductTestFixture
     var actualMessages = _productNotificationMediator.Messages.OfType<ProductCategorizedEvent>().ToImmutableHashSet();
     var actualMessage = actualMessages.First();
     Assert.That(actualMessages, Is.Not.Empty);
-    Assert.IsNotNull(actualMessage);
+    Assert.That(actualMessage, Is.Not.Null);
     Assert.That(actualMessage.CategoryID, Is.EqualTo(expectedCategoryId));
   }
 
@@ -63,12 +63,12 @@ public class ProductTestFixture
     var hasCategorizedEvent = actualMessages.OfType<ProductCategorizedEvent>().Any();
     var hasRecategorizedEvent = actualMessages.OfType<ProductRecategorizedEvent>().Any();
     Assert.That(actualMessages, Is.Not.Empty);
-    Assert.IsTrue(hasCategorizedEvent);
-    Assert.IsTrue(hasRecategorizedEvent);
+    Assert.That(hasCategorizedEvent, Is.True);
+    Assert.That(hasRecategorizedEvent, Is.True);
 
     //just out of caution, verify it will reload with latest categoryid applied in materialized state.
     var reloadedEntity = await _productRepo.GetByIdAsync(_sut.Id);
-    Assert.IsNotNull(reloadedEntity);
+    Assert.That(reloadedEntity, Is.Not.Null);
     Assert.That(reloadedEntity?.CategoryID, Is.EqualTo(expectedChangedCategoryId));
   }
 
@@ -98,7 +98,7 @@ public class ProductTestFixture
     var actualMessage = actualMessages.First();
 
     Assert.That(actualMessages, Is.Not.Empty);
-    Assert.IsNotNull(actualMessage);
+    Assert.That(actualMessage, Is.Not.Null);
     Assert.That(actualMessage.OldSku, Is.EqualTo(expectedOldGuid));
     Assert.That(actualMessage.NewSku, Is.EqualTo(expectedNewGuid));
   }
@@ -117,7 +117,7 @@ public class ProductTestFixture
     var actualMessages = _productNotificationMediator.Messages.OfType<ProductDescribedEvent>().ToImmutableHashSet();
     var actualMessage = actualMessages.First();
     Assert.That(actualMessages, Is.Not.Empty);
-    Assert.IsNull(actualMessage.OldDescription);
+    Assert.That(actualMessage.OldDescription, Is.Null);
     Assert.That(actualMessage.NewDescription, Is.EqualTo(originalDesc));
   }
 
@@ -132,9 +132,9 @@ public class ProductTestFixture
     var productListedEvent = _productNotificationMediator.Messages.OfType<ProductListedEvent>()
       .SingleOrDefault(msg => msg.AggregateId.Equals(_sut.Id));
 
-    Assert.IsTrue(_sut.ListedInCatalog);
+    Assert.That(_sut.ListedInCatalog, Is.True);
     Assert.That(_sut.ListingExpiration, Is.EqualTo(expectedExpiration));
-    Assert.IsNotNull(productListedEvent);
+    Assert.That(productListedEvent, Is.Not.Null);
     Assert.That(productListedEvent!.ListingExpiresAt, Is.EqualTo(expectedExpiration));
   }
 
@@ -148,8 +148,8 @@ public class ProductTestFixture
     var productListedEvent = _productNotificationMediator.Messages.OfType<ProductListedEvent>()
       .SingleOrDefault(msg => msg.AggregateId.Equals(_sut.Id));
 
-    Assert.IsTrue(_sut.ListedInCatalog);
-    Assert.IsNotNull(productListedEvent);
+    Assert.That(_sut.ListedInCatalog, Is.True);
+    Assert.That(productListedEvent, Is.Not.Null);
   }
 
   [Test]
@@ -180,8 +180,8 @@ public class ProductTestFixture
     var hasCategorizedEvent = actualMessages.OfType<ProductCategorizedEvent>().Any();
     var hasRecategorizedEvent = actualMessages.OfType<ProductRecategorizedEvent>().Any();
     Assert.That(actualMessages, Is.Not.Empty);
-    Assert.IsTrue(hasCategorizedEvent);
-    Assert.IsFalse(hasRecategorizedEvent);
+    Assert.That(hasCategorizedEvent, Is.True);
+    Assert.That(hasRecategorizedEvent, Is.False);
   }
 
   [Test]
@@ -193,8 +193,8 @@ public class ProductTestFixture
     await Task.Delay(1000);
 
     var reloadedProduct = await _productRepo.GetByIdAsync(_sut.Id);
-    Assert.IsNotNull(reloadedProduct);
-    Assert.IsFalse(reloadedProduct!.ListedInCatalog);
+    Assert.That(reloadedProduct, Is.Not.Null);
+    Assert.That(reloadedProduct!.ListedInCatalog, Is.False);
   }
 
   [Test]
@@ -231,7 +231,7 @@ public class ProductTestFixture
     var actualMessage = actualMessages.First();
 
     Assert.That(actualMessages, Is.Not.Empty);
-    Assert.IsNotNull(actualMessage);
+    Assert.That(actualMessage, Is.Not.Null);
     Assert.That(actualMessage.OldName, Is.EqualTo(expectedOldName));
     Assert.That(actualMessage.NewName, Is.EqualTo(expectedNewName));
   }
@@ -244,7 +244,7 @@ public class ProductTestFixture
     var sut = new CatalogProduct(newProductId, expectedProductGuid);
     await _productRepo.SaveAsync(sut);
     var result = await _productRepo.GetByIdAsync(newProductId);
-    Assert.IsNotNull(result);
+    Assert.That(result, Is.Not.Null);
     Assert.That(result!.Sku, Is.EqualTo(expectedProductGuid));
     var messages = _productNotificationMediator.Messages.OfType<CatalogProductCreatedEvent>().ToImmutableHashSet();
     Assert.That(messages, Is.Not.Empty);
@@ -256,14 +256,14 @@ public class ProductTestFixture
   public async Task UnlistProductShouldChangeListedInCatalog()
   {
     _sut.List();
-    Assert.IsTrue(_sut.ListedInCatalog);
+    Assert.That(_sut.ListedInCatalog, Is.True);
     _sut.Unlist();
-    Assert.IsFalse(_sut.ListedInCatalog);
+    Assert.That(_sut.ListedInCatalog, Is.False);
     await _productRepo.SaveAsync(_sut);
 
     var unlistedProductEvent = _productNotificationMediator.Messages.OfType<ProductUnlistedEvent>()
       .SingleOrDefault(msg => msg.AggregateId.Equals(_sut.Id));
-    Assert.IsNotNull(unlistedProductEvent);
+    Assert.That(unlistedProductEvent, Is.Not.Null);
   }
 
   [Test]
