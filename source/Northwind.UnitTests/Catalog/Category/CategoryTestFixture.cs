@@ -35,7 +35,7 @@ public class CategoryTestFixture
     var expectedProductId = ProductId.NewProductId(101);
     _sut.AddProduct(expectedProductId);
     Assert.Throws<InvalidOperationException>(() => { _sut.AddProduct(expectedProductId); }, "Product is already categorized.");
-    Assert.AreEqual(_sut.Products.Count, 1);
+    Assert.That(_sut.Products.Count, Is.EqualTo(1));
   }
 
   [Test]
@@ -52,7 +52,7 @@ public class CategoryTestFixture
       Assert.Contains(addedEvent.NewProductID, productIds.ToArray());
     }
 
-    Assert.AreEqual(_sut.Products.Count, 10);
+    Assert.That(_sut.Products.Count, Is.EqualTo(10));
   }
 
   [Test]
@@ -71,7 +71,7 @@ public class CategoryTestFixture
       Assert.Pass();
     }
 
-    Assert.AreEqual(_sut.Products.Count, 0);
+    Assert.That(_sut.Products.Count, Is.EqualTo(0));
   }
 
   [Test]
@@ -83,8 +83,8 @@ public class CategoryTestFixture
 
     var addedEvent = _categoryDomainMediator.Messages.OfType<CategoryProductAddedEvent>().SingleOrDefault();
     Assert.IsNotNull(addedEvent);
-    Assert.AreEqual(expectedProductId, addedEvent?.NewProductID);
-    Assert.AreEqual(_sut.Products.Count, 1);
+    Assert.That(addedEvent?.NewProductID, Is.EqualTo(expectedProductId));
+    Assert.That(_sut.Products.Count, Is.EqualTo(1));
   }
 
   [Test]
@@ -98,7 +98,7 @@ public class CategoryTestFixture
     var creationEvent = _categoryDomainMediator.Messages.OfType<CatalogCategoryCreatedEvent>()
       .SingleOrDefault(category => category.AggregateId.Equals(newCategoryId));
     Assert.IsNotNull(creationEvent);
-    Assert.AreEqual(expectedName, creationEvent?.Name);
+    Assert.That(creationEvent?.Name, Is.EqualTo(expectedName));
   }
 
   [Test]
@@ -111,7 +111,7 @@ public class CategoryTestFixture
 
     var renamedEvent = _categoryDomainMediator.Messages.OfType<CatalogCategoryRenamedEvent>().SingleOrDefault();
     Assert.IsNull(renamedEvent);
-    Assert.AreEqual(expectedOldName, _sut.DisplayName);
+    Assert.That(_sut.DisplayName, Is.EqualTo(expectedOldName));
   }
 
   [Test]
@@ -121,7 +121,7 @@ public class CategoryTestFixture
     Assert.Throws<InvalidOperationException>
       (() => { _sut.ChangeName(expectedOldName); }, "The new name is the same.");
 
-    Assert.AreEqual(expectedOldName, _sut.DisplayName);
+    Assert.That(_sut.DisplayName, Is.EqualTo(expectedOldName));
   }
 
   [Test]
@@ -134,7 +134,7 @@ public class CategoryTestFixture
 
     var renamedEvent = _categoryDomainMediator.Messages.OfType<CatalogCategoryRenamedEvent>().SingleOrDefault();
     Assert.IsNotNull(renamedEvent);
-    Assert.AreEqual(expectedOldName, renamedEvent?.OldName);
-    Assert.AreEqual(expectedNewName, renamedEvent?.NewName);
+    Assert.That(renamedEvent?.OldName, Is.EqualTo(expectedOldName));
+    Assert.That(renamedEvent?.NewName, Is.EqualTo(expectedNewName));
   }
 }
