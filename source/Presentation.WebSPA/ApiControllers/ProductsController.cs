@@ -26,6 +26,15 @@ public class ProductsController : ControllerBase
         _sender = senderParam;
     }
 
+    [HttpPost]
+    [ProducesResponseType(201)]
+    public async Task<IActionResult> CreateProduct([FromBody] CreateProductRequestDTO dtoNewCatalogProductParam)
+    {
+        var commandResult = await _sender.Send(new CreateCatalogProductFromExistingCommand(dtoNewCatalogProductParam.ProductSku));
+        return commandResult.MatchFirst<IActionResult>
+            (result => CreatedAtAction(nameof(GetBySku), new { sku = result.Sku }, result), error => Problem(error.Description));
+    }
+
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IList<CatalogProductDTO>))]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -61,7 +70,29 @@ public class ProductsController : ControllerBase
     {
         var result = await _sender.Send(new GetProductBySkuQuery(skuParam));
         return result.MatchFirst<IActionResult>
-        (product => Ok(product),
-            error => error.Type == ErrorType.NotFound ? NoContent() : Problem(error.Description));
+            (Ok, error => error.Type == ErrorType.NotFound ? NoContent() : Problem(error.Description));
     }
+
+    /// <summary>
+    ///     Update product price by sku.
+    /// </summary>
+    /// <param name="dtoParam">Request paramters object.</param>
+    /// <returns></returns>
+    [HttpPut("{sku:guid}/price")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [SwaggerDefaultValue("sku", "94b14c55-f76d-ac18-e366-697742b93469")]
+    public async Task<IActionResult> UpdateProductPrice(ProductPriceChangeRequestDTO dtoParam)
+    {
+        var result = await _sender.Send
+            (new UpdateProductPriceBySkuCommand(dtoParam.ProductSku, dtoParam.OriginalPrice, dtoParam.ChangeAmount, dtoParam.Comment));
+        return result.MatchFirst<IActionResult>
+        (product => Ok(),
+            error => error.Type == ErrorType.NotFound ? NotFound() : Problem(error.Description));
+    }
+
+    public record CreateProductRequestDTO(Guid ProductSku, string Name, string CategoryName, string Description, decimal Price);
+
+    public record ProductPriceChangeRequestDTO
+        ([FromRoute(Name = "sku")] Guid ProductSku, [FromBody] decimal OriginalPrice, [FromBody] decimal ChangeAmount, [FromBody] string Comment);
 }

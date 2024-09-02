@@ -3,7 +3,7 @@
 using Ardalis.Specification;
 using Infra.Persistence.EF.Entities;
 
-public sealed class GetProductBySkuSpec : Specification<Product>
+public sealed class GetProductBySkuSpec : SingleResultSpecification<Product>
 {
   public GetProductBySkuSpec(Guid productSkuParam)
   {

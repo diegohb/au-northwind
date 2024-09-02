@@ -22,7 +22,9 @@ public class InMemCategoryEventStore : IEventStore
     where TAggregateId : IIdentityValueObject
   {
     var results = _events.Where(ev => ev.DomainEvent.AggregateId.Equals(id));
+#pragma warning disable CA2021
     return Task.FromResult(results.Cast<Event<TAggregateId>>());
+#pragma warning restore CA2021
   }
 
   internal void ResetForTesting()

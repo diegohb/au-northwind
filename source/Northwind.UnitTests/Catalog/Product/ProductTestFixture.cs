@@ -35,14 +35,14 @@ public class ProductTestFixture
   {
     var expectedCategoryId = CategoryId.NewCategoryId(202);
     _sut.Categorize(expectedCategoryId);
-    Assert.AreEqual(expectedCategoryId, _sut.CategoryID);
+    Assert.That(_sut.CategoryID, Is.EqualTo(expectedCategoryId));
     await _productRepo.SaveAsync(_sut);
 
     var actualMessages = _productNotificationMediator.Messages.OfType<ProductCategorizedEvent>().ToImmutableHashSet();
     var actualMessage = actualMessages.First();
-    CollectionAssert.IsNotEmpty(actualMessages);
-    Assert.IsNotNull(actualMessage);
-    Assert.AreEqual(expectedCategoryId, actualMessage.CategoryID);
+    Assert.That(actualMessages, Is.Not.Empty);
+    Assert.That(actualMessage, Is.Not.Null);
+    Assert.That(actualMessage.CategoryID, Is.EqualTo(expectedCategoryId));
   }
 
   [Test]
@@ -51,25 +51,25 @@ public class ProductTestFixture
   {
     var expectedCategoryId = CategoryId.NewCategoryId(202);
     _sut.Categorize(expectedCategoryId);
-    Assert.AreEqual(expectedCategoryId, _sut.CategoryID);
+    Assert.That(_sut.CategoryID, Is.EqualTo(expectedCategoryId));
     await _productRepo.SaveAsync(_sut);
 
     var expectedChangedCategoryId = CategoryId.NewCategoryId(203);
     _sut.Categorize(expectedChangedCategoryId);
-    Assert.AreEqual(expectedChangedCategoryId, _sut.CategoryID);
+    Assert.That(_sut.CategoryID, Is.EqualTo(expectedChangedCategoryId));
     await _productRepo.SaveAsync(_sut);
 
     var actualMessages = _productNotificationMediator.Messages.ToImmutableHashSet();
     var hasCategorizedEvent = actualMessages.OfType<ProductCategorizedEvent>().Any();
     var hasRecategorizedEvent = actualMessages.OfType<ProductRecategorizedEvent>().Any();
-    CollectionAssert.IsNotEmpty(actualMessages);
-    Assert.IsTrue(hasCategorizedEvent);
-    Assert.IsTrue(hasRecategorizedEvent);
+    Assert.That(actualMessages, Is.Not.Empty);
+    Assert.That(hasCategorizedEvent, Is.True);
+    Assert.That(hasRecategorizedEvent, Is.True);
 
     //just out of caution, verify it will reload with latest categoryid applied in materialized state.
     var reloadedEntity = await _productRepo.GetByIdAsync(_sut.Id);
-    Assert.IsNotNull(reloadedEntity);
-    Assert.AreEqual(expectedChangedCategoryId, reloadedEntity?.CategoryID);
+    Assert.That(reloadedEntity, Is.Not.Null);
+    Assert.That(reloadedEntity?.CategoryID, Is.EqualTo(expectedChangedCategoryId));
   }
 
   [Test]
@@ -91,16 +91,16 @@ public class ProductTestFixture
 
     _sut.ChangeSku(expectedNewGuid);
     var actualUpdatedSku = _sut.Sku;
-    Assert.AreEqual(expectedNewGuid, actualUpdatedSku);
+    Assert.That(actualUpdatedSku, Is.EqualTo(expectedNewGuid));
     await _productRepo.SaveAsync(_sut);
 
     var actualMessages = _productNotificationMediator.Messages.OfType<ProductSkuChangedEvent>().ToImmutableHashSet();
     var actualMessage = actualMessages.First();
 
-    CollectionAssert.IsNotEmpty(actualMessages);
-    Assert.IsNotNull(actualMessage);
-    Assert.AreEqual(expectedOldGuid, actualMessage.OldSku);
-    Assert.AreEqual(expectedNewGuid, actualMessage.NewSku);
+    Assert.That(actualMessages, Is.Not.Empty);
+    Assert.That(actualMessage, Is.Not.Null);
+    Assert.That(actualMessage.OldSku, Is.EqualTo(expectedOldGuid));
+    Assert.That(actualMessage.NewSku, Is.EqualTo(expectedNewGuid));
   }
 
   [Test]
@@ -112,13 +112,13 @@ public class ProductTestFixture
     await _productRepo.SaveAsync(_sut);
 
     var actualDesc = _sut.Description;
-    Assert.AreEqual(originalDesc, actualDesc);
+    Assert.That(actualDesc, Is.EqualTo(originalDesc));
 
     var actualMessages = _productNotificationMediator.Messages.OfType<ProductDescribedEvent>().ToImmutableHashSet();
     var actualMessage = actualMessages.First();
-    CollectionAssert.IsNotEmpty(actualMessages);
-    Assert.IsNull(actualMessage.OldDescription);
-    Assert.AreEqual(originalDesc, actualMessage.NewDescription);
+    Assert.That(actualMessages, Is.Not.Empty);
+    Assert.That(actualMessage.OldDescription, Is.Null);
+    Assert.That(actualMessage.NewDescription, Is.EqualTo(originalDesc));
   }
 
   [Test]
@@ -132,10 +132,10 @@ public class ProductTestFixture
     var productListedEvent = _productNotificationMediator.Messages.OfType<ProductListedEvent>()
       .SingleOrDefault(msg => msg.AggregateId.Equals(_sut.Id));
 
-    Assert.IsTrue(_sut.ListedInCatalog);
-    Assert.AreEqual(expectedExpiration, _sut.ListingExpiration);
-    Assert.IsNotNull(productListedEvent);
-    Assert.AreEqual(expectedExpiration, productListedEvent!.ListingExpiresAt);
+    Assert.That(_sut.ListedInCatalog, Is.True);
+    Assert.That(_sut.ListingExpiration, Is.EqualTo(expectedExpiration));
+    Assert.That(productListedEvent, Is.Not.Null);
+    Assert.That(productListedEvent!.ListingExpiresAt, Is.EqualTo(expectedExpiration));
   }
 
   [Test]
@@ -148,8 +148,8 @@ public class ProductTestFixture
     var productListedEvent = _productNotificationMediator.Messages.OfType<ProductListedEvent>()
       .SingleOrDefault(msg => msg.AggregateId.Equals(_sut.Id));
 
-    Assert.IsTrue(_sut.ListedInCatalog);
-    Assert.IsNotNull(productListedEvent);
+    Assert.That(_sut.ListedInCatalog, Is.True);
+    Assert.That(productListedEvent, Is.Not.Null);
   }
 
   [Test]
@@ -169,7 +169,7 @@ public class ProductTestFixture
     const int categoryId = 202;
     var expectedCategoryId = CategoryId.NewCategoryId(categoryId);
     _sut.Categorize(expectedCategoryId);
-    Assert.AreEqual(expectedCategoryId, _sut.CategoryID);
+    Assert.That(_sut.CategoryID, Is.EqualTo(expectedCategoryId));
     await _productRepo.SaveAsync(_sut);
 
     var expectedChangedCategoryId = CategoryId.NewCategoryId(categoryId);
@@ -179,9 +179,9 @@ public class ProductTestFixture
     var actualMessages = _productNotificationMediator.Messages.ToImmutableHashSet();
     var hasCategorizedEvent = actualMessages.OfType<ProductCategorizedEvent>().Any();
     var hasRecategorizedEvent = actualMessages.OfType<ProductRecategorizedEvent>().Any();
-    CollectionAssert.IsNotEmpty(actualMessages);
-    Assert.IsTrue(hasCategorizedEvent);
-    Assert.IsFalse(hasRecategorizedEvent);
+    Assert.That(actualMessages, Is.Not.Empty);
+    Assert.That(hasCategorizedEvent, Is.True);
+    Assert.That(hasRecategorizedEvent, Is.False);
   }
 
   [Test]
@@ -193,8 +193,8 @@ public class ProductTestFixture
     await Task.Delay(1000);
 
     var reloadedProduct = await _productRepo.GetByIdAsync(_sut.Id);
-    Assert.IsNotNull(reloadedProduct);
-    Assert.IsFalse(reloadedProduct!.ListedInCatalog);
+    Assert.That(reloadedProduct, Is.Not.Null);
+    Assert.That(reloadedProduct!.ListedInCatalog, Is.False);
   }
 
   [Test]
@@ -224,16 +224,16 @@ public class ProductTestFixture
 
     _sut.Rename(expectedNewName);
     var actualNewName = _sut.Name;
-    Assert.AreEqual(expectedNewName, actualNewName);
+    Assert.That(actualNewName, Is.EqualTo(expectedNewName));
     await _productRepo.SaveAsync(_sut);
 
     var actualMessages = _productNotificationMediator.Messages.OfType<ProductRenamedEvent>().ToImmutableHashSet();
     var actualMessage = actualMessages.First();
 
-    CollectionAssert.IsNotEmpty(actualMessages);
-    Assert.IsNotNull(actualMessage);
-    Assert.AreEqual(expectedOldName, actualMessage.OldName);
-    Assert.AreEqual(expectedNewName, actualMessage.NewName);
+    Assert.That(actualMessages, Is.Not.Empty);
+    Assert.That(actualMessage, Is.Not.Null);
+    Assert.That(actualMessage.OldName, Is.EqualTo(expectedOldName));
+    Assert.That(actualMessage.NewName, Is.EqualTo(expectedNewName));
   }
 
   [Test]
@@ -244,11 +244,11 @@ public class ProductTestFixture
     var sut = new CatalogProduct(newProductId, expectedProductGuid);
     await _productRepo.SaveAsync(sut);
     var result = await _productRepo.GetByIdAsync(newProductId);
-    Assert.IsNotNull(result);
-    Assert.AreEqual(expectedProductGuid, result!.Sku);
+    Assert.That(result, Is.Not.Null);
+    Assert.That(result!.Sku, Is.EqualTo(expectedProductGuid));
     var messages = _productNotificationMediator.Messages.OfType<CatalogProductCreatedEvent>().ToImmutableHashSet();
-    CollectionAssert.IsNotEmpty(messages);
-    Assert.AreEqual(expectedProductGuid, messages.Single(msg => msg.AggregateId.Equals(newProductId)).Sku);
+    Assert.That(messages, Is.Not.Empty);
+    Assert.That(messages.Single(msg => msg.AggregateId.Equals(newProductId)).Sku, Is.EqualTo(expectedProductGuid));
   }
 
   [Test]
@@ -256,14 +256,14 @@ public class ProductTestFixture
   public async Task UnlistProductShouldChangeListedInCatalog()
   {
     _sut.List();
-    Assert.IsTrue(_sut.ListedInCatalog);
+    Assert.That(_sut.ListedInCatalog, Is.True);
     _sut.Unlist();
-    Assert.IsFalse(_sut.ListedInCatalog);
+    Assert.That(_sut.ListedInCatalog, Is.False);
     await _productRepo.SaveAsync(_sut);
 
     var unlistedProductEvent = _productNotificationMediator.Messages.OfType<ProductUnlistedEvent>()
       .SingleOrDefault(msg => msg.AggregateId.Equals(_sut.Id));
-    Assert.IsNotNull(unlistedProductEvent);
+    Assert.That(unlistedProductEvent, Is.Not.Null);
   }
 
   [Test]
@@ -290,27 +290,27 @@ public class ProductTestFixture
   {
     var expectedInitialPrice = 20.55m;
     _sut.IncreaseListPrice(expectedInitialPrice, "initial price");
-    Assert.AreEqual(expectedInitialPrice, _sut.Price);
+    Assert.That(_sut.Price, Is.EqualTo(expectedInitialPrice));
     var expectedPriceDelta1 = 7.55m;
     _sut.DecreaseListPrice(expectedPriceDelta1, "adjustment 1");
-    Assert.AreEqual(expectedInitialPrice - expectedPriceDelta1, _sut.Price);
+    Assert.That(_sut.Price, Is.EqualTo(expectedInitialPrice - expectedPriceDelta1));
     var expectedPriceDelta2 = 10m;
     _sut.IncreaseListPrice(expectedPriceDelta2, "adjustment 2");
 
     var expectedFinalPrice = expectedInitialPrice - expectedPriceDelta1 + expectedPriceDelta2;
-    Assert.AreEqual(expectedFinalPrice, _sut.Price);
+    Assert.That(_sut.Price, Is.EqualTo(expectedFinalPrice));
 
     await _productRepo.SaveAsync(_sut);
 
     var priceChangedEvents = _productNotificationMediator.Messages.OfType<PriceAdjustedEvent>()
       .Where(msg => msg.AggregateId.Equals(_sut.Id))
       .ToImmutableArray();
-    Assert.AreEqual(3, priceChangedEvents.Length);
-    Assert.AreEqual(expectedInitialPrice, priceChangedEvents[0].Amount);
-    Assert.AreEqual(PriceAdjustmentTypeEnum.Increase, priceChangedEvents[0].AdjustmentType);
-    Assert.AreEqual(-expectedPriceDelta1, priceChangedEvents[1].Amount);
-    Assert.AreEqual(PriceAdjustmentTypeEnum.Decrease, priceChangedEvents[1].AdjustmentType);
-    Assert.AreEqual(expectedPriceDelta2, priceChangedEvents[2].Amount);
-    Assert.AreEqual(PriceAdjustmentTypeEnum.Increase, priceChangedEvents[2].AdjustmentType);
+    Assert.That(priceChangedEvents.Length, Is.EqualTo(3));
+    Assert.That(priceChangedEvents[0].Amount, Is.EqualTo(expectedInitialPrice));
+    Assert.That(priceChangedEvents[0].AdjustmentType, Is.EqualTo(PriceAdjustmentTypeEnum.Increase));
+    Assert.That(priceChangedEvents[1].Amount, Is.EqualTo(-expectedPriceDelta1));
+    Assert.That(priceChangedEvents[1].AdjustmentType, Is.EqualTo(PriceAdjustmentTypeEnum.Decrease));
+    Assert.That(priceChangedEvents[2].Amount, Is.EqualTo(expectedPriceDelta2));
+    Assert.That(priceChangedEvents[2].AdjustmentType, Is.EqualTo(PriceAdjustmentTypeEnum.Increase));
   }
 }

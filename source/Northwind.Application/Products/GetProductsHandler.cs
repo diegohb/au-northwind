@@ -25,8 +25,7 @@ public class GetProductsHandler
 
   public async Task<ErrorOr<CatalogProductDTO>> Handle(GetProductBySkuQuery requestParam, CancellationToken cancellationTokenParam)
   {
-    var products = await _queryRepo.ListAsync(new GetProductBySkuSpec(requestParam.ProductId), cancellationTokenParam);
-    var entity = products.SingleOrDefault();
+    var entity = await _queryRepo.SingleOrDefaultAsync(new GetProductBySkuSpec(requestParam.ProductSku), cancellationTokenParam);
     if (entity == null)
     {
       return Error.NotFound();

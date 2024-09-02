@@ -76,6 +76,6 @@ public class ShipmentTestFixture
     _shipmentRoot.Deliver(2);
 
     //assert
-    Assert.IsTrue(_shipmentRoot.IsComplete());
+    Assert.That(_shipmentRoot.IsComplete(), Is.True);
   }
 }

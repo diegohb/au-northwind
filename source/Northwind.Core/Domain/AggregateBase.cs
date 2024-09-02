@@ -19,6 +19,7 @@ public abstract class AggregateBase<TId> : EntityBase<TId>, IEventSourcingAggreg
   {
     if (!_uncommittedEvents.Any(x => Equals(x.EventId, eventParam.EventId)))
     {
+      //((dynamic)this).when((dynamic)eventParam);
       var whenMethods = GetType().GetRuntimeMethods().Where(method => method.Name.Equals("when")).ToArray();
       var whenMethodForEvent = Type.DefaultBinder.SelectMethod
         (BindingFlags.Instance | BindingFlags.NonPublic, whenMethods, new[] { eventParam.GetType() }, null);

@@ -32,7 +32,6 @@ public class Startup
         if (envParam.IsDevelopment())
         {
             appParam.UseDeveloperExceptionPage();
-            appParam.UseBrowserLink();
 
             //This allows you to debug your ts files in browser using the mappings provided by gulp-typescript
             appParam.UseStaticFiles
@@ -117,7 +116,7 @@ public class Startup
             pLoggingBuilder.AddConfiguration(Configuration.GetSection("Logging"));
         });
 
-        servicesParam.AddApplication();
+        servicesParam.AddApplication(this.Configuration);
 
         servicesParam.AddMediatR
             (config => { config.RegisterServicesFromAssembly(typeof(Program).Assembly); });
